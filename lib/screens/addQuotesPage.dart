@@ -60,7 +60,7 @@ class _AddQuotesPageState extends State<AddQuotes> {
                         child: SelectPlans()));
               },
               child: Padding(
-                padding: const EdgeInsets.only(top: 300),
+                padding: const EdgeInsets.only(top: 250),
                 child: SvgPicture.asset(
                   "assets/images/Arrow.svg",
                 ),

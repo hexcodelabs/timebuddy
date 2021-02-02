@@ -21,6 +21,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  flag: ^3.0.0
   flutter:
     sdk: flutter
 
@@ -50,6 +51,8 @@ flutter:
   assets:
   #   - images/a_dot_burr.jpeg
     - assets/images/Arrow.svg
+    - assets/images/Flag_of_Denmark.svg
+    - assets/images/Flag_of_the_United_States.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

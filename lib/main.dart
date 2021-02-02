@@ -3,6 +3,7 @@ import 'package:timebuddy/theme/themes.dart';
 import 'package:flutter/services.dart';
 
 import 'package:timebuddy/screens/addQuotesPage.dart';
+import 'package:timebuddy/screens/landingPage.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Timebuddy',
       theme: AppTheme.perksTheme,
       debugShowCheckedModeBanner: false,
-      home: AddQuotes(),
+      home: LandingPage(),
     );
   }
 }
