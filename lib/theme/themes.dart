@@ -7,14 +7,26 @@ class AppTheme {
     primaryColor: PerksColor.grey,
     primaryColorDark: PerksColor.Darker,
     primaryColorLight: PerksColor.brighter,
-    accentColor: PerksColor.logoColor,
+    accentColor: Color(0xff00a4ea),
     dividerColor: PerksColor.lightGrey,
     fontFamily: 'Gilroy',
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
 
+  //gardient
+  static BoxDecoration backgroundGradient = BoxDecoration(
+    gradient: LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        const Color(0xff005fee),
+        Colors.white.withOpacity(0.3)
+      ],
+      tileMode: TileMode.clamp,
+    ),
+  );
   //Colors
-  static const Color mainGreen = Color(0xff0eac7c);
+  static const Color mainBlue = Color(0xff00a4ea);
   static const Color darkgrey = Color(0xff040405);
   static const Color creditCardBackground = Color(0xff384be7);
   static const Color lightGrey = Color(0xffd6d6d6);
@@ -34,8 +46,8 @@ class AppTheme {
       fontFamily: 'Gilroy',
       letterSpacing: 1);
   static TextStyle mainTitle = const TextStyle(
-      color: PerksColor.titleTextColor,
-      fontSize: 18,
+      color: Colors.white,
+      fontSize: 15,
       fontWeight: FontWeight.bold,
       fontFamily: 'Gilroy');
   static TextStyle titleStyle = const TextStyle(
@@ -68,11 +80,13 @@ class AppTheme {
       fontSize: 15,
       fontWeight: FontWeight.bold,
       fontFamily: 'Gilroy');
+
   static TextStyle textField = const TextStyle(
-      color: PerksColor.black,
+      color: Colors.white,
       fontSize: 17,
       fontFamily: 'Gilroy',
       letterSpacing: 1);
+
   static TextStyle textFieldSearch = const TextStyle(
       color: PerksColor.black, fontSize: 20, fontFamily: 'Gilroy');
   static TextStyle textFieldLabel = const TextStyle(

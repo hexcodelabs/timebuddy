@@ -1,1 +1,0 @@
-dewni page eka
