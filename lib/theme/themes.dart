@@ -18,10 +18,7 @@ class AppTheme {
     gradient: LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: [
-        const Color(0xff005fee),
-        Colors.white.withOpacity(0.3)
-      ],
+      colors: [const Color(0xff005fee), Colors.white.withOpacity(0.3)],
       tileMode: TileMode.clamp,
     ),
   );

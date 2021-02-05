@@ -17,7 +17,7 @@ class _AddQuotesPageState extends State<LandingPage> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    int language = 1;//1-Dansk  2-English
+    int language = 1; //1-Dansk  2-English
 
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),
@@ -53,23 +53,24 @@ class _AddQuotesPageState extends State<LandingPage> {
                         height: 50,
                         width: 300,
                         child: RaisedButton(
-                          color: language==1? Colors.blue:Colors.lightBlue,
+                          color: language == 1 ? Colors.blue : Colors.lightBlue,
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Container(
-                                  height:50,
-                                  width: 70,
-                                  child:ClipRRect(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    child: SvgPicture.asset(
-                                      "assets/images/Flag_of_Denmark.svg",
-                                    ),
-                                  )
+                                    height: 50,
+                                    width: 70,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      child: SvgPicture.asset(
+                                        "assets/images/Flag_of_Denmark.svg",
+                                      ),
+                                    )),
+                                SizedBox(
+                                  width: 30,
                                 ),
-                                SizedBox(width: 30,),
                                 Text(
                                   'Dansk',
                                   style: TextStyle(
@@ -83,13 +84,13 @@ class _AddQuotesPageState extends State<LandingPage> {
                             ),
                           ),
                           onPressed: () {
-                            setState((){
-                              language=1;
+                            setState(() {
+                              language = 1;
                             });
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0),
-                              side: BorderSide(width:2,color: Colors.blue)),
+                              side: BorderSide(width: 2, color: Colors.blue)),
                         ),
                       ),
                       SizedBox(
@@ -99,23 +100,24 @@ class _AddQuotesPageState extends State<LandingPage> {
                         height: 50,
                         width: 300,
                         child: RaisedButton(
-                          color: language==2? Colors.blue:Colors.lightBlue,
+                          color: language == 2 ? Colors.blue : Colors.lightBlue,
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Container(
-                                    height:50,
+                                    height: 50,
                                     width: 70,
-                                    child:ClipRRect(
+                                    child: ClipRRect(
                                       borderRadius: BorderRadius.circular(30.0),
                                       child: SvgPicture.asset(
                                         "assets/images/Flag_of_the_United_States.svg",
                                       ),
-                                    )
+                                    )),
+                                SizedBox(
+                                  width: 30,
                                 ),
-                                SizedBox(width: 30,),
                                 Text(
                                   'English',
                                   style: TextStyle(
@@ -129,13 +131,13 @@ class _AddQuotesPageState extends State<LandingPage> {
                             ),
                           ),
                           onPressed: () {
-                            setState((){
-                              language=2;
+                            setState(() {
+                              language = 2;
                             });
                           },
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0),
-                              side: BorderSide(width:2,color: Colors.blue)),
+                              side: BorderSide(width: 2, color: Colors.blue)),
                         ),
                       ),
                     ],
