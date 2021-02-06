@@ -5,7 +5,10 @@ import 'package:page_transition/page_transition.dart';
 import 'package:intl/intl.dart';
 
 class SelectPlans extends StatefulWidget {
-  @override
+  final String name;
+
+  SelectPlans({Key key, @required this.name}) : super(key: key);
+
   _SelectPlansState createState() => _SelectPlansState();
 }
 
@@ -29,7 +32,8 @@ class _SelectPlansState extends State<SelectPlans> {
       return 'Evening';
     }
 
-    String name = "Marius"; // need to return from previous interface
+    // need to return from previous interface
+    String name = widget.name;
 
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),

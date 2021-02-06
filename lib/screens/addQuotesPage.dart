@@ -14,7 +14,7 @@ class _AddQuotesPageState extends State<AddQuotes> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-
+    var myController = TextEditingController();
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),
       body: Container(
@@ -41,6 +41,7 @@ class _AddQuotesPageState extends State<AddQuotes> {
               child: Padding(
                 padding: const EdgeInsets.only(right: 100, left: 100),
                 child: TextField(
+                  controller: myController,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 24, color: Color(0xff57C3FF)),
                   decoration: InputDecoration(
@@ -62,7 +63,7 @@ class _AddQuotesPageState extends State<AddQuotes> {
             Spacer(
               flex: 10,
             ),
-            PageNavigator(),
+            PageNavigator(myController.text),
             Spacer(
               flex: 4,
             ),
@@ -74,9 +75,9 @@ class _AddQuotesPageState extends State<AddQuotes> {
 }
 
 class PageNavigator extends StatelessWidget {
-  const PageNavigator({
-    Key key,
-  }) : super(key: key);
+  PageNavigator(this.name);
+
+  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +87,8 @@ class PageNavigator extends StatelessWidget {
           Navigator.push(
               context,
               PageTransition(
-                  type: PageTransitionType.bottomToTop, child: SelectPlans()));
+                  type: PageTransitionType.bottomToTop,
+                  child: SelectPlans(name: name)));
         },
         child: Column(
           children: [
