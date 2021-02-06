@@ -70,24 +70,27 @@ class _AddQuotesPageState extends State<LandingPage> {
             Container(
               height: 50,
               width: 300,
-              child: RaisedButton(
-                color: language == 1 ? Colors.blue : Colors.lightBlue,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: language == 1 ? Colors.blue : Colors.lightBlue,
+                    borderRadius: BorderRadius.circular(30)),
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                          height: 50,
-                          width: 70,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(30.0),
-                            child: SvgPicture.asset(
-                              "assets/images/Flag_of_Denmark.svg",
-                            ),
-                          )),
+                        height: 50,
+                        width: 70,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(30.0),
+                          child: SvgPicture.asset(
+                            "assets/images/Flag_of_Denmark.svg",
+                          ),
+                        ),
+                      ),
                       SizedBox(
-                        width: 30,
+                        width: 50,
                       ),
                       Text(
                         'Dansk',
@@ -101,14 +104,6 @@ class _AddQuotesPageState extends State<LandingPage> {
                     ],
                   ),
                 ),
-                onPressed: () {
-                  setState(() {
-                    language = 1;
-                  });
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    side: BorderSide(width: 2, color: Colors.blue)),
               ),
             ),
             SizedBox(
@@ -117,8 +112,10 @@ class _AddQuotesPageState extends State<LandingPage> {
             Container(
               height: 50,
               width: 300,
-              child: RaisedButton(
-                color: language == 2 ? Colors.blue : Colors.lightBlue,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: language == 1 ? Colors.blue : Colors.lightBlue,
+                    borderRadius: BorderRadius.circular(30)),
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: Row(
@@ -135,7 +132,7 @@ class _AddQuotesPageState extends State<LandingPage> {
                             ),
                           )),
                       SizedBox(
-                        width: 30,
+                        width: 50,
                       ),
                       Text(
                         'English',
@@ -149,16 +146,6 @@ class _AddQuotesPageState extends State<LandingPage> {
                     ],
                   ),
                 ),
-                onPressed: () {
-                  setState(
-                    () {
-                      language = 2;
-                    },
-                  );
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    side: BorderSide(width: 2, color: Colors.blue)),
               ),
             ),
           ],
