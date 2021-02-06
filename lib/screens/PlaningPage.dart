@@ -13,6 +13,7 @@ class _PlaningPageState extends State<PlaningPage> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    double topHeight = height * 0.15;
 
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),
@@ -25,16 +26,18 @@ class _PlaningPageState extends State<PlaningPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: 150,
+                height: topHeight,
                 child: Padding(
                   padding: const EdgeInsets.only(
-                    top: 80,
-                    bottom: 40,
+                    top: 0,
+                    bottom: 0,
                   ),
-                  child: Text(
-                    "Perfect. Let’s plan your time.",
-                    style: AppTheme.mainTitle,
-                    textAlign: TextAlign.center,
+                  child: Center(
+                    child: Text(
+                      "Perfect. Let’s plan your time.",
+                      style: AppTheme.mainTitle,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ),
@@ -42,7 +45,7 @@ class _PlaningPageState extends State<PlaningPage> {
                 alignment: Alignment.topCenter,
                 children: [
                   Container(
-                    height: height - 150,
+                    height: height - topHeight,
                     width: width,
                     child: ListView(
                       children: [
