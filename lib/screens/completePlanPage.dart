@@ -22,9 +22,19 @@ class CompletePlanPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 80),
               child: Text(
-                "Woohoo! You are ready.\nYou have made a plan for today",
-                style: AppTheme.mainTitle,
+                "Woohoo! You are ready.",
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.white,
+                ),
                 textAlign: TextAlign.center,
+              ),
+            ),
+            Text(
+              'You have made a plan for today',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.white,
               ),
             ),
             GestureDetector(

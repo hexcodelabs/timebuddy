@@ -26,13 +26,15 @@ class _PlaningPageState extends State<PlaningPage> {
             Container(
               //color: Colors.white.withOpacity(0.1),
               height: 170,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 80, bottom: 70),
-                child: Text(
-                  "Perfect. Let’s plan your time.",
-                  style: AppTheme.mainTitle,
-                  textAlign: TextAlign.center,
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Perfect. Let’s plan your time.",
+                    style: AppTheme.mainTitle,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             ),
             Stack(
@@ -46,7 +48,7 @@ class _PlaningPageState extends State<PlaningPage> {
                       Container(
                         //color: Colors.black,
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 30, bottom: 60),
+                          padding: const EdgeInsets.only(top: 0, bottom: 60),
                           child: Text(
                             "Click on a field to start planing.",
                             style: TextStyle(

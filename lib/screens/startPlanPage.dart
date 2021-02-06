@@ -89,7 +89,7 @@ class _StartPlanPageState extends State<StartPlanPage> {
                         width: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50),
-                          color: Color(0x57C3FF).withOpacity(1),
+                          color: Color(0x57C3FF).withOpacity(0.8),
                         ),
                         child: Icon(
                           Icons.add,

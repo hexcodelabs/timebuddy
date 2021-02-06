@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:timebuddy/screens/startPlanPage.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
 class SelectPlans extends StatefulWidget {
