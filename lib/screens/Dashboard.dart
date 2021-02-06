@@ -16,6 +16,8 @@ class Dashboard extends StatelessWidget {
 
     String quote = "\"Time is what we want most, but what we use worst\"";
 
+    double topHeight = height * 0.13;
+
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),
       body: Container(
@@ -25,13 +27,9 @@ class Dashboard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              height: 130,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 60,
-                  bottom: 30,
-                ),
+            Center(
+              child: Container(
+                height: topHeight,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -58,7 +56,7 @@ class Dashboard extends StatelessWidget {
               alignment: Alignment.topCenter,
               children: [
                 Container(
-                  height: height - 130,
+                  height: height - topHeight,
                   width: width,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 33, right: 33),
