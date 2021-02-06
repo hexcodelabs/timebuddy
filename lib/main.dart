@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:flutter/services.dart';
 
-import 'package:timebuddy/screens/addQuotesPage.dart';
 import 'package:timebuddy/screens/landingPage.dart';
 
 void main() {

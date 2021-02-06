@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:timebuddy/screens/startPlanPage.dart';
 import 'package:timebuddy/theme/themes.dart';
@@ -41,78 +40,114 @@ class _SelectPlansState extends State<SelectPlans> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 180),
+            Spacer(
+              flex: 7,
+            ),
+            Container(
               child: Text(
                 "Good ${greeting()}, $name.\nIt is currently $currentTime, $currentDay ${greeting()}. ",
                 style: AppTheme.mainTitle,
                 textAlign: TextAlign.center,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 50, right: 80, left: 80),
-              child: Text(
-                "Do you want to ",
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.4),
-                  fontSize: 13,
-                ),
-                textAlign: TextAlign.center,
-              ),
+            Spacer(
+              flex: 5,
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20, right: 80, left: 80),
-              child: Text(
-                "Replicate one of your old plans",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                ),
-                textAlign: TextAlign.center,
-              ),
+            PageNavigator(),
+            Spacer(
+              flex: 10,
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 50, right: 80, left: 80),
-              child: Text(
-                "Or",
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.4),
-                  fontSize: 13,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20, right: 80, left: 80),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.bottomToTop,
-                          child: StartPlanPage()));
-                },
-                child: Text(
-                  "Lay down a plan for today",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 200),
+            Container(
               child: Text(
                 "Choose an option",
                 style: AppTheme.mainTitle,
                 textAlign: TextAlign.center,
               ),
             ),
+            Spacer(
+              flex: 4,
+            ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class PageNavigator extends StatelessWidget {
+  const PageNavigator({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Text(
+              "Do you want to ",
+              style: TextStyle(
+                color: Color(0xff57c3ff),
+                fontSize: 14,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        Container(
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.bottomToTop,
+                      child: StartPlanPage()));
+            },
+            child: Text(
+              "Replicate one of your old plans",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 15,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 15, top: 15),
+            child: Text(
+              "Or",
+              style: TextStyle(
+                color: Color(0xff57c3ff),
+                fontSize: 14,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        Container(
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.bottomToTop,
+                      child: StartPlanPage()));
+            },
+            child: Text(
+              "Lay down a plan for today",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 15,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

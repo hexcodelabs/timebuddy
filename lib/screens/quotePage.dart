@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:timebuddy/theme/themes.dart';
@@ -26,53 +25,79 @@ class _AddQuotesPageState extends State<QuotePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 100),
+            Spacer(
+              flex: 5,
+            ),
+            Container(
               child: Text(
                 "TimeBuddy",
                 style: TextStyle(fontSize: 30, color: Colors.white),
                 textAlign: TextAlign.center,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 150),
-              child: Text(
-                "Quote of the day",
-                style: TextStyle(
-                  color: Colors.blue[700]
-                ),
-                textAlign: TextAlign.center,
-              ),
+            Spacer(
+              flex: 6,
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Text(
-                quote,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.bottomToTop,
-                        child: AddQuotes()));
-              },
+            Container(
               child: Padding(
-                padding: const EdgeInsets.only(top: 200),
+                padding: const EdgeInsets.only(bottom: 5),
+                child: Text(
+                  "Quote of the day",
+                  style: TextStyle(color: Color(0xff57c3ff)),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 40, right: 40),
+                child: Text(
+                  quote,
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            Spacer(
+              flex: 12,
+            ),
+            PageNavigator(),
+            Spacer(
+              flex: 4,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PageNavigator extends StatelessWidget {
+  const PageNavigator({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.bottomToTop, child: AddQuotes()));
+        },
+        child: Column(
+          children: [
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
                 child: SvgPicture.asset(
                   "assets/images/Arrow.svg",
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
+            Container(
               child: Text(
                 "Click to continue",
                 style: AppTheme.mainTitle,

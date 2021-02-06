@@ -24,99 +24,145 @@ class _StartPlanPageState extends State<StartPlanPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 80),
+            Spacer(
+              flex: 6,
+            ),
+            Container(
               child: Text(
                 "Great! Let’s map down your priorities for today.\nRemember, you can always go back and edit the plan.",
                 style: AppTheme.mainTitle,
                 textAlign: TextAlign.center,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 80),
+            Spacer(
+              flex: 3,
+            ),
+            Container(
               child: Text(
                 "What are your main priorities today?",
                 style: AppTheme.mainTitle,
                 textAlign: TextAlign.center,
               ),
             ),
-            Text(
-              "Add up to 3",
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.4),
-                fontSize: 13,
+            Container(
+              child: Text(
+                "Add up to 3",
+                style: TextStyle(
+                  color: Color(0xff57C3ff),
+                  fontSize: 14,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
-            Padding(
-                padding: const EdgeInsets.only(top: 50, right: 80, left: 80),
-                child: Container(
-                  //color: Colors.amber,
-                  width: 350,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        height: 50,
-                        width: 275,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.white.withOpacity(0.3),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 2, 2, 2),
-                          child: TextField(
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: 'Write here...',
-                              hintStyle: TextStyle(
-                                color: Colors.white.withOpacity(0.4),
-                              ),
-                              labelStyle: AppTheme.textField,
-                              disabledBorder: InputBorder.none,
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Color(0x57C3FF).withOpacity(0.8),
-                        ),
-                        child: Icon(
-                          Icons.add,
-                          size: 45,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                )),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.bottomToTop,
-                        child: PlaningPage()));
-              },
+            Spacer(
+              flex: 2,
+            ),
+            InputField(),
+            InputField(),
+            Spacer(
+              flex: 8,
+            ),
+            PageNavigator(),
+            Spacer(
+              flex: 4,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class InputField extends StatelessWidget {
+  const InputField({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 300,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 5, bottom: 5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              height: 40,
+              width: 240,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: Color(0x57C3FF).withOpacity(0.6),
+              ),
               child: Padding(
-                padding: const EdgeInsets.only(top: 150),
+                padding: const EdgeInsets.fromLTRB(10, 2, 2, 2),
+                child: TextField(
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: 'Write here...',
+                    hintStyle: TextStyle(
+                      fontSize: 15,
+                      color: Colors.white.withOpacity(0.4),
+                    ),
+                    labelStyle: AppTheme.textField,
+                    disabledBorder: InputBorder.none,
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: Color(0x57C3FF).withOpacity(0.6),
+              ),
+              child: Icon(
+                Icons.add,
+                size: 40,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PageNavigator extends StatelessWidget {
+  const PageNavigator({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.bottomToTop, child: PlaningPage()));
+        },
+        child: Column(
+          children: [
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
                 child: SvgPicture.asset(
                   "assets/images/Arrow.svg",
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
+            Container(
               child: Text(
                 "Click to continue",
                 style: AppTheme.mainTitle,

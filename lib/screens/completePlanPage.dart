@@ -19,8 +19,10 @@ class CompletePlanPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 80),
+            Spacer(
+              flex: 3,
+            ),
+            Container(
               child: Text(
                 "Woohoo! You are ready.",
                 style: TextStyle(
@@ -30,30 +32,55 @@ class CompletePlanPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            Text(
-              'You have made a plan for today',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white,
+            Container(
+              child: Text(
+                'You have made a plan for today',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white,
+                ),
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.bottomToTop,
-                        child: Dashboard()));
-              },
+            Spacer(
+              flex: 3,
+            ),
+            PageNavigator(),
+            Spacer(
+              flex: 1,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PageNavigator extends StatelessWidget {
+  const PageNavigator({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.bottomToTop, child: Dashboard()));
+        },
+        child: Column(
+          children: [
+            Container(
               child: Padding(
-                padding: const EdgeInsets.only(top: 150),
+                padding: const EdgeInsets.only(bottom: 20),
                 child: SvgPicture.asset(
                   "assets/images/Arrow.svg",
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
+            Container(
               child: Text(
                 "Click to continue",
                 style: AppTheme.mainTitle,

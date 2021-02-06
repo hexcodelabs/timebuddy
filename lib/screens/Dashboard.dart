@@ -26,43 +26,48 @@ class Dashboard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              //color: Colors.white.withOpacity(0.1),
-              height: 170,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Dashboard",
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
+              height: 130,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 60,
+                  bottom: 30,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Dashboard",
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    '$currentTime - $currentDay',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
+                    Text(
+                      '$currentTime - $currentDay',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Stack(
               alignment: Alignment.topCenter,
               children: [
                 Container(
-                  height: height - 170,
+                  height: height - 130,
                   width: width,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 33, right: 33),
-                    child: ListView(
+                    child: Column(
                       children: [
                         Container(
-                          //color: Colors.black,
+                          alignment: Alignment.topLeft,
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 0, bottom: 19),
+                            padding: const EdgeInsets.only(top: 25, bottom: 19),
                             child: Text(
                               "Current doing according to schedule",
                               style: TextStyle(
@@ -73,87 +78,7 @@ class Dashboard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                child: Table(
-                                  columnWidths: {
-                                    0: FlexColumnWidth(1),
-                                    1: FlexColumnWidth(1.5),
-                                  },
-                                  border:
-                                      TableBorder.all(style: BorderStyle.none),
-                                  children: [
-                                    TableRow(children: [
-                                      Text(''),
-                                      Text('Writing my english essay'),
-                                    ]),
-                                    TableRow(children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 9),
-                                        child: Text(
-                                          'for',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xff57C3ff),
-                                          ),
-                                        ),
-                                      ),
-                                      Text(''),
-                                    ]),
-                                    TableRow(children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 9),
-                                        child: Text(''),
-                                      ),
-                                      Text('34 minutes longer until 9 AM'),
-                                    ]),
-                                    TableRow(children: [
-                                      Text(
-                                        'then',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xff57C3ff),
-                                        ),
-                                      ),
-                                      Text(''),
-                                    ]),
-                                    TableRow(children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 9),
-                                        child: Text(''),
-                                      ),
-                                      Text('Bicycle ride in the forest'),
-                                    ]),
-                                    TableRow(children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 9),
-                                        child: Text(
-                                          'starting at',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xff57C3ff),
-                                          ),
-                                        ),
-                                      ),
-                                      Text(''),
-                                    ]),
-                                    TableRow(children: [
-                                      Text(''),
-                                      Text('9:30 AM'),
-                                    ]),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        ActivityTable(),
                         Container(
                           margin: const EdgeInsets.only(top: 30, bottom: 40),
                           child: Row(
@@ -227,13 +152,20 @@ class Dashboard extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.only(
+                            top: 10,
+                            left: 45,
+                            right: 45,
+                          ),
                           child: Text(
                             quote,
                             style: TextStyle(
                                 color: Color(0xff57C3ff), fontSize: 24),
                             textAlign: TextAlign.center,
                           ),
+                        ),
+                        Spacer(
+                          flex: 1,
                         ),
                         GestureDetector(
                           onTap: () {
@@ -243,10 +175,10 @@ class Dashboard extends StatelessWidget {
                                     type: PageTransitionType.bottomToTop,
                                     child: Dashboard()));
                           },
-                          child: Container(
-                            alignment: Alignment.bottomRight,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Container(
+                              alignment: Alignment.bottomRight,
                               child: Text(
                                 'Settings',
                                 style: TextStyle(
@@ -270,6 +202,92 @@ class Dashboard extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ActivityTable extends StatelessWidget {
+  const ActivityTable({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            child: Table(
+              columnWidths: {
+                0: FlexColumnWidth(1),
+                1: FlexColumnWidth(1.5),
+              },
+              border: TableBorder.all(style: BorderStyle.none),
+              children: [
+                TableRow(children: [
+                  Text(''),
+                  Text('Writing my english essay'),
+                ]),
+                TableRow(children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 9),
+                    child: Text(
+                      'for',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Color(0xff57C3ff),
+                      ),
+                    ),
+                  ),
+                  Text(''),
+                ]),
+                TableRow(children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 9),
+                    child: Text(''),
+                  ),
+                  Text('34 minutes longer until 9 AM'),
+                ]),
+                TableRow(children: [
+                  Text(
+                    'then',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xff57C3ff),
+                    ),
+                  ),
+                  Text(''),
+                ]),
+                TableRow(children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 9),
+                    child: Text(''),
+                  ),
+                  Text('Bicycle ride in the forest'),
+                ]),
+                TableRow(children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 9),
+                    child: Text(
+                      'starting at',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Color(0xff57C3ff),
+                      ),
+                    ),
+                  ),
+                  Text(''),
+                ]),
+                TableRow(children: [
+                  Text(''),
+                  Text('9:30 AM'),
+                ]),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

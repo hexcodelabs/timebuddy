@@ -24,37 +24,48 @@ class _PlaningPageState extends State<PlaningPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              //color: Colors.white.withOpacity(0.1),
-              height: 170,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Perfect. Let’s plan your time.",
-                    style: AppTheme.mainTitle,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+              height: 150,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 80,
+                  bottom: 40,
+                ),
+                child: Text(
+                  "Perfect. Let’s plan your time.",
+                  style: AppTheme.mainTitle,
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
             Stack(
               alignment: Alignment.topCenter,
               children: [
                 Container(
-                  height: height - 170,
+                  height: height - 150,
                   width: width,
                   child: ListView(
                     children: [
                       Container(
                         //color: Colors.black,
+                        child: Text(
+                          "Click on a field to start planing.",
+                          style: TextStyle(
+                            color: Color(0xff00a4ea).withOpacity(0.6),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Container(
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 0, bottom: 60),
-                          child: Text(
-                            "Click on a field to start planing.",
-                            style: TextStyle(
-                              color: Color(0xff00a4ea).withOpacity(0.6),
-                            ),
-                            textAlign: TextAlign.center,
+                          padding: const EdgeInsets.only(
+                            left: 70,
+                            right: 70,
+                            bottom: 30,
+                            top: 40,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [Text(':00'), Text(':30')],
                           ),
                         ),
                       ),
@@ -63,7 +74,7 @@ class _PlaningPageState extends State<PlaningPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Container(
-                              margin: EdgeInsets.fromLTRB(50, 0, 50, 0),
+                              margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
                               child: Table(
                                 columnWidths: {
                                   0: FlexColumnWidth(0.5),
@@ -114,27 +125,7 @@ class _PlaningPageState extends State<PlaningPage> {
                           ],
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.bottomToTop,
-                                  child: CompletePlanPage()));
-                        },
-                        child: Container(
-                          alignment: Alignment.bottomRight,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 20, 30, 0),
-                            child: Text(
-                              'I\'m done',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black.withOpacity(0.5)),
-                            ),
-                          ),
-                        ),
-                      ),
+                      PageNavigator(),
                     ],
                   ),
                   decoration: BoxDecoration(
@@ -164,7 +155,6 @@ class _PlaningPageState extends State<PlaningPage> {
         ),
         Container(
           height: 24,
-          margin: const EdgeInsets.all(0),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
             child: TextField(
@@ -181,7 +171,6 @@ class _PlaningPageState extends State<PlaningPage> {
         ),
         Container(
           height: 24,
-          margin: const EdgeInsets.all(0),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
             child: TextField(
@@ -197,6 +186,38 @@ class _PlaningPageState extends State<PlaningPage> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class PageNavigator extends StatelessWidget {
+  const PageNavigator({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.bottomToTop,
+                  child: CompletePlanPage()));
+        },
+        child: Container(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 20, 20, 10),
+            child: Text(
+              'I\'m done',
+              style:
+                  TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.5)),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
