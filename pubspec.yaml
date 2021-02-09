@@ -31,7 +31,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
   page_transition: ^1.1.7+5
-  flutter_svg: ^0.19.0 
+  flutter_svg: ^0.19.0
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +54,11 @@ flutter:
     - assets/images/Arrow.svg
     - assets/images/Flag_of_Denmark.svg
     - assets/images/Flag_of_the_United_States.svg
+    - assets/images/sm-mountain.svg
+    - assets/images/sm-mountain reflection.svg
+    - assets/images/la-mountain.svg
+    - assets/images/la-mountain reflection.svg
+    - assets/images/b.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

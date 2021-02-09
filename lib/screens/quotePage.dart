@@ -4,6 +4,7 @@ import 'package:timebuddy/theme/themes.dart';
 import 'package:timebuddy/screens/addQuotesPage.dart';
 import 'dart:async';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class QuotePage extends StatefulWidget {
   @override
@@ -55,60 +56,153 @@ class _AddQuotesPageState extends State<QuotePage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    int wid = (width * 0.5).round();
 
     String quote = "\"The two most powerful warriors are patience and time\"";
 
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),
-      body: Container(
-        height: height,
-        width: width,
-        decoration: AppTheme.backgroundGradient,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Spacer(
-              flex: 5,
-            ),
-            Container(
-              child: Text(
-                "TimeBuddy",
-                style: TextStyle(fontSize: 30, color: Colors.white),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Spacer(
-              flex: 6,
-            ),
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: Text(
-                  "Quote of the day",
-                  style: TextStyle(color: Color(0xff57c3ff)),
-                  textAlign: TextAlign.center,
+      body: Stack(
+        children: [
+          Container(
+            height: height,
+            width: width,
+            decoration: AppTheme.backgroundGradient,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Spacer(
+                  flex: 5,
                 ),
-              ),
-            ),
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 40, right: 40),
-                child: Text(
-                  quote,
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                  textAlign: TextAlign.center,
+                Container(
+                  child: Text(
+                    "TimeBuddy",
+                    style: TextStyle(fontSize: 30, color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
+                Spacer(
+                  flex: 6,
+                ),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: Text(
+                      "Quote of the day",
+                      style: TextStyle(color: Color(0xff57c3ff)),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 40, right: 40),
+                    child: Text(
+                      quote,
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                Spacer(
+                  flex: 12,
+                ),
+                PageNavigator(_start),
+                Spacer(
+                  flex: 4,
+                ),
+              ],
+            ),
+          ),
+          Stack(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                //crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Stack(
+                    alignment: AlignmentDirectional.bottomStart,
+                    //alignment: Alignment.bottomCenter,
+                    children: [
+                      Container(
+                        color: Colors.green[50],
+                        height: 1,
+                        width: width,
+                      ),
+                      Container(
+                        //color: Colors.green[50],
+                        width: width * 0.6,
+                        child: Stack(
+                          alignment: Alignment.bottomLeft,
+                          children: [
+                            Container(
+                              //color: Colors.green[50],
+                              width: width * 0.55,
+                              height: height * 0.14,
+                              child: SvgPicture.asset(
+                                "assets/images/sm-mountain.svg",
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        //color: Colors.green[100],
+                        width: width,
+                        child: Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            Container(
+                              //color: Colors.green[50],
+                              width: width * 0.65,
+                              height: height * 0.215,
+                              child: SvgPicture.asset(
+                                "assets/images/la-mountain.svg",
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Stack(
+                    children: [
+                      Container(
+                        color: Colors.green[50],
+                        height: 1,
+                        width: width,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            //color: Colors.green[50],
+                            width: width * 0.42,
+                            child: SvgPicture.asset(
+                              "assets/images/sm-mountain reflection.svg",
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          Container(
+                            //color: Colors.green[50],
+                            width: width * 0.58,
+                            child: SvgPicture.asset(
+                              "assets/images/la-mountain reflection.svg",
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ),
-            Spacer(
-              flex: 12,
-            ),
-            PageNavigator(_start),
-            Spacer(
-              flex: 4,
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -134,18 +228,11 @@ class PageNavigator extends StatelessWidget {
         child: Column(
           children: [
             Container(
+              //color: Colors.green[100],
               child: Text(
                 "Continuing in $start...",
                 style: AppTheme.mainTitle,
                 textAlign: TextAlign.center,
-              ),
-            ),
-            Container(
-              width: 100,
-              height: 100,
-              //color: Colors.green[50],
-              child: SvgPicture.asset(
-                "assets/images/sm-mountain.svg",
               ),
             ),
           ],
