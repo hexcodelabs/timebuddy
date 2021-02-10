@@ -3,6 +3,7 @@ import 'package:timebuddy/theme/themes.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:timebuddy/screens/completePlanPage.dart';
 import 'package:o_color_picker/o_color_picker.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 //import 'package:o_popup/o_popup.dart';
 import 'dart:collection';
 
@@ -67,8 +68,8 @@ class _PlaningPageState extends State<PlaningPage> {
                         Container(
                           child: Padding(
                             padding: const EdgeInsets.only(
-                              left: 70,
-                              right: 70,
+                              left: 55,
+                              right: 40,
                               bottom: 30,
                               top: 40,
                             ),
@@ -86,7 +87,7 @@ class _PlaningPageState extends State<PlaningPage> {
                                 margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
                                 child: Table(
                                   columnWidths: {
-                                    0: FlexColumnWidth(0.5),
+                                    0: FlexColumnWidth(0.8),
                                     1: FlexColumnWidth(4),
                                     2: FlexColumnWidth(4),
                                   },
@@ -167,91 +168,61 @@ class _PlaningPageState extends State<PlaningPage> {
           child: Text(s,
               style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
         ),
-        GestureDetector(
-          onDoubleTap: () => showDialog<void>(
-            context: context,
-            builder: (BuildContext context) => Material(
-              color: Colors.transparent,
-              child: Container(
-                alignment: Alignment.center,
-                color: Colors.white.withOpacity(0.2),
-                child: OColorPicker(
-                  selectedColor: selectedColor,
-                  colors: primaryColorsPalette,
-                  onColorChange: (color) {
-                    setState(() {
-                      selectedColor = color;
-                      colorMap[s + "1"] = selectedColor;
-                    });
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ),
-            ),
-          ),
-          child: Container(
-            height: 30,
-            color: colorMap[s + "1"],
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-              child: TextField(
-                style: TextStyle(fontSize: 18),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  labelStyle: AppTheme.textField,
-                  disabledBorder: InputBorder.none,
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                ),
-              ),
-            ),
-          ),
-        ),
-        GestureDetector(
-          onDoubleTap: () => showDialog<void>(
-            context: context,
-            builder: (_) => Material(
-              color: Colors.transparent,
-              child: Container(
-                alignment: Alignment.center,
-                color: Colors.white.withOpacity(0.2),
-                child: OColorPicker(
-                  selectedColor: selectedColor,
-                  colors: primaryColorsPalette,
-                  onColorChange: (color) {
-                    setState(() {
-                      selectedColor = color;
-                      colorMap[s + "2"] = selectedColor;
-                    });
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ),
-            ),
-          ),
-          child: Container(
-            height: 30,
-            color: colorMap[s + "2"],
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-              child: TextField(
-                style: TextStyle(fontSize: 18),
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  labelStyle: AppTheme.textField,
-                  disabledBorder: InputBorder.none,
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                ),
-              ),
-            ),
-          ),
-        ),
+        inputCell(s, "1"),
+        inputCell(s, "2"),
       ],
+    );
+  }
+
+  GestureDetector inputCell(String s, String c) {
+    return GestureDetector(
+      onDoubleTap: () => showDialog<void>(
+        context: context,
+        builder: (BuildContext context) => Material(
+          color: Colors.transparent,
+          child: Container(
+            alignment: Alignment.center,
+            color: Colors.white.withOpacity(0.2),
+            child: OColorPicker(
+              selectedColor: selectedColor,
+              colors: primaryColorsPalette,
+              onColorChange: (color) {
+                setState(() {
+                  selectedColor = color;
+                  colorMap[s + c] = selectedColor;
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+        ),
+      ),
+      child: Container(
+        color: colorMap[s + c],
+        //height: 30,
+        constraints: BoxConstraints(
+          minHeight: 30,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+          child: TextField(
+            // keyboardType: TextInputType.text,
+            // maxLines: null,
+            style: TextStyle(fontSize: 18),
+            textAlign: TextAlign.center,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(top: 4),
+              isDense: true,
+              labelStyle: AppTheme.textField,
+              disabledBorder: InputBorder.none,
+              border: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              errorBorder: InputBorder.none,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
