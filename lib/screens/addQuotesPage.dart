@@ -10,11 +10,30 @@ class AddQuotes extends StatefulWidget {
 }
 
 class _AddQuotesPageState extends State<AddQuotes> {
+  TextEditingController myController;
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    myController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    myController = TextEditingController();
+    myController.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    var myController = TextEditingController();
+
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),
       body: Container(
