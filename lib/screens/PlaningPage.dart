@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:timebuddy/screens/completePlanPage.dart';
+import 'package:o_color_picker/o_color_picker.dart';
+//import 'package:o_popup/o_popup.dart';
+import 'dart:collection';
 
 class PlaningPage extends StatefulWidget {
   @override
@@ -9,6 +12,8 @@ class PlaningPage extends StatefulWidget {
 }
 
 class _PlaningPageState extends State<PlaningPage> {
+  Color selectedColor = Colors.transparent;
+  HashMap colorMap = new HashMap<String, Color>();
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -99,30 +104,30 @@ class _PlaningPageState extends State<PlaningPage> {
                                           color: Color(0xff00a4ea)
                                               .withOpacity(0.6))),
                                   children: [
-                                    buildTableRow('00'),
-                                    buildTableRow('01'),
-                                    buildTableRow('02'),
-                                    buildTableRow('03'),
-                                    buildTableRow('04'),
-                                    buildTableRow('05'),
-                                    buildTableRow('06'),
-                                    buildTableRow('07'),
-                                    buildTableRow('08'),
-                                    buildTableRow('09'),
-                                    buildTableRow('10'),
-                                    buildTableRow('11'),
-                                    buildTableRow('12'),
-                                    buildTableRow('13'),
-                                    buildTableRow('14'),
-                                    buildTableRow('15'),
-                                    buildTableRow('16'),
-                                    buildTableRow('17'),
-                                    buildTableRow('18'),
-                                    buildTableRow('19'),
-                                    buildTableRow('20'),
-                                    buildTableRow('21'),
-                                    buildTableRow('22'),
-                                    buildTableRow('23'),
+                                    buildTableRow('00', width, height),
+                                    buildTableRow('01', width, height),
+                                    buildTableRow('02', width, height),
+                                    buildTableRow('03', width, height),
+                                    buildTableRow('04', width, height),
+                                    buildTableRow('05', width, height),
+                                    buildTableRow('06', width, height),
+                                    buildTableRow('07', width, height),
+                                    buildTableRow('08', width, height),
+                                    buildTableRow('09', width, height),
+                                    buildTableRow('10', width, height),
+                                    buildTableRow('11', width, height),
+                                    buildTableRow('12', width, height),
+                                    buildTableRow('13', width, height),
+                                    buildTableRow('14', width, height),
+                                    buildTableRow('15', width, height),
+                                    buildTableRow('16', width, height),
+                                    buildTableRow('17', width, height),
+                                    buildTableRow('18', width, height),
+                                    buildTableRow('19', width, height),
+                                    buildTableRow('20', width, height),
+                                    buildTableRow('21', width, height),
+                                    buildTableRow('22', width, height),
+                                    buildTableRow('23', width, height),
                                   ],
                                 ),
                               ),
@@ -149,43 +154,99 @@ class _PlaningPageState extends State<PlaningPage> {
     );
   }
 
-  TableRow buildTableRow(String s) {
+  TableRow buildTableRow(String s, double width, double height) {
+    if (!colorMap.containsKey(s + "1") && !colorMap.containsKey(s + "2")) {
+      colorMap[s + "1"] = selectedColor;
+      colorMap[s + "2"] = selectedColor;
+    }
     return TableRow(
       children: [
         Container(
           alignment: Alignment.center,
-          height: 24,
+          height: 30,
           child: Text(s,
-              style: TextStyle(fontSize: 14), textAlign: TextAlign.center),
+              style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
         ),
-        Container(
-          height: 24,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-            child: TextField(
-              decoration: InputDecoration(
-                labelStyle: AppTheme.textField,
-                disabledBorder: InputBorder.none,
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
+        GestureDetector(
+          onDoubleTap: () => showDialog<void>(
+            context: context,
+            builder: (BuildContext context) => Material(
+              color: Colors.transparent,
+              child: Container(
+                alignment: Alignment.center,
+                color: Colors.white.withOpacity(0.2),
+                child: OColorPicker(
+                  selectedColor: selectedColor,
+                  colors: primaryColorsPalette,
+                  onColorChange: (color) {
+                    setState(() {
+                      selectedColor = color;
+                      colorMap[s + "1"] = selectedColor;
+                    });
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ),
+          ),
+          child: Container(
+            height: 30,
+            color: colorMap[s + "1"],
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+              child: TextField(
+                style: TextStyle(fontSize: 18),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  labelStyle: AppTheme.textField,
+                  disabledBorder: InputBorder.none,
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                ),
               ),
             ),
           ),
         ),
-        Container(
-          height: 24,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-            child: TextField(
-              decoration: InputDecoration(
-                labelStyle: AppTheme.textField,
-                disabledBorder: InputBorder.none,
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
+        GestureDetector(
+          onDoubleTap: () => showDialog<void>(
+            context: context,
+            builder: (_) => Material(
+              color: Colors.transparent,
+              child: Container(
+                alignment: Alignment.center,
+                color: Colors.white.withOpacity(0.2),
+                child: OColorPicker(
+                  selectedColor: selectedColor,
+                  colors: primaryColorsPalette,
+                  onColorChange: (color) {
+                    setState(() {
+                      selectedColor = color;
+                      colorMap[s + "2"] = selectedColor;
+                    });
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ),
+          ),
+          child: Container(
+            height: 30,
+            color: colorMap[s + "2"],
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+              child: TextField(
+                style: TextStyle(fontSize: 18),
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  labelStyle: AppTheme.textField,
+                  disabledBorder: InputBorder.none,
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                ),
               ),
             ),
           ),
