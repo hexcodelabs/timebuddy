@@ -107,100 +107,117 @@ class _AddQuotesPageState extends State<QuotePage> {
                 Spacer(
                   flex: 12,
                 ),
-                PageNavigator(_start),
-                Spacer(
-                  flex: 4,
+                Stack(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      //crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Stack(
+                          alignment: AlignmentDirectional.bottomStart,
+                          //alignment: Alignment.bottomCenter,
+                          children: [
+                            Container(
+                              color: Color(0xff5457B9),
+                              height: 1,
+                              width: width,
+                            ),
+                            Container(
+                              //color: Colors.green[50],
+                              width: width * 0.6,
+                              child: Stack(
+                                alignment: Alignment.bottomLeft,
+                                children: [
+                                  Container(
+                                    //color: Colors.green[50],
+                                    width: width * 0.55,
+                                    height: height * 0.14,
+                                    child: SvgPicture.asset(
+                                      "assets/images/sm-mountain.svg",
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              //color: Colors.green[100],
+                              width: width,
+                              child: Stack(
+                                alignment: Alignment.bottomRight,
+                                children: [
+                                  Container(
+                                    //color: Colors.green[50],
+                                    width: width * 0.65,
+                                    height: height * 0.215,
+                                    child: SvgPicture.asset(
+                                      "assets/images/la-mountain.svg",
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 80),
+                              child: Center(
+                                child: PageNavigator(_start),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Stack(
+                          alignment: AlignmentDirectional.topStart,
+                          //alignment: Alignment.bottomCenter,
+                          children: [
+                            Container(
+                              color: Color(0xff5457B9),
+                              height: 2,
+                              width: width,
+                            ),
+                            Container(
+                              //color: Colors.green[50],
+                              width: width * 0.6,
+                              child: Stack(
+                                alignment: Alignment.bottomLeft,
+                                children: [
+                                  Container(
+                                    //color: Colors.green[50],
+                                    width: width * 0.55,
+                                    child: SvgPicture.asset(
+                                      "assets/images/sm-mountain reflection.svg",
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              //color: Colors.green[100],
+                              width: width,
+                              child: Stack(
+                                alignment: Alignment.bottomRight,
+                                children: [
+                                  Container(
+                                    //color: Colors.green[50],
+                                    width: width * 0.65,
+                                    child: SvgPicture.asset(
+                                      "assets/images/la-mountain reflection.svg",
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),
-          ),
-          Stack(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                //crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Stack(
-                    alignment: AlignmentDirectional.bottomStart,
-                    //alignment: Alignment.bottomCenter,
-                    children: [
-                      Container(
-                        color: Colors.green[50],
-                        height: 1,
-                        width: width,
-                      ),
-                      Container(
-                        //color: Colors.green[50],
-                        width: width * 0.6,
-                        child: Stack(
-                          alignment: Alignment.bottomLeft,
-                          children: [
-                            Container(
-                              //color: Colors.green[50],
-                              width: width * 0.55,
-                              height: height * 0.14,
-                              child: SvgPicture.asset(
-                                "assets/images/sm-mountain.svg",
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        //color: Colors.green[100],
-                        width: width,
-                        child: Stack(
-                          alignment: Alignment.bottomRight,
-                          children: [
-                            Container(
-                              //color: Colors.green[50],
-                              width: width * 0.65,
-                              height: height * 0.215,
-                              child: SvgPicture.asset(
-                                "assets/images/la-mountain.svg",
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Stack(
-                    children: [
-                      Container(
-                        color: Colors.green[50],
-                        height: 1,
-                        width: width,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            //color: Colors.green[50],
-                            width: width * 0.42,
-                            child: SvgPicture.asset(
-                              "assets/images/sm-mountain reflection.svg",
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          Container(
-                            //color: Colors.green[50],
-                            width: width * 0.58,
-                            child: SvgPicture.asset(
-                              "assets/images/la-mountain reflection.svg",
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
           ),
         ],
       ),
