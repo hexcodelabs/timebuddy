@@ -2,9 +2,54 @@ import 'package:flutter/material.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:intl/intl.dart';
-//import 'package:timebuddy/screens/dashbord.dart';
+import 'package:timebuddy/utils/Database.dart';
+import 'package:timebuddy/modals/task.dart';
+import 'dart:collection';
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
+  @override
+  _DashboardState createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  static var now = new DateTime.now();
+  static var formatter = new DateFormat('yyyy-MM-dd');
+  String formattedDate = formatter.format(now);
+
+  List<Task> _taskList;
+
+  HashMap colorMap = new HashMap<String, Color>();
+
+  @override
+  void initState() {
+    _taskList = List<Task>();
+    super.initState();
+
+    getSchedule();
+  }
+
+  getSchedule() async {
+    List<Task> _taskList2;
+    List<Map<String, dynamic>> _results =
+        await DBProvider.db.getSchedule(formattedDate);
+    if (_results != null) {
+      // setState(() {
+      //   _taskList2 = _results.map((item) => Task.fromMap(item)).toList();
+      // });
+      setState(() {
+        _taskList = _results.map((item) => Task.fromMap(item)).toList();
+      });
+      debugPrint(_taskList[18].id.toString());
+    } else {
+      _taskList2 = List<Task>();
+    }
+    debugPrint("a" + _taskList.length.toString());
+    _taskList.map((task) => debugPrint(
+        "${task.id}, ${task.date}, ${task.hour},${task.half},${task.task},${task.color}"));
+
+    return _taskList;
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
