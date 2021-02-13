@@ -56,7 +56,6 @@ class _AddQuotesPageState extends State<QuotePage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    int wid = (width * 0.5).round();
 
     String quote = "\"The two most powerful warriors are patience and time\"";
 

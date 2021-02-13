@@ -28,7 +28,9 @@ class DBProvider {
             hour TEXT,
             half TEXT,
             task TEXT,
-            color TEXT
+            color TEXT,
+            previous TEXT,
+            next TEXT
           )
         ''');
     }, version: 1);
@@ -52,20 +54,37 @@ class DBProvider {
         debugPrint("up=" + task.id.toString());
         res = await db.rawUpdate('''
       UPDATE daily_tasks SET
-        date=?, 
         hour=?, 
         half=?, 
         task=?, 
-        color=?
+        color=?,
+        previous=?,
+        next=?
       WHERE id=?
-    ''', [task.date, task.hour, task.half, task.task, task.color, task.id]);
+    ''', [
+          task.hour,
+          task.half,
+          task.task,
+          task.color,
+          task.previous,
+          task.next,
+          task.id
+        ]);
       } else {
         debugPrint("in=" + task.id.toString());
         res = await db.rawInsert('''
       INSERT INTO daily_tasks(
-        date, hour, half, task, color
-      ) VALUES (?, ?, ?, ?, ?)
-    ''', [task.date, task.hour, task.half, task.task, task.color]);
+        date, hour, half, task, color,previous, next
+      ) VALUES (?, ?, ?, ?, ?,?,?)
+    ''', [
+          task.date,
+          task.hour,
+          task.half,
+          task.task,
+          task.color,
+          task.previous,
+          task.next
+        ]);
       }
     });
     debugPrint(res);
@@ -75,7 +94,6 @@ class DBProvider {
   Future<List<Map<String, dynamic>>> getSchedule(date) async {
     final db = await database;
     debugPrint(date);
-
     var res =
         await db.rawQuery("SELECT * FROM daily_tasks WHERE date=?", [date]);
     debugPrint("s" + res.isEmpty.toString());

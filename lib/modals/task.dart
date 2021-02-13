@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Task {
   int id;
   String date;
@@ -7,8 +5,18 @@ class Task {
   String half;
   String task;
   String color;
+  String previous;
+  String next;
 
-  Task({this.id, this.date, this.hour, this.half, this.task, this.color});
+  Task(
+      {this.id,
+      this.date,
+      this.hour,
+      this.half,
+      this.task,
+      this.color,
+      this.previous,
+      this.next});
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
@@ -16,7 +24,9 @@ class Task {
       'hour': hour,
       'half': half,
       'task': task,
-      'color': color
+      'color': color,
+      'previous': previous,
+      'next': next
     };
 
     if (id != null) {
@@ -32,7 +42,9 @@ class Task {
         hour: map['hour'],
         half: map['half'],
         task: map['task'],
-        color: map['color']);
+        color: map['color'],
+        previous: map['previous'],
+        next: map['next']);
   }
 
   Map<String, dynamic> toJson() => {
@@ -42,5 +54,7 @@ class Task {
         "half": half,
         "task": task,
         "color": color,
+        "previous": previous,
+        "next": next,
       };
 }

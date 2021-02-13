@@ -7,8 +7,6 @@ import 'dart:collection';
 import 'package:timebuddy/modals/task.dart';
 import 'package:timebuddy/utils/Database.dart';
 import 'package:intl/intl.dart';
-import 'package:get/get.dart';
-import '../controller/Controller.dart';
 
 class PlaningPage extends StatefulWidget {
   @override
@@ -24,7 +22,6 @@ class _PlaningPageState extends State<PlaningPage> {
   HashMap colorMap = new HashMap<String, Color>();
 
   List<Task> _taskList;
-  Controller controller = Get.find();
 
   @override
   void initState() {
@@ -35,19 +32,17 @@ class _PlaningPageState extends State<PlaningPage> {
   }
 
   getSchedule() async {
-    List<Task> _taskList2;
+    _taskList = List<Task>();
+    debugPrint("b" + _taskList.length.toString());
+
     List<Map<String, dynamic>> _results =
         await DBProvider.db.getSchedule(formattedDate);
     if (_results != null) {
-      // setState(() {
-      //   _taskList2 = _results.map((item) => Task.fromMap(item)).toList();
-      // });
       setState(() {
         _taskList = _results.map((item) => Task.fromMap(item)).toList();
       });
-      debugPrint(_taskList[18].color.toString());
     } else {
-      _taskList2 = List<Task>();
+      _taskList = List<Task>();
     }
     debugPrint("a" + _taskList.length.toString());
     _taskList.map((task) => debugPrint(
@@ -267,7 +262,63 @@ class _PlaningPageState extends State<PlaningPage> {
     );
   }
 
+  getPreviousHourHalf(String hour, String half) {
+    if (hour == "00" && half == "1") {
+      return "null";
+    }
+
+    int hourInt = int.parse(hour);
+
+    if (half == "2") {
+      return "$hour 1";
+    } else {
+      if (hourInt >= 11) {
+        hourInt = hourInt - 1;
+        hour = hourInt.toString();
+        return "$hour 2";
+      } else {
+        hourInt = hourInt - 1;
+        hour = "0" + hourInt.toString();
+        return "$hour 2";
+      }
+    }
+  }
+
+  getNextHourHalf(String hour, String half) {
+    if (hour == "23" && half == "2") {
+      return "null";
+    }
+
+    int hourInt = int.parse(hour);
+
+    if (half == "1") {
+      return "$hour 2";
+    } else {
+      if (hourInt >= 9) {
+        hourInt = hourInt + 1;
+        hour = hourInt.toString();
+        return "$hour 1";
+      } else {
+        hourInt = hourInt + 1;
+        hour = "0" + hourInt.toString();
+        return "$hour 1";
+      }
+    }
+  }
+
   GestureDetector inputCell(String s, String c) {
+    if (_taskList.indexWhere((task) => task.hour == s && task.half == c) ==
+        -1) {
+      Task task = Task(
+          hour: s,
+          half: c,
+          date: formattedDate,
+          task: "",
+          previous: "false",
+          next: "false");
+      _taskList.add(task);
+    }
+
     return GestureDetector(
       onDoubleTap: () => showDialog<void>(
         context: context,
@@ -287,7 +338,18 @@ class _PlaningPageState extends State<PlaningPage> {
                 debugPrint("colorchang");
                 int index = _taskList
                     .indexWhere((task) => task.hour == s && task.half == c);
-                debugPrint(index.toString());
+                // debugPrint(index.toString());
+                // debugPrint("previous = " +
+                //     getPreviousHourHalf(
+                //             _taskList[index].hour, _taskList[index].half)
+                //         .toString());
+                // debugPrint("currunt = " +
+                //     _taskList[index].hour +
+                //     _taskList[index].half);
+                // debugPrint("next = " +
+                //     getNextHourHalf(
+                //             _taskList[index].hour, _taskList[index].half)
+                //         .toString());
                 var hexCode =
                     '${colorMap[s + c].value.toRadixString(16).substring(0, 8)}';
                 if (index == -1) {
@@ -300,6 +362,92 @@ class _PlaningPageState extends State<PlaningPage> {
                   setState(() {
                     _taskList[index].color = hexCode;
                   });
+                }
+
+                List<String> previousHourHalf = getPreviousHourHalf(
+                        _taskList[index].hour, _taskList[index].half)
+                    .toString()
+                    .split(" ");
+                int previousIndex = _taskList.indexWhere((task) =>
+                    task.hour == previousHourHalf[0] &&
+                    task.half == previousHourHalf[1]);
+                List<String> nextHourHalf = getNextHourHalf(
+                        _taskList[index].hour, _taskList[index].half)
+                    .toString()
+                    .split(" ");
+                int nextIndex = _taskList.indexWhere((task) =>
+                    task.hour == nextHourHalf[0] &&
+                    task.half == nextHourHalf[1]);
+
+                if (previousHourHalf[0] == "null") {
+                  _taskList[index].previous = "false";
+                } else {
+                  _taskList[index].previous = "false";
+                  _taskList[previousIndex].next = "false";
+                  if (_taskList[previousIndex].color ==
+                          _taskList[index].color &&
+                      _taskList[previousIndex].color != null &&
+                      _taskList[previousIndex].color != "ffffffff" &&
+                      _taskList[previousIndex].color != "00000000" &&
+                      _taskList[previousIndex].task != "" &&
+                      _taskList[index].task == "") {
+                    _taskList[index].previous = "true";
+                    _taskList[previousIndex].next = "true";
+                  }
+                  if (_taskList[previousIndex].color ==
+                          _taskList[index].color &&
+                      _taskList[previousIndex].color != null &&
+                      _taskList[previousIndex].color != "ffffffff" &&
+                      _taskList[previousIndex].color != "00000000" &&
+                      _taskList[previousIndex].previous == "true" &&
+                      _taskList[index].task == "") {
+                    _taskList[index].previous = "true";
+                    _taskList[previousIndex].next = "true";
+                  }
+                  if (_taskList[previousIndex].color ==
+                          _taskList[index].color &&
+                      _taskList[previousIndex].color != null &&
+                      _taskList[previousIndex].color != "ffffffff" &&
+                      _taskList[previousIndex].color != "00000000" &&
+                      _taskList[previousIndex].task == "" &&
+                      _taskList[index].task == "") {
+                    _taskList[index].previous = "true";
+                    _taskList[previousIndex].next = "true";
+                  }
+                }
+
+                if (nextHourHalf[0] == "null") {
+                  _taskList[index].next = "false";
+                } else {
+                  _taskList[index].next = "false";
+                  _taskList[nextIndex].previous = "false";
+                  if (_taskList[nextIndex].color == _taskList[index].color &&
+                      _taskList[nextIndex].color != null &&
+                      _taskList[nextIndex].color != "ffffffff" &&
+                      _taskList[nextIndex].color != "00000000" &&
+                      _taskList[nextIndex].task == "" &&
+                      _taskList[index].task != "") {
+                    _taskList[index].next = "true";
+                    _taskList[nextIndex].previous = "true";
+                  }
+
+                  if (_taskList[nextIndex].color == _taskList[index].color &&
+                      _taskList[nextIndex].color != null &&
+                      _taskList[nextIndex].color != "ffffffff" &&
+                      _taskList[nextIndex].color != "00000000" &&
+                      _taskList[nextIndex].task == "" &&
+                      _taskList[index].task == "") {
+                    _taskList[index].next = "true";
+                    _taskList[nextIndex].previous = "true";
+                  }
+                }
+                if (previousHourHalf[0] != "null") {
+                  debugPrint("pre nex = " + _taskList[previousIndex].next);
+                }
+                debugPrint("cur pre = " + _taskList[index].previous);
+                debugPrint("cur nex = " + _taskList[index].next);
+                if (nextHourHalf[0] != "null") {
+                  debugPrint("nex pre = " + _taskList[nextIndex].previous);
                 }
                 Navigator.of(context).pop();
               },
@@ -338,20 +486,108 @@ class _PlaningPageState extends State<PlaningPage> {
               int index = _taskList
                   .indexWhere((task) => task.hour == s && task.half == c);
               debugPrint(index.toString());
+              debugPrint("previous = " +
+                  getPreviousHourHalf(
+                          _taskList[index].hour, _taskList[index].half)
+                      .toString());
+              debugPrint(
+                  "currunt = " + _taskList[index].hour + _taskList[index].half);
+              debugPrint("next = " +
+                  getNextHourHalf(_taskList[index].hour, _taskList[index].half)
+                      .toString());
               if (index == -1) {
                 debugPrint("asd");
                 Task task =
                     Task(hour: s, half: c, date: formattedDate, task: value);
                 _taskList.add(task);
               } else {
-                // debugPrint("1");
-                //debugPrint("b=" + _taskList[index].task);
-                // debugPrint("2");
                 _taskList[index].task = value;
 
                 debugPrint("a=" + _taskList[index].task);
               }
               debugPrint(_taskList.length.toString());
+
+              List<String> previousHourHalf = getPreviousHourHalf(
+                      _taskList[index].hour, _taskList[index].half)
+                  .toString()
+                  .split(" ");
+              int previousIndex = _taskList.indexWhere((task) =>
+                  task.hour == previousHourHalf[0] &&
+                  task.half == previousHourHalf[1]);
+              List<String> nextHourHalf =
+                  getNextHourHalf(_taskList[index].hour, _taskList[index].half)
+                      .toString()
+                      .split(" ");
+              int nextIndex = _taskList.indexWhere((task) =>
+                  task.hour == nextHourHalf[0] && task.half == nextHourHalf[1]);
+
+              if (previousHourHalf[0] == "null") {
+                _taskList[index].previous = "false";
+              } else {
+                _taskList[index].previous = "false";
+                _taskList[previousIndex].next = "false";
+                if (_taskList[previousIndex].color == _taskList[index].color &&
+                    _taskList[previousIndex].color != null &&
+                    _taskList[previousIndex].color != "ffffffff" &&
+                    _taskList[previousIndex].color != "00000000" &&
+                    _taskList[previousIndex].task != "" &&
+                    _taskList[index].task == "") {
+                  _taskList[index].previous = "true";
+                  _taskList[previousIndex].next = "true";
+                }
+                if (_taskList[previousIndex].color == _taskList[index].color &&
+                    _taskList[previousIndex].color != null &&
+                    _taskList[previousIndex].color != "ffffffff" &&
+                    _taskList[previousIndex].color != "00000000" &&
+                    _taskList[previousIndex].previous == "true" &&
+                    _taskList[index].task == "") {
+                  _taskList[index].previous = "true";
+                  _taskList[previousIndex].next = "true";
+                }
+                if (_taskList[previousIndex].color == _taskList[index].color &&
+                    _taskList[previousIndex].color != null &&
+                    _taskList[previousIndex].color != "ffffffff" &&
+                    _taskList[previousIndex].color != "00000000" &&
+                    _taskList[previousIndex].task == "" &&
+                    _taskList[index].task == "") {
+                  _taskList[index].previous = "true";
+                  _taskList[previousIndex].next = "true";
+                }
+              }
+
+              if (nextHourHalf[0] == "null") {
+                _taskList[index].next = "false";
+              } else {
+                _taskList[index].next = "false";
+                _taskList[nextIndex].previous = "false";
+                if (_taskList[nextIndex].color == _taskList[index].color &&
+                    _taskList[nextIndex].color != null &&
+                    _taskList[nextIndex].color != "ffffffff" &&
+                    _taskList[nextIndex].color != "00000000" &&
+                    _taskList[nextIndex].task == "" &&
+                    _taskList[index].task != "") {
+                  _taskList[index].next = "true";
+                  _taskList[nextIndex].previous = "true";
+                }
+
+                if (_taskList[nextIndex].color == _taskList[index].color &&
+                    _taskList[nextIndex].color != null &&
+                    _taskList[nextIndex].color != "ffffffff" &&
+                    _taskList[nextIndex].color != "00000000" &&
+                    _taskList[nextIndex].task == "" &&
+                    _taskList[index].task == "") {
+                  _taskList[index].next = "true";
+                  _taskList[nextIndex].previous = "true";
+                }
+              }
+              if (previousHourHalf[0] != "null") {
+                debugPrint("pre nex = " + _taskList[previousIndex].next);
+              }
+              debugPrint("cur pre = " + _taskList[index].previous);
+              debugPrint("cur nex = " + _taskList[index].next);
+              if (nextHourHalf[0] != "null") {
+                debugPrint("nex pre = " + _taskList[nextIndex].previous);
+              }
             },
             // keyboardType: TextInputType.text,
             // maxLines: null,
