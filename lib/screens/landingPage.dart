@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:timebuddy/main.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:timebuddy/screens/quotePage.dart';
 
+import 'package:timebuddy/modals/language.dart';
+import 'package:timebuddy/localization/language_constants.dart';
+
 class LandingPage extends StatefulWidget {
   @override
-  _AddQuotesPageState createState() => _AddQuotesPageState();
+  _LandingPage createState() => _LandingPage();
 }
 
-class _AddQuotesPageState extends State<LandingPage> {
-  int language = 1; //1-Dansk  2-English
+class _LandingPage extends State<LandingPage> {
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  void _changeLanguage(Language language) async {
+    Locale _locale = await setLocale(language.languageCode);
+    MyApp.setLocale(context, _locale);
+  }
+
+  int language = 2; //1-Dansk  2-English
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -70,38 +80,48 @@ class _AddQuotesPageState extends State<LandingPage> {
             Container(
               height: 50,
               width: 300,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: language == 1 ? Colors.blue : Colors.lightBlue,
-                    borderRadius: BorderRadius.circular(30)),
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        height: 50,
-                        width: 70,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(30.0),
-                          child: SvgPicture.asset(
-                            "assets/images/Flag_of_Denmark.svg",
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    language = 1;
+                  });
+                  Language languageNew = Language(2, "dk", "dansk", "da");
+                  _changeLanguage(languageNew);
+                  debugPrint(language.toString());
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: language == 1 ? Colors.blue : Colors.lightBlue,
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: 50,
+                          width: 70,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(30.0),
+                            child: SvgPicture.asset(
+                              "assets/images/Flag_of_Denmark.svg",
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Text(
-                        'Dansk',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
+                        SizedBox(
+                          width: 50,
                         ),
-                      ),
-                      Spacer(),
-                    ],
+                        Text(
+                          'Dansk',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Spacer(),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -112,38 +132,48 @@ class _AddQuotesPageState extends State<LandingPage> {
             Container(
               height: 50,
               width: 300,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: language == 1 ? Colors.blue : Colors.lightBlue,
-                    borderRadius: BorderRadius.circular(30)),
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                          height: 50,
-                          width: 70,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(30.0),
-                            child: SvgPicture.asset(
-                              "assets/images/Flag_of_the_United_States.svg",
-                              fit: BoxFit.fill,
-                            ),
-                          )),
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Text(
-                        'English',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    language = 2;
+                  });
+                  Language languageNew = Language(2, "us", "Englsh", "en");
+                  _changeLanguage(languageNew);
+                  debugPrint(language.toString());
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: language == 2 ? Colors.blue : Colors.lightBlue,
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                            height: 50,
+                            width: 70,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30.0),
+                              child: SvgPicture.asset(
+                                "assets/images/Flag_of_the_United_States.svg",
+                                fit: BoxFit.fill,
+                              ),
+                            )),
+                        SizedBox(
+                          width: 50,
                         ),
-                      ),
-                      Spacer(),
-                    ],
+                        Text(
+                          'English',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Spacer(),
+                      ],
+                    ),
                   ),
                 ),
               ),

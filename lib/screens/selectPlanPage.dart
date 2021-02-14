@@ -4,6 +4,8 @@ import 'package:timebuddy/theme/themes.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:intl/intl.dart';
 
+import 'package:timebuddy/localization/language_constants.dart';
+
 class SelectPlans extends StatefulWidget {
   final String name;
 

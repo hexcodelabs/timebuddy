@@ -6,6 +6,8 @@ import 'dart:async';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'package:timebuddy/localization/language_constants.dart';
+
 class QuotePage extends StatefulWidget {
   @override
   _AddQuotesPageState createState() => _AddQuotesPageState();
@@ -87,7 +89,7 @@ class _AddQuotesPageState extends State<QuotePage> {
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 5),
                     child: Text(
-                      "Quote of the day",
+                      getTranslated(context, 'intro_page_text_1'),
                       style: TextStyle(color: Color(0xff57c3ff)),
                       textAlign: TextAlign.center,
                     ),

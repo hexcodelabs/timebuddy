@@ -4,6 +4,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:timebuddy/screens/Dashboard.dart';
 
+import 'package:timebuddy/localization/language_constants.dart';
+
 class CompletePlanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

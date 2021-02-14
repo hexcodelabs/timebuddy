@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:timebuddy/screens/PlaningPage.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:intl/intl.dart';
 import 'package:timebuddy/utils/Database.dart';
 import 'package:timebuddy/modals/task.dart';
 import 'dart:collection';
+
+import 'package:timebuddy/localization/language_constants.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -241,7 +244,7 @@ class _DashboardState extends State<Dashboard> {
       setState(() {
         currentActivity = activity;
       });
-      remainingActivities = activityList.last['id'] - currentActivity['id'];
+      remainingActivities = activityList.last['id'] - currentActivity['id'] + 1;
       if (activityList[currentActivity['id'] - 1]['id'] !=
           activityList.last['id']) {
         int currentActivityID = currentActivity['id'];
@@ -253,8 +256,8 @@ class _DashboardState extends State<Dashboard> {
             activityList[currentActivityID]['start'].split(" ");
         DateTime opennext = dateFormat.parse(
             "${activityStartHourHalfNext[0]}:${activityStartHourHalfNext[1] == "1" ? "00" : "30"}");
-        opennext =
-            new DateTime(now.year, now.month, now.day, open.hour, open.minute);
+        opennext = new DateTime(
+            now.year, now.month, now.day, opennext.hour, opennext.minute);
         String openTimeNext = DateFormat('h:mm a').format(opennext);
         nextActivity['startTime'] = openTimeNext;
       }
@@ -382,7 +385,7 @@ class _DashboardState extends State<Dashboard> {
                                       context,
                                       PageTransition(
                                           type: PageTransitionType.bottomToTop,
-                                          child: Dashboard()));
+                                          child: PlaningPage(readOnly: true)));
                                 },
                                 child: Container(
                                   alignment: Alignment.bottomRight,
@@ -404,7 +407,7 @@ class _DashboardState extends State<Dashboard> {
                                       context,
                                       PageTransition(
                                           type: PageTransitionType.bottomToTop,
-                                          child: Dashboard()));
+                                          child: PlaningPage(readOnly: false)));
                                 },
                                 child: Container(
                                   alignment: Alignment.bottomRight,
@@ -460,13 +463,13 @@ class _DashboardState extends State<Dashboard> {
                           flex: 1,
                         ),
                         GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.bottomToTop,
-                                    child: Dashboard()));
-                          },
+                          // onTap: () {
+                          //   Navigator.push(
+                          //       context,
+                          //       PageTransition(
+                          //           type: PageTransitionType.bottomToTop,
+                          //           child: Dashboard()));
+                          // },
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 20),
                             child: Container(

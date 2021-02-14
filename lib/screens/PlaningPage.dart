@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timebuddy/screens/Dashboard.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:timebuddy/screens/completePlanPage.dart';
@@ -8,7 +9,12 @@ import 'package:timebuddy/modals/task.dart';
 import 'package:timebuddy/utils/Database.dart';
 import 'package:intl/intl.dart';
 
+import 'package:timebuddy/localization/language_constants.dart';
+
 class PlaningPage extends StatefulWidget {
+  final bool readOnly;
+
+  PlaningPage({Key key, @required this.readOnly}) : super(key: key);
   @override
   _PlaningPageState createState() => _PlaningPageState();
 }
@@ -91,16 +97,18 @@ class _PlaningPageState extends State<PlaningPage> {
                     width: width,
                     child: ListView(
                       children: [
-                        Container(
-                          //color: Colors.black,
-                          child: Text(
-                            "Click on a field to start planing.",
-                            style: TextStyle(
-                              color: Color(0xff00a4ea).withOpacity(0.6),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
+                        !widget.readOnly
+                            ? Container(
+                                //color: Colors.black,
+                                child: Text(
+                                  "Click on a field to start planing.",
+                                  style: TextStyle(
+                                    color: Color(0xff00a4ea).withOpacity(0.6),
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              )
+                            : Container(),
                         Container(
                           child: Padding(
                             padding: const EdgeInsets.only(
@@ -121,49 +129,6 @@ class _PlaningPageState extends State<PlaningPage> {
                             children: <Widget>[
                               Container(
                                 margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                                // child: Container(
-                                //   child: FloatingActionButton(
-                                //     onPressed: () async {
-                                //       //getSchedule();
-                                //       Color color = Colors.red;
-                                //       List<Task> tl = [];
-                                //       var hexCode =
-                                //           '${color.value.toRadixString(16).substring(2, 8)}';
-                                //       Task t = Task(
-                                //           date: formattedDate,
-                                //           hour: "00",
-                                //           half: "1",
-                                //           task: "Study",
-                                //           color: hexCode);
-                                //       tl.add(t);
-                                //       color = new Color(0x12345678);
-                                //       String colorString =
-                                //           color.toString(); // Color(0x12345678)
-                                //       String valueString = colorString
-                                //           .split('(0x')[1]
-                                //           .split(')')[0];
-                                //       t = Task(
-                                //           date: formattedDate,
-                                //           hour: "00",
-                                //           half: "2",
-                                //           task: "sleep",
-                                //           color: valueString);
-                                //       tl.add(t);
-                                //       t = Task(
-                                //           date: formattedDate,
-                                //           hour: "01",
-                                //           half: "1",
-                                //           task: "Study",
-                                //           color:
-                                //               Color(int.parse('0x$valueString'))
-                                //                   .toString());
-                                //       tl.add(t);
-                                //       debugPrint(tl[1].toMap().toString());
-                                //       await DBProvider.db.addNewSchedule(tl);
-                                //       getSchedule();
-                                //     },
-                                //   ),
-                                // ),
                                 child: Table(
                                   columnWidths: {
                                     0: FlexColumnWidth(0.8),
@@ -184,30 +149,54 @@ class _PlaningPageState extends State<PlaningPage> {
                                           color: Color(0xff00a4ea)
                                               .withOpacity(0.6))),
                                   children: [
-                                    buildTableRow('00', width, height),
-                                    buildTableRow('01', width, height),
-                                    buildTableRow('02', width, height),
-                                    buildTableRow('03', width, height),
-                                    buildTableRow('04', width, height),
-                                    buildTableRow('05', width, height),
-                                    buildTableRow('06', width, height),
-                                    buildTableRow('07', width, height),
-                                    buildTableRow('08', width, height),
-                                    buildTableRow('09', width, height),
-                                    buildTableRow('10', width, height),
-                                    buildTableRow('11', width, height),
-                                    buildTableRow('12', width, height),
-                                    buildTableRow('13', width, height),
-                                    buildTableRow('14', width, height),
-                                    buildTableRow('15', width, height),
-                                    buildTableRow('16', width, height),
-                                    buildTableRow('17', width, height),
-                                    buildTableRow('18', width, height),
-                                    buildTableRow('19', width, height),
-                                    buildTableRow('20', width, height),
-                                    buildTableRow('21', width, height),
-                                    buildTableRow('22', width, height),
-                                    buildTableRow('23', width, height),
+                                    buildTableRow(
+                                        '00', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '01', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '02', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '03', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '04', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '05', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '06', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '07', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '08', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '09', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '10', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '11', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '12', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '13', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '14', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '15', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '16', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '17', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '18', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '19', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '20', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '21', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '22', width, height, widget.readOnly),
+                                    buildTableRow(
+                                        '23', width, height, widget.readOnly),
                                   ],
                                 ),
                               ),
@@ -222,7 +211,8 @@ class _PlaningPageState extends State<PlaningPage> {
                             },
                           ),
                         ),
-                        PageNavigator(_taskList, formattedDate),
+                        PageNavigator(
+                            _taskList, formattedDate, widget.readOnly),
                       ],
                     ),
                     decoration: BoxDecoration(
@@ -242,7 +232,7 @@ class _PlaningPageState extends State<PlaningPage> {
     );
   }
 
-  TableRow buildTableRow(String s, double width, double height) {
+  TableRow buildTableRow(String s, double width, double height, bool readOnly) {
     if (!colorMap.containsKey(s + "1") && !colorMap.containsKey(s + "2")) {
       colorMap[s + "1"] = selectedColor;
       colorMap[s + "2"] = selectedColor;
@@ -256,8 +246,8 @@ class _PlaningPageState extends State<PlaningPage> {
           child: Text(s,
               style: TextStyle(fontSize: 16), textAlign: TextAlign.center),
         ),
-        inputCell(s, "1"),
-        inputCell(s, "2"),
+        inputCell(s, "1", readOnly),
+        inputCell(s, "2", readOnly),
       ],
     );
   }
@@ -306,7 +296,7 @@ class _PlaningPageState extends State<PlaningPage> {
     }
   }
 
-  GestureDetector inputCell(String s, String c) {
+  GestureDetector inputCell(String s, String c, bool readOnly) {
     if (_taskList.indexWhere((task) => task.hour == s && task.half == c) ==
         -1) {
       Task task = Task(
@@ -320,141 +310,150 @@ class _PlaningPageState extends State<PlaningPage> {
     }
 
     return GestureDetector(
-      onDoubleTap: () => showDialog<void>(
-        context: context,
-        builder: (BuildContext context) => Material(
-          color: Colors.transparent,
-          child: Container(
-            alignment: Alignment.center,
-            color: Colors.white.withOpacity(0.2),
-            child: OColorPicker(
-              selectedColor: selectedColor,
-              colors: primaryColorsPalette,
-              onColorChange: (color) {
-                setState(() {
-                  selectedColor = color;
-                  colorMap[s + c] = selectedColor;
-                });
-                debugPrint("colorchang");
-                int index = _taskList
-                    .indexWhere((task) => task.hour == s && task.half == c);
-                // debugPrint(index.toString());
-                // debugPrint("previous = " +
-                //     getPreviousHourHalf(
-                //             _taskList[index].hour, _taskList[index].half)
-                //         .toString());
-                // debugPrint("currunt = " +
-                //     _taskList[index].hour +
-                //     _taskList[index].half);
-                // debugPrint("next = " +
-                //     getNextHourHalf(
-                //             _taskList[index].hour, _taskList[index].half)
-                //         .toString());
-                var hexCode =
-                    '${colorMap[s + c].value.toRadixString(16).substring(0, 8)}';
-                if (index == -1) {
-                  Task task = Task(
-                      hour: s, half: c, date: formattedDate, color: hexCode);
-                  setState(() {
-                    _taskList.add(task);
-                  });
-                } else {
-                  setState(() {
-                    _taskList[index].color = hexCode;
-                  });
-                }
+      onDoubleTap: !readOnly
+          ? () => showDialog<void>(
+                context: context,
+                builder: (BuildContext context) => Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    alignment: Alignment.center,
+                    color: Colors.white.withOpacity(0.2),
+                    child: OColorPicker(
+                      selectedColor: selectedColor,
+                      colors: primaryColorsPalette,
+                      onColorChange: (color) {
+                        setState(() {
+                          selectedColor = color;
+                          colorMap[s + c] = selectedColor;
+                        });
+                        debugPrint("colorchang");
+                        int index = _taskList.indexWhere(
+                            (task) => task.hour == s && task.half == c);
+                        // debugPrint(index.toString());
+                        // debugPrint("previous = " +
+                        //     getPreviousHourHalf(
+                        //             _taskList[index].hour, _taskList[index].half)
+                        //         .toString());
+                        // debugPrint("currunt = " +
+                        //     _taskList[index].hour +
+                        //     _taskList[index].half);
+                        // debugPrint("next = " +
+                        //     getNextHourHalf(
+                        //             _taskList[index].hour, _taskList[index].half)
+                        //         .toString());
+                        var hexCode =
+                            '${colorMap[s + c].value.toRadixString(16).substring(0, 8)}';
+                        if (index == -1) {
+                          Task task = Task(
+                              hour: s,
+                              half: c,
+                              date: formattedDate,
+                              color: hexCode);
+                          setState(() {
+                            _taskList.add(task);
+                          });
+                        } else {
+                          setState(() {
+                            _taskList[index].color = hexCode;
+                          });
+                        }
 
-                List<String> previousHourHalf = getPreviousHourHalf(
-                        _taskList[index].hour, _taskList[index].half)
-                    .toString()
-                    .split(" ");
-                int previousIndex = _taskList.indexWhere((task) =>
-                    task.hour == previousHourHalf[0] &&
-                    task.half == previousHourHalf[1]);
-                List<String> nextHourHalf = getNextHourHalf(
-                        _taskList[index].hour, _taskList[index].half)
-                    .toString()
-                    .split(" ");
-                int nextIndex = _taskList.indexWhere((task) =>
-                    task.hour == nextHourHalf[0] &&
-                    task.half == nextHourHalf[1]);
+                        List<String> previousHourHalf = getPreviousHourHalf(
+                                _taskList[index].hour, _taskList[index].half)
+                            .toString()
+                            .split(" ");
+                        int previousIndex = _taskList.indexWhere((task) =>
+                            task.hour == previousHourHalf[0] &&
+                            task.half == previousHourHalf[1]);
+                        List<String> nextHourHalf = getNextHourHalf(
+                                _taskList[index].hour, _taskList[index].half)
+                            .toString()
+                            .split(" ");
+                        int nextIndex = _taskList.indexWhere((task) =>
+                            task.hour == nextHourHalf[0] &&
+                            task.half == nextHourHalf[1]);
 
-                if (previousHourHalf[0] == "null") {
-                  _taskList[index].previous = "false";
-                } else {
-                  _taskList[index].previous = "false";
-                  _taskList[previousIndex].next = "false";
-                  if (_taskList[previousIndex].color ==
-                          _taskList[index].color &&
-                      _taskList[previousIndex].color != null &&
-                      _taskList[previousIndex].color != "ffffffff" &&
-                      _taskList[previousIndex].color != "00000000" &&
-                      _taskList[previousIndex].task != "" &&
-                      _taskList[index].task == "") {
-                    _taskList[index].previous = "true";
-                    _taskList[previousIndex].next = "true";
-                  }
-                  if (_taskList[previousIndex].color ==
-                          _taskList[index].color &&
-                      _taskList[previousIndex].color != null &&
-                      _taskList[previousIndex].color != "ffffffff" &&
-                      _taskList[previousIndex].color != "00000000" &&
-                      _taskList[previousIndex].previous == "true" &&
-                      _taskList[index].task == "") {
-                    _taskList[index].previous = "true";
-                    _taskList[previousIndex].next = "true";
-                  }
-                  if (_taskList[previousIndex].color ==
-                          _taskList[index].color &&
-                      _taskList[previousIndex].color != null &&
-                      _taskList[previousIndex].color != "ffffffff" &&
-                      _taskList[previousIndex].color != "00000000" &&
-                      _taskList[previousIndex].task == "" &&
-                      _taskList[index].task == "") {
-                    _taskList[index].previous = "true";
-                    _taskList[previousIndex].next = "true";
-                  }
-                }
+                        if (previousHourHalf[0] == "null") {
+                          _taskList[index].previous = "false";
+                        } else {
+                          _taskList[index].previous = "false";
+                          _taskList[previousIndex].next = "false";
+                          if (_taskList[previousIndex].color ==
+                                  _taskList[index].color &&
+                              _taskList[previousIndex].color != null &&
+                              _taskList[previousIndex].color != "ffffffff" &&
+                              _taskList[previousIndex].color != "00000000" &&
+                              _taskList[previousIndex].task != "" &&
+                              _taskList[index].task == "") {
+                            _taskList[index].previous = "true";
+                            _taskList[previousIndex].next = "true";
+                          }
+                          if (_taskList[previousIndex].color ==
+                                  _taskList[index].color &&
+                              _taskList[previousIndex].color != null &&
+                              _taskList[previousIndex].color != "ffffffff" &&
+                              _taskList[previousIndex].color != "00000000" &&
+                              _taskList[previousIndex].previous == "true" &&
+                              _taskList[index].task == "") {
+                            _taskList[index].previous = "true";
+                            _taskList[previousIndex].next = "true";
+                          }
+                          if (_taskList[previousIndex].color ==
+                                  _taskList[index].color &&
+                              _taskList[previousIndex].color != null &&
+                              _taskList[previousIndex].color != "ffffffff" &&
+                              _taskList[previousIndex].color != "00000000" &&
+                              _taskList[previousIndex].task == "" &&
+                              _taskList[index].task == "") {
+                            _taskList[index].previous = "true";
+                            _taskList[previousIndex].next = "true";
+                          }
+                        }
 
-                if (nextHourHalf[0] == "null") {
-                  _taskList[index].next = "false";
-                } else {
-                  _taskList[index].next = "false";
-                  _taskList[nextIndex].previous = "false";
-                  if (_taskList[nextIndex].color == _taskList[index].color &&
-                      _taskList[nextIndex].color != null &&
-                      _taskList[nextIndex].color != "ffffffff" &&
-                      _taskList[nextIndex].color != "00000000" &&
-                      _taskList[nextIndex].task == "" &&
-                      _taskList[index].task != "") {
-                    _taskList[index].next = "true";
-                    _taskList[nextIndex].previous = "true";
-                  }
+                        if (nextHourHalf[0] == "null") {
+                          _taskList[index].next = "false";
+                        } else {
+                          _taskList[index].next = "false";
+                          _taskList[nextIndex].previous = "false";
+                          if (_taskList[nextIndex].color ==
+                                  _taskList[index].color &&
+                              _taskList[nextIndex].color != null &&
+                              _taskList[nextIndex].color != "ffffffff" &&
+                              _taskList[nextIndex].color != "00000000" &&
+                              _taskList[nextIndex].task == "" &&
+                              _taskList[index].task != "") {
+                            _taskList[index].next = "true";
+                            _taskList[nextIndex].previous = "true";
+                          }
 
-                  if (_taskList[nextIndex].color == _taskList[index].color &&
-                      _taskList[nextIndex].color != null &&
-                      _taskList[nextIndex].color != "ffffffff" &&
-                      _taskList[nextIndex].color != "00000000" &&
-                      _taskList[nextIndex].task == "" &&
-                      _taskList[index].task == "") {
-                    _taskList[index].next = "true";
-                    _taskList[nextIndex].previous = "true";
-                  }
-                }
-                if (previousHourHalf[0] != "null") {
-                  debugPrint("pre nex = " + _taskList[previousIndex].next);
-                }
-                debugPrint("cur pre = " + _taskList[index].previous);
-                debugPrint("cur nex = " + _taskList[index].next);
-                if (nextHourHalf[0] != "null") {
-                  debugPrint("nex pre = " + _taskList[nextIndex].previous);
-                }
-                Navigator.of(context).pop();
-              },
-            ),
-          ),
-        ),
-      ),
+                          if (_taskList[nextIndex].color ==
+                                  _taskList[index].color &&
+                              _taskList[nextIndex].color != null &&
+                              _taskList[nextIndex].color != "ffffffff" &&
+                              _taskList[nextIndex].color != "00000000" &&
+                              _taskList[nextIndex].task == "" &&
+                              _taskList[index].task == "") {
+                            _taskList[index].next = "true";
+                            _taskList[nextIndex].previous = "true";
+                          }
+                        }
+                        if (previousHourHalf[0] != "null") {
+                          debugPrint(
+                              "pre nex = " + _taskList[previousIndex].next);
+                        }
+                        debugPrint("cur pre = " + _taskList[index].previous);
+                        debugPrint("cur nex = " + _taskList[index].next);
+                        if (nextHourHalf[0] != "null") {
+                          debugPrint(
+                              "nex pre = " + _taskList[nextIndex].previous);
+                        }
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                ),
+              )
+          : null,
       child: Container(
         color: _taskList
                     .indexWhere((task) => task.hour == s && task.half == c) !=
@@ -469,6 +468,7 @@ class _PlaningPageState extends State<PlaningPage> {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
           child: TextField(
+            readOnly: readOnly,
             controller: TextEditingController()
               ..text = _taskList.indexWhere(
                           (task) => task.hour == s && task.half == c) !=
@@ -611,22 +611,30 @@ class _PlaningPageState extends State<PlaningPage> {
 }
 
 class PageNavigator extends StatelessWidget {
-  PageNavigator(this._taskList, this.formattedDate);
+  PageNavigator(this._taskList, this.formattedDate, this.readOnly);
 
   final List<Task> _taskList;
   final String formattedDate;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: GestureDetector(
         onTap: () async {
-          await DBProvider.db.addNewSchedule(_taskList, formattedDate);
-          Navigator.push(
-              context,
-              PageTransition(
-                  type: PageTransitionType.bottomToTop,
-                  child: CompletePlanPage()));
+          if (readOnly) {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.bottomToTop, child: Dashboard()));
+          } else {
+            await DBProvider.db.addNewSchedule(_taskList, formattedDate);
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.bottomToTop,
+                    child: CompletePlanPage()));
+          }
         },
         child: Container(
           alignment: Alignment.bottomRight,

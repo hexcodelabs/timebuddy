@@ -4,6 +4,8 @@ import 'package:timebuddy/theme/themes.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:timebuddy/screens/selectPlanPage.dart';
 
+import 'package:timebuddy/localization/language_constants.dart';
+
 class AddQuotes extends StatefulWidget {
   @override
   _AddQuotesPageState createState() => _AddQuotesPageState();

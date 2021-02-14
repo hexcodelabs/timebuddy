@@ -4,6 +4,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:timebuddy/screens/PlaningPage.dart';
 
+import 'package:timebuddy/localization/language_constants.dart';
+
 class StartPlanPage extends StatefulWidget {
   @override
   _StartPlanPageState createState() => _StartPlanPageState();
@@ -150,7 +152,8 @@ class PageNavigator extends StatelessWidget {
           Navigator.push(
               context,
               PageTransition(
-                  type: PageTransitionType.bottomToTop, child: PlaningPage()));
+                  type: PageTransitionType.bottomToTop,
+                  child: PlaningPage(readOnly: false)));
         },
         child: Column(
           children: [
