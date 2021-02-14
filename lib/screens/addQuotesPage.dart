@@ -62,9 +62,10 @@ class _AddQuotesPageState extends State<AddQuotes> {
               child: Padding(
                 padding: const EdgeInsets.only(right: 100, left: 100),
                 child: TextField(
+                  textCapitalization: TextCapitalization.words,
                   controller: myController,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 24, color: Color(0xff57C3FF)),
+                  style: TextStyle(fontSize: 24, color: Colors.white),
                   decoration: InputDecoration(
                     hintText: getTranslated(context, 'name_screen_text_2'),
                     hintStyle: TextStyle(

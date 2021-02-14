@@ -14,7 +14,7 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPage extends State<LandingPage> {
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  //final GlobalKey<FormState> _key = GlobalKey<FormState>();
   void _changeLanguage(Language language) async {
     Locale _locale = await setLocale(language.languageCode);
     MyApp.setLocale(context, _locale);

@@ -39,7 +39,6 @@ class _PlaningPageState extends State<PlaningPage> {
 
   getSchedule() async {
     _taskList = List<Task>();
-    debugPrint("b" + _taskList.length.toString());
 
     List<Map<String, dynamic>> _results =
         await DBProvider.db.getSchedule(formattedDate);
@@ -204,14 +203,6 @@ class _PlaningPageState extends State<PlaningPage> {
                             ],
                           ),
                         ),
-                        Container(
-                          child: RaisedButton(
-                            child: Text("data"),
-                            onPressed: () {
-                              getSchedule();
-                            },
-                          ),
-                        ),
                         PageNavigator(
                             _taskList, formattedDate, widget.readOnly),
                       ],
@@ -330,18 +321,7 @@ class _PlaningPageState extends State<PlaningPage> {
                         debugPrint("colorchang");
                         int index = _taskList.indexWhere(
                             (task) => task.hour == s && task.half == c);
-                        // debugPrint(index.toString());
-                        // debugPrint("previous = " +
-                        //     getPreviousHourHalf(
-                        //             _taskList[index].hour, _taskList[index].half)
-                        //         .toString());
-                        // debugPrint("currunt = " +
-                        //     _taskList[index].hour +
-                        //     _taskList[index].half);
-                        // debugPrint("next = " +
-                        //     getNextHourHalf(
-                        //             _taskList[index].hour, _taskList[index].half)
-                        //         .toString());
+
                         var hexCode =
                             '${colorMap[s + c].value.toRadixString(16).substring(0, 8)}';
                         if (index == -1) {

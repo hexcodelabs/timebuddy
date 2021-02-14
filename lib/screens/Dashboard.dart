@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timebuddy/screens/PlaningPage.dart';
+import 'package:timebuddy/screens/startPlanPage.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:intl/intl.dart';
@@ -236,7 +237,6 @@ class _DashboardState extends State<Dashboard> {
       int endHalf = activityEndHourHalf[1] == "1" ? 0 : 30;
       int difference =
           (endHour * 60 + endHalf) - (currentHour * 60 + currentminute);
-      debugPrint(difference.toString());
       String closeTime = DateFormat('h:mm a').format(close);
       debugPrint(closeTime);
       activity['difference'] = difference;
@@ -248,8 +248,7 @@ class _DashboardState extends State<Dashboard> {
       if (activityList[currentActivity['id'] - 1]['id'] !=
           activityList.last['id']) {
         int currentActivityID = currentActivity['id'];
-        String openTime = DateFormat('h:mm a').format(open);
-        debugPrint("sh");
+        //String openTime = DateFormat('h:mm a').format(open);
 
         nextActivity = activityList[currentActivityID];
         List<String> activityStartHourHalfNext =
@@ -313,191 +312,223 @@ class _DashboardState extends State<Dashboard> {
 
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),
-      body: Container(
-        width: width,
-        height: height,
-        decoration: AppTheme.backgroundGradient,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              height: topHeight,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: RaisedButton(onPressed: () => {getSchedule()}),
-                    ),
-                    Text(
-                      "Dashboard",
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      '$currentTime - $currentDay',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Stack(
-              alignment: Alignment.topCenter,
+      body: Stack(
+        children: [
+          Container(
+            width: width,
+            height: height,
+            decoration: AppTheme.backgroundGradient,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  height: height - topHeight,
-                  width: width,
+                  height: topHeight,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 33, right: 33),
+                    padding: const EdgeInsets.only(top: 15),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          alignment: Alignment.topLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 25, bottom: 19),
-                            child: Text(
-                              getTranslated(context, 'dashboard_text_1'),
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xff57C3ff),
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
+                        Text(
+                          "Dashboard",
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.white,
                           ),
+                          textAlign: TextAlign.center,
                         ),
-                        ActivityTable(currentActivity, nextActivity),
-                        Container(
-                          margin: const EdgeInsets.only(top: 30, bottom: 40),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      PageTransition(
-                                          type: PageTransitionType.bottomToTop,
-                                          child: PlaningPage(readOnly: true)));
-                                },
-                                child: Container(
-                                  alignment: Alignment.bottomRight,
-                                  child: Text(
-                                    getTranslated(context, 'dashboard_text_9'),
-                                    style: TextStyle(
-                                        fontSize: 14, color: Color(0xffc7c7c7)),
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                ' | ',
-                                style: TextStyle(
-                                    fontSize: 14, color: Color(0xffc7c7c7)),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      PageTransition(
-                                          type: PageTransitionType.bottomToTop,
-                                          child: PlaningPage(readOnly: false)));
-                                },
-                                child: Container(
-                                  alignment: Alignment.bottomRight,
-                                  child: Text(
-                                    getTranslated(
-                                        context, 'dashboard_text_9_1'),
-                                    style: TextStyle(
-                                        fontSize: 14, color: Color(0xffc7c7c7)),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '$remainingActivities',
-                                style: TextStyle(
-                                    fontSize: 36, color: Color(0xff57C3ff)),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 40),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                getTranslated(context, 'dashboard_text_10'),
-                                style: TextStyle(
-                                    fontSize: 14, color: Color(0xff57C3ff)),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 10,
-                            left: 45,
-                            right: 45,
-                          ),
-                          child: Text(
-                            quote,
-                            style: TextStyle(
-                                color: Color(0xff57C3ff), fontSize: 24),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Spacer(
-                          flex: 1,
-                        ),
-                        GestureDetector(
-                          // onTap: () {
-                          //   Navigator.push(
-                          //       context,
-                          //       PageTransition(
-                          //           type: PageTransitionType.bottomToTop,
-                          //           child: Dashboard()));
-                          // },
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
-                            child: Container(
-                              alignment: Alignment.bottomRight,
-                              child: Text(
-                                getTranslated(context, 'dashboard_text_11'),
-                                style: TextStyle(
-                                    fontSize: 24, color: Color(0xffc7c7c7)),
-                              ),
-                            ),
+                        Text(
+                          '$currentTime - $currentDay',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: new BorderRadius.only(
-                      topLeft: const Radius.circular(40.0),
-                      topRight: const Radius.circular(40.0),
+                ),
+                Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    Container(
+                      height: height - topHeight,
+                      width: width,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 33, right: 33),
+                        child: Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 25, bottom: 19),
+                                child: Text(
+                                  getTranslated(context, 'dashboard_text_1'),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xff57C3ff),
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ),
+                            ),
+                            ActivityTable(currentActivity, nextActivity),
+                            Container(
+                              margin:
+                                  const EdgeInsets.only(top: 30, bottom: 40),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              type: PageTransitionType
+                                                  .bottomToTop,
+                                              child:
+                                                  PlaningPage(readOnly: true)));
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.bottomRight,
+                                      child: Text(
+                                        getTranslated(
+                                            context, 'dashboard_text_9'),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xffc7c7c7)),
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    ' | ',
+                                    style: TextStyle(
+                                        fontSize: 14, color: Color(0xffc7c7c7)),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              type: PageTransitionType
+                                                  .bottomToTop,
+                                              child: PlaningPage(
+                                                  readOnly: false)));
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.bottomRight,
+                                      child: Text(
+                                        getTranslated(
+                                            context, 'dashboard_text_9_1'),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xffc7c7c7)),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '$remainingActivities',
+                                    style: TextStyle(
+                                        fontSize: 36, color: Color(0xff57C3ff)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 40),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    getTranslated(context, 'dashboard_text_10'),
+                                    style: TextStyle(
+                                        fontSize: 14, color: Color(0xff57C3ff)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 10,
+                                left: 45,
+                                right: 45,
+                              ),
+                              child: Text(
+                                quote,
+                                style: TextStyle(
+                                    color: Color(0xff57C3ff), fontSize: 24),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Spacer(
+                              flex: 1,
+                            ),
+                            GestureDetector(
+                              // onTap: () {
+                              //   Navigator.push(
+                              //       context,
+                              //       PageTransition(
+                              //           type: PageTransitionType.bottomToTop,
+                              //           child: Dashboard()));
+                              // },
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 20),
+                                child: Container(
+                                  alignment: Alignment.bottomRight,
+                                  child: Text(
+                                    getTranslated(context, 'dashboard_text_11'),
+                                    style: TextStyle(
+                                        fontSize: 24, color: Color(0xffc7c7c7)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: new BorderRadius.only(
+                          topLeft: const Radius.circular(40.0),
+                          topRight: const Radius.circular(40.0),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+          Container(
+            height: topHeight,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.bottomToTop,
+                            child: StartPlanPage()));
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

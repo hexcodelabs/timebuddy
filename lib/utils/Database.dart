@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
+import 'package:timebuddy/modals/priority.dart';
 import 'package:timebuddy/modals/task.dart';
 
 class DBProvider {
@@ -33,25 +34,28 @@ class DBProvider {
             next TEXT
           )
         ''');
+      await db.execute('''
+          CREATE TABLE IF NOT EXISTS priorityList(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            date TEXT,
+            index int,
+            priority TEXT
+          )
+        ''');
     }, version: 1);
   }
 
   addNewSchedule(List<Task> taskList, String date) async {
     final db = await database;
-    debugPrint(taskList.length.toString());
+
     var res;
-    // taskList.forEach((task) async {
-    //   debugPrint(
-    //       "${task.date}, ${task.hour}, ${task.half}, ${task.task}, ${task.color}");
-    // });
 
     taskList.forEach((task) async {
       var search = await db.rawQuery('''
         SELECT * FROM daily_tasks WHERE hour=? AND half=? AND date=?
       ''', [task.hour, task.half, task.date]);
-      debugPrint(res.toString());
+
       if (search.isNotEmpty) {
-        debugPrint("up=" + task.id.toString());
         res = await db.rawUpdate('''
       UPDATE daily_tasks SET
         hour=?, 
@@ -71,7 +75,6 @@ class DBProvider {
           task.id
         ]);
       } else {
-        debugPrint("in=" + task.id.toString());
         res = await db.rawInsert('''
       INSERT INTO daily_tasks(
         date, hour, half, task, color,previous, next
@@ -87,16 +90,61 @@ class DBProvider {
         ]);
       }
     });
-    debugPrint(res);
+
     return res;
   }
 
   Future<List<Map<String, dynamic>>> getSchedule(date) async {
     final db = await database;
-    debugPrint(date);
+
     var res =
         await db.rawQuery("SELECT * FROM daily_tasks WHERE date=?", [date]);
-    debugPrint("s" + res.isEmpty.toString());
+
+    if (res.isEmpty) {
+      return null;
+    } else {
+      return res;
+    }
+  }
+
+  addPriority(List<String> priorityList, String date) async {
+    final db = await database;
+    List<Priority> prioList = List<Priority>();
+    int count = 0;
+    priorityList.forEach((element) {
+      debugPrint(count.toString());
+      prioList.add(Priority(index: count, priority: element));
+      count++;
+    });
+
+    var res;
+    prioList.forEach((priority) async {
+      var search = await db.rawQuery('''
+        SELECT * FROM priorityList WHERE indexx=? AND date=?
+      ''', [priority.index, date]);
+
+      if (search.isNotEmpty) {
+        res = await db.rawUpdate('''
+      UPDATE priorityList SET
+        priority=? 
+      WHERE indexx=? AND date=?
+    ''', [priority.priority, priority.index, date]);
+      } else {
+        res = await db.rawInsert('''
+      INSERT INTO priorityList(
+        date, indexx, priority
+      ) VALUES (?, ?, ?)
+    ''', [date, priority.index, priority.priority]);
+      }
+    });
+
+    return res;
+  }
+
+  Future<List<Map<String, dynamic>>> getPriorities(date) async {
+    final db = await database;
+    var res =
+        await db.rawQuery("SELECT * FROM priorityList WHERE date=?", [date]);
     debugPrint(res.toString());
     if (res.isEmpty) {
       return null;
