@@ -82,7 +82,7 @@ class _PlaningPageState extends State<PlaningPage> {
                   ),
                   child: Center(
                     child: Text(
-                      "Perfect. Let’s plan your time.",
+                      getTranslated(context, 'time_shedule_start_text_1'),
                       style: AppTheme.mainTitle,
                       textAlign: TextAlign.center,
                     ),
@@ -101,7 +101,8 @@ class _PlaningPageState extends State<PlaningPage> {
                             ? Container(
                                 //color: Colors.black,
                                 child: Text(
-                                  "Click on a field to start planing.",
+                                  getTranslated(
+                                      context, 'time_shedule_start_text_2'),
                                   style: TextStyle(
                                     color: Color(0xff00a4ea).withOpacity(0.6),
                                   ),

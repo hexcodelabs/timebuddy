@@ -65,7 +65,7 @@ class _SelectPlansState extends State<SelectPlans> {
             ),
             Container(
               child: Text(
-                "Choose an option",
+                getTranslated(context, 'daily_welcome_screen_text_6'),
                 style: AppTheme.mainTitle,
                 textAlign: TextAlign.center,
               ),
@@ -93,7 +93,7 @@ class PageNavigator extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 20),
             child: Text(
-              "Do you want to ",
+              getTranslated(context, 'daily_welcome_screen_text_2'),
               style: TextStyle(
                 color: Color(0xff57c3ff),
                 fontSize: 14,
@@ -112,7 +112,7 @@ class PageNavigator extends StatelessWidget {
                       child: StartPlanPage()));
             },
             child: Text(
-              "Replicate one of your old plans",
+              getTranslated(context, 'daily_welcome_screen_text_3'),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 15,
@@ -125,7 +125,7 @@ class PageNavigator extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 15, top: 15),
             child: Text(
-              "Or",
+              getTranslated(context, 'daily_welcome_screen_text_4'),
               style: TextStyle(
                 color: Color(0xff57c3ff),
                 fontSize: 14,
@@ -144,7 +144,7 @@ class PageNavigator extends StatelessWidget {
                       child: StartPlanPage()));
             },
             child: Text(
-              "Lay down a plan for today",
+              getTranslated(context, 'daily_welcome_screen_text_5'),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 15,

@@ -29,11 +29,14 @@ class _StartPlanPageState extends State<StartPlanPage> {
             Spacer(
               flex: 6,
             ),
-            Container(
-              child: Text(
-                "Great! Let’s map down your priorities for today.\nRemember, you can always go back and edit the plan.",
-                style: AppTheme.mainTitle,
-                textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: Container(
+                child: Text(
+                  getTranslated(context, 'priorities_screen_text_1'),
+                  style: AppTheme.mainTitle,
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
             Spacer(
@@ -41,14 +44,14 @@ class _StartPlanPageState extends State<StartPlanPage> {
             ),
             Container(
               child: Text(
-                "What are your main priorities today?",
+                getTranslated(context, 'priorities_screen_text_2'),
                 style: AppTheme.mainTitle,
                 textAlign: TextAlign.center,
               ),
             ),
             Container(
               child: Text(
-                "Add up to 3",
+                getTranslated(context, 'priorities_screen_text_3'),
                 style: TextStyle(
                   color: Color(0xff57C3ff),
                   fontSize: 14,
@@ -104,7 +107,8 @@ class InputField extends StatelessWidget {
                     fontSize: 15,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'Write here...',
+                    hintText:
+                        getTranslated(context, 'priorities_screen_text_5'),
                     hintStyle: TextStyle(
                       fontSize: 15,
                       color: Colors.white.withOpacity(0.4),
@@ -167,7 +171,7 @@ class PageNavigator extends StatelessWidget {
             ),
             Container(
               child: Text(
-                "Click to continue",
+                getTranslated(context, 'priorities_screen_text_6'),
                 style: AppTheme.mainTitle,
                 textAlign: TextAlign.center,
               ),

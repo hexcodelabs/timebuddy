@@ -1,7 +1,7 @@
 {
     "intro_page_text_1":"Dagens citat",
-	"intro_page_text_2":"Fortsætter om 4...",
-	"name_screen_text_1":"Velkommen til TimeBuddy! Skriv dit navn for at gå videre",
+	"intro_page_text_2":"Fortsætter om ",
+	"name_screen_text_1":"Velkommen til TimeBuddy!\nSkriv dit navn for at gå videre",
 	"name_screen_text_2":"Skriv her...",
 	"name_screen_text_3":"Klik for at fortsætte",
 	"daily_welcome_screen_text_1":"Godmorgen, Marius. Klokken er 8:34 AM, Mandag morgen.",
@@ -10,7 +10,7 @@
 	"daily_welcome_screen_text_4":"eller",
 	"daily_welcome_screen_text_5":"Lave en ny plan",
 	"daily_welcome_screen_text_6":"Vælg",
-	"priorities_screen_text_1":"Super! Lad os lave nogle prioriteter for i dag. Husk, du kan altid gå tilbage og ændre.",
+	"priorities_screen_text_1":"Super! Lad os lave nogle prioriteter for i dag.\nHusk, du kan altid gå tilbage og ændre.",
 	"priorities_screen_text_2":"Hvad er dine prioriteter for i dag?",
 	"priorities_screen_text_3":"Tilføj op til 3",
 	"priorities_screen_text_4":"Gør min stil færdig",
@@ -18,8 +18,6 @@
 	"priorities_screen_text_6":"Klik for at fortsaette",
 	"time_shedule_start_text_1":"Perfekt. Lad os lave en tidsplan.",
 	"time_shedule_start_text_2":"Klik på et fælt for at starte",
-	"time_shedule_full_text_1":"Perfekt. Lad os lave en tidsplan.",
-	"time_shedule_full_text_2":"Klik på et fælt for at starte",
 	"time_shedule_text_1":"Woohoo! Du er klar.",
 	"time_shedule_text_2":"Du har lavet en plan for i dag.",
 	"time_shedule_text_3":"Klik for at fortsætte",
@@ -31,7 +29,8 @@
 	"dashboard_text_6":"Cykeltur i skoven",
 	"dashboard_text_7":"som starter",
 	"dashboard_text_8":"kl. 9:30",
-	"dashboard_text_9":"Se planen | Rediger planen",
-	"dashboard_text_10":"8 aktiviteter tilbage i dag",
+	"dashboard_text_9":"Se planen",
+	"dashboard_text_9_1":"Rediger planen",
+	"dashboard_text_10":"aktiviteter tilbage i dag",
 	"dashboard_text_11":"Indstillinger"
 }

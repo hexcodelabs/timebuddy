@@ -26,7 +26,7 @@ class CompletePlanPage extends StatelessWidget {
             ),
             Container(
               child: Text(
-                "Woohoo! You are ready.",
+                getTranslated(context, 'time_shedule_text_1'),
                 style: TextStyle(
                   fontSize: 24,
                   color: Colors.white,
@@ -36,7 +36,7 @@ class CompletePlanPage extends StatelessWidget {
             ),
             Container(
               child: Text(
-                'You have made a plan for today',
+                getTranslated(context, 'time_shedule_text_2'),
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.white,
@@ -84,7 +84,7 @@ class PageNavigator extends StatelessWidget {
             ),
             Container(
               child: Text(
-                "Click to continue",
+                getTranslated(context, 'time_shedule_text_3'),
                 style: AppTheme.mainTitle,
                 textAlign: TextAlign.center,
               ),

@@ -364,7 +364,7 @@ class _DashboardState extends State<Dashboard> {
                           child: Padding(
                             padding: const EdgeInsets.only(top: 25, bottom: 19),
                             child: Text(
-                              "Current doing according to schedule",
+                              getTranslated(context, 'dashboard_text_1'),
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xff57C3ff),
@@ -390,7 +390,7 @@ class _DashboardState extends State<Dashboard> {
                                 child: Container(
                                   alignment: Alignment.bottomRight,
                                   child: Text(
-                                    'View schedule',
+                                    getTranslated(context, 'dashboard_text_9'),
                                     style: TextStyle(
                                         fontSize: 14, color: Color(0xffc7c7c7)),
                                   ),
@@ -412,7 +412,8 @@ class _DashboardState extends State<Dashboard> {
                                 child: Container(
                                   alignment: Alignment.bottomRight,
                                   child: Text(
-                                    'Edit schedule',
+                                    getTranslated(
+                                        context, 'dashboard_text_9_1'),
                                     style: TextStyle(
                                         fontSize: 14, color: Color(0xffc7c7c7)),
                                   ),
@@ -439,7 +440,7 @@ class _DashboardState extends State<Dashboard> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                'avtivities left today',
+                                getTranslated(context, 'dashboard_text_10'),
                                 style: TextStyle(
                                     fontSize: 14, color: Color(0xff57C3ff)),
                               ),
@@ -475,7 +476,7 @@ class _DashboardState extends State<Dashboard> {
                             child: Container(
                               alignment: Alignment.bottomRight,
                               child: Text(
-                                'Settings',
+                                getTranslated(context, 'dashboard_text_11'),
                                 style: TextStyle(
                                     fontSize: 24, color: Color(0xffc7c7c7)),
                               ),
@@ -537,7 +538,7 @@ class _ActivityTableState extends State<ActivityTable> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 9),
                     child: Text(
-                      'for',
+                      getTranslated(context, 'dashboard_text_3'),
                       style: TextStyle(
                         fontSize: 14,
                         color: Color(0xff57C3ff),
@@ -556,7 +557,7 @@ class _ActivityTableState extends State<ActivityTable> {
                 ]),
                 TableRow(children: [
                   Text(
-                    'then',
+                    getTranslated(context, 'dashboard_text_5'),
                     style: TextStyle(
                       fontSize: 14,
                       color: Color(0xff57C3ff),
@@ -576,7 +577,7 @@ class _ActivityTableState extends State<ActivityTable> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 9),
                     child: Text(
-                      'starting at',
+                      getTranslated(context, 'dashboard_text_7'),
                       style: TextStyle(
                         fontSize: 14,
                         color: Color(0xff57C3ff),

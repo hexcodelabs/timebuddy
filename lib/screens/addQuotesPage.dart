@@ -50,7 +50,7 @@ class _AddQuotesPageState extends State<AddQuotes> {
             ),
             Container(
               child: Text(
-                "Welcome to TimeBuddy!\nEnter your name to get started",
+                getTranslated(context, 'name_screen_text_1'),
                 style: AppTheme.mainTitle,
                 textAlign: TextAlign.center,
               ),
@@ -66,7 +66,7 @@ class _AddQuotesPageState extends State<AddQuotes> {
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 24, color: Color(0xff57C3FF)),
                   decoration: InputDecoration(
-                    hintText: "Write here...",
+                    hintText: getTranslated(context, 'name_screen_text_2'),
                     hintStyle: TextStyle(
                       color: Colors.white.withOpacity(0.4),
                       fontSize: 22,
@@ -123,7 +123,7 @@ class PageNavigator extends StatelessWidget {
             ),
             Container(
               child: Text(
-                "Click to continue",
+                getTranslated(context, 'name_screen_text_3'),
                 style: AppTheme.mainTitle,
                 textAlign: TextAlign.center,
               ),

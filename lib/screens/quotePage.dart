@@ -248,7 +248,7 @@ class PageNavigator extends StatelessWidget {
             Container(
               //color: Colors.green[100],
               child: Text(
-                "Continuing in $start...",
+                "${getTranslated(context, 'intro_page_text_2')} $start...",
                 style: AppTheme.mainTitle,
                 textAlign: TextAlign.center,
               ),
