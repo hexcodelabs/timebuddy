@@ -38,7 +38,7 @@ class DBProvider {
           CREATE TABLE IF NOT EXISTS priorityList(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             date TEXT,
-            index int,
+            indexx int,
             priority TEXT
           )
         ''');

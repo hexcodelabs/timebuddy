@@ -68,7 +68,7 @@ class _DashboardState extends State<Dashboard> {
 
     final sortedTaskList = new SplayTreeMap.from(
         taskList, (a, b) => int.parse(a).compareTo(int.parse(b)));
-
+    debugPrint(sortedTaskList.length.toString());
     getActivityList(sortedTaskList);
 
     return _taskList;
@@ -584,7 +584,7 @@ class _ActivityTableState extends State<ActivityTable> {
                     child: Text(''),
                   ),
                   Text(
-                      '${widget.currentActivity != null ? widget.currentActivity['difference'].toString() + " minutes longer until " + widget.currentActivity['endTime'] : widget.nextActivity['difference'].toString() + " minutes longer until " + widget.nextActivity['startTime']}'),
+                      '${widget.currentActivity != null ? widget.currentActivity['difference'].toString() + " minutes longer until " + widget.currentActivity['endTime'] : widget.nextActivity != null ? widget.nextActivity['difference'].toString() + " minutes longer until " + widget.nextActivity['startTime'] : ""}'),
                 ]),
                 TableRow(children: [
                   Text(
