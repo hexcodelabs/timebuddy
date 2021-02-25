@@ -16,10 +16,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  static var now = new DateTime.now();
-  static var formatter = new DateFormat('yyyy-MM-dd');
-  String formattedDate = formatter.format(now);
-
   List<Task> _taskList;
 
   HashMap taskList;
@@ -43,6 +39,9 @@ class _DashboardState extends State<Dashboard> {
     activityList = new List<Map<String, dynamic>>();
     currentActivity = null;
     nextActivity = null;
+    var now = new DateTime.now();
+    var formatter = new DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
 
     List<Map<String, dynamic>> _results =
         await DBProvider.db.getSchedule(formattedDate);
@@ -208,7 +207,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void searchForCurrentActivity(activity) {
-    // var now = new DateTime.now();
+    var now = new DateTime.now();
 
     List<String> activityStartHourHalf = activity['start'].split(" ");
     List<String> activityEndHourHalf = activity['end'].split(" ");
@@ -302,6 +301,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    var now = new DateTime.now();
 
     String currentTime = DateFormat('h:mm a').format(now);
     String currentDay = DateFormat('EEEE').format(DateTime.now());

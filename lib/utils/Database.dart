@@ -45,18 +45,30 @@ class DBProvider {
     }, version: 1);
   }
 
-  addNewSchedule(List<Task> taskList, String date) async {
+  Future addNewSchedule(List<Task> taskList, String date) async {
     final db = await database;
 
-    var res;
+    debugPrint("2.1");
+    var count = 0;
+    await Future.forEach(taskList, (task) async {
+      count = count + 1;
+      await addShedule(task, db);
+    });
+    debugPrint(count.toString());
+    if (count == 48) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-    taskList.forEach((task) async {
-      var search = await db.rawQuery('''
+  Future addShedule(Task task, Database db) async {
+    var search = await db.rawQuery('''
         SELECT * FROM daily_tasks WHERE hour=? AND half=? AND date=?
       ''', [task.hour, task.half, task.date]);
-
-      if (search.isNotEmpty) {
-        res = await db.rawUpdate('''
+    debugPrint("add shedule b : " + search.toString());
+    if (search.isNotEmpty) {
+      var res = await db.rawUpdate('''
       UPDATE daily_tasks SET
         hour=?, 
         half=?, 
@@ -66,32 +78,30 @@ class DBProvider {
         next=?
       WHERE id=?
     ''', [
-          task.hour,
-          task.half,
-          task.task,
-          task.color,
-          task.previous,
-          task.next,
-          task.id
-        ]);
-      } else {
-        res = await db.rawInsert('''
+        task.hour,
+        task.half,
+        task.task,
+        task.color,
+        task.previous,
+        task.next,
+        task.id
+      ]);
+      debugPrint("add shedule : " + res.toString());
+    } else {
+      var res = await db.rawInsert('''
       INSERT INTO daily_tasks(
         date, hour, half, task, color,previous, next
       ) VALUES (?, ?, ?, ?, ?,?,?)
     ''', [
-          task.date,
-          task.hour,
-          task.half,
-          task.task,
-          task.color,
-          task.previous,
-          task.next
-        ]);
-      }
-    });
-
-    return res;
+        task.date,
+        task.hour,
+        task.half,
+        task.task,
+        task.color,
+        task.previous,
+        task.next
+      ]);
+    }
   }
 
   Future<List<Map<String, dynamic>>> getSchedule(date) async {
@@ -112,12 +122,24 @@ class DBProvider {
     List<Priority> prioList = List<Priority>();
     int count = 0;
     priorityList.forEach((element) {
-      debugPrint(count.toString());
       prioList.add(Priority(index: count, priority: element));
       count++;
     });
 
     var res;
+    if (prioList.length == 2) {
+      var search = await db.rawQuery('''
+        SELECT * FROM priorityList WHERE indexx=? AND date=?
+      ''', [2, date]);
+
+      if (search.isNotEmpty) {
+        res = await db.rawUpdate('''
+      UPDATE priorityList SET
+        priority=? 
+      WHERE indexx=? AND date=?
+    ''', ["", 2, date]);
+      }
+    }
     prioList.forEach((priority) async {
       var search = await db.rawQuery('''
         SELECT * FROM priorityList WHERE indexx=? AND date=?

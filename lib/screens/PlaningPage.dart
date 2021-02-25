@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:timebuddy/screens/Dashboard.dart';
+import 'package:timebuddy/screens/completePlanPage.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:timebuddy/screens/completePlanPage.dart';
 import 'package:o_color_picker/o_color_picker.dart';
 import 'dart:collection';
 import 'package:timebuddy/modals/task.dart';
@@ -10,6 +10,8 @@ import 'package:timebuddy/utils/Database.dart';
 import 'package:intl/intl.dart';
 
 import 'package:timebuddy/localization/language_constants.dart';
+import 'package:timebuddy/main.dart';
+import '../controller/Controller.dart';
 
 class PlaningPage extends StatefulWidget {
   final bool readOnly;
@@ -20,10 +22,6 @@ class PlaningPage extends StatefulWidget {
 }
 
 class _PlaningPageState extends State<PlaningPage> {
-  static var now = new DateTime.now();
-  static var formatter = new DateFormat('yyyy-MM-dd');
-  String formattedDate = formatter.format(now);
-
   Color selectedColor = Colors.transparent;
   HashMap colorMap = new HashMap<String, Color>();
 
@@ -39,6 +37,7 @@ class _PlaningPageState extends State<PlaningPage> {
 
   getSchedule() async {
     _taskList = List<Task>();
+    String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
     List<Map<String, dynamic>> _results =
         await DBProvider.db.getSchedule(formattedDate);
@@ -204,7 +203,9 @@ class _PlaningPageState extends State<PlaningPage> {
                           ),
                         ),
                         PageNavigator(
-                            _taskList, formattedDate, widget.readOnly),
+                            _taskList,
+                            DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                            widget.readOnly),
                       ],
                     ),
                     decoration: BoxDecoration(
@@ -294,7 +295,7 @@ class _PlaningPageState extends State<PlaningPage> {
       Task task = Task(
           hour: s,
           half: c,
-          date: formattedDate,
+          date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
           task: "",
           previous: "false",
           next: "false");
@@ -328,7 +329,8 @@ class _PlaningPageState extends State<PlaningPage> {
                           Task task = Task(
                               hour: s,
                               half: c,
-                              date: formattedDate,
+                              date: DateFormat('yyyy-MM-dd')
+                                  .format(DateTime.now()),
                               color: hexCode);
                           setState(() {
                             _taskList.add(task);
@@ -478,8 +480,11 @@ class _PlaningPageState extends State<PlaningPage> {
                       .toString());
               if (index == -1) {
                 debugPrint("asd");
-                Task task =
-                    Task(hour: s, half: c, date: formattedDate, task: value);
+                Task task = Task(
+                    hour: s,
+                    half: c,
+                    date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                    task: value);
                 _taskList.add(task);
               } else {
                 _taskList[index].task = value;
@@ -609,7 +614,13 @@ class PageNavigator extends StatelessWidget {
                 PageTransition(
                     type: PageTransitionType.bottomToTop, child: Dashboard()));
           } else {
+            debugPrint("1");
+            await flutterLocalNotificationsPlugin.cancelAll();
+            debugPrint("2");
             await DBProvider.db.addNewSchedule(_taskList, formattedDate);
+            debugPrint("3");
+            await Controller().getSchedule();
+            debugPrint("4");
             Navigator.push(
                 context,
                 PageTransition(

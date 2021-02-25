@@ -6,6 +6,7 @@ import 'package:timebuddy/screens/Dashboard.dart';
 
 import 'package:timebuddy/localization/language_constants.dart';
 
+// ignore: must_be_immutable
 class CompletePlanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
