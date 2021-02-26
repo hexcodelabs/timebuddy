@@ -45,16 +45,31 @@ class DBProvider {
     }, version: 1);
   }
 
+  Future test() async {
+    final db = await database;
+    // db.execute(
+    //     "ALTER TABLE priorityList ADD COLUMN completed NUMERIC CHECK (completed in (0,1));");
+    await db.execute("Drop table priorityList");
+    await db.execute('''
+          CREATE TABLE IF NOT EXISTS priorityList(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            date TEXT,
+            indexx int,
+            priority TEXT,
+            completed NUMERIC CHECK (completed in (0,1))
+          )
+        ''');
+  }
+
   Future addNewSchedule(List<Task> taskList, String date) async {
     final db = await database;
 
-    debugPrint("2.1");
     var count = 0;
     await Future.forEach(taskList, (task) async {
       count = count + 1;
       await addShedule(task, db);
     });
-    debugPrint(count.toString());
+
     if (count == 48) {
       return true;
     } else {
@@ -66,7 +81,7 @@ class DBProvider {
     var search = await db.rawQuery('''
         SELECT * FROM daily_tasks WHERE hour=? AND half=? AND date=?
       ''', [task.hour, task.half, task.date]);
-    debugPrint("add shedule b : " + search.toString());
+
     if (search.isNotEmpty) {
       var res = await db.rawUpdate('''
       UPDATE daily_tasks SET
@@ -86,7 +101,6 @@ class DBProvider {
         task.next,
         task.id
       ]);
-      debugPrint("add shedule : " + res.toString());
     } else {
       var res = await db.rawInsert('''
       INSERT INTO daily_tasks(
@@ -117,7 +131,7 @@ class DBProvider {
     }
   }
 
-  addPriority(List<String> priorityList, String date) async {
+  Future addPriority(List<String> priorityList, String date) async {
     final db = await database;
     List<Priority> prioList = List<Priority>();
     int count = 0;
@@ -135,11 +149,12 @@ class DBProvider {
       if (search.isNotEmpty) {
         res = await db.rawUpdate('''
       UPDATE priorityList SET
-        priority=? 
+        priority=?,completed=? 
       WHERE indexx=? AND date=?
-    ''', ["", 2, date]);
+    ''', ["", 0, 2, date]);
       }
     }
+
     prioList.forEach((priority) async {
       var search = await db.rawQuery('''
         SELECT * FROM priorityList WHERE indexx=? AND date=?
@@ -148,15 +163,15 @@ class DBProvider {
       if (search.isNotEmpty) {
         res = await db.rawUpdate('''
       UPDATE priorityList SET
-        priority=? 
+        priority=?,completed=?
       WHERE indexx=? AND date=?
-    ''', [priority.priority, priority.index, date]);
+    ''', [priority.priority, 0, priority.index, date]);
       } else {
         res = await db.rawInsert('''
       INSERT INTO priorityList(
-        date, indexx, priority
-      ) VALUES (?, ?, ?)
-    ''', [date, priority.index, priority.priority]);
+        date, indexx, priority, completed
+      ) VALUES (?, ?, ?, ?)
+    ''', [date, priority.index, priority.priority, 0]);
       }
     });
 
@@ -167,11 +182,22 @@ class DBProvider {
     final db = await database;
     var res =
         await db.rawQuery("SELECT * FROM priorityList WHERE date=?", [date]);
-    debugPrint(res.toString());
+    debugPrint("Priority list :" + res.toString());
     if (res.isEmpty) {
       return null;
     } else {
       return res;
     }
+  }
+
+  Future changePriorityStatus(String id, int i) async {
+    final db = await database;
+    var res = await db.rawUpdate('''
+      UPDATE priorityList SET
+        completed=? 
+      WHERE id=?
+    ''', [i, int.parse(id)]);
+
+    return res;
   }
 }

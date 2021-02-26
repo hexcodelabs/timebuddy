@@ -3,12 +3,14 @@ class Priority {
   String date;
   int index;
   String priority;
+  int completed;
 
   Priority({
     this.id,
     this.date,
     this.index,
     this.priority,
+    this.completed,
   });
 
   Map<String, dynamic> toMap() {
@@ -16,6 +18,7 @@ class Priority {
       'date': date,
       'index': index,
       'priority': priority,
+      'completed': completed,
     };
 
     if (id != null) {
@@ -30,6 +33,7 @@ class Priority {
       date: map['date'],
       index: map['indexx'],
       priority: map['priority'],
+      completed: map['completed'],
     );
   }
 }

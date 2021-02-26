@@ -9,6 +9,7 @@ import 'package:timebuddy/modals/task.dart';
 import 'dart:collection';
 
 import 'package:timebuddy/localization/language_constants.dart';
+import 'package:timebuddy/modals/priority.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -16,6 +17,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  List<List<String>> inputFieldList = List<List<String>>();
   List<Task> _taskList;
 
   HashMap taskList;
@@ -30,8 +32,65 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     _taskList = List<Task>();
     super.initState();
-
+    setState(() {
+      inputFieldList = [
+        ["", "", ""],
+      ];
+    });
     getSchedule();
+    getPriority();
+    debugPrint("DFbdf" + inputFieldList.length.toString());
+  }
+
+  getPriority() async {
+    debugPrint("DFbdf" + inputFieldList.length.toString());
+    var now = new DateTime.now();
+    var formatter = new DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+    List<Priority> inputPriorityList = List<Priority>();
+
+    List<Map<String, dynamic>> _results =
+        await DBProvider.db.getPriorities(formattedDate);
+    if (_results != null) {
+      inputPriorityList =
+          _results.map((item) => Priority.fromMap(item)).toList();
+
+      inputFieldList = List<List<String>>();
+
+      inputPriorityList.forEach((priority) {
+        inputFieldList.add(["", "", ""]);
+      });
+      inputPriorityList.forEach((priority) {
+        if (priority.priority == "") {
+        } else {
+          setState(() {
+            inputFieldList[priority.index][0] = priority.priority;
+            inputFieldList[priority.index][1] = priority.completed.toString();
+            inputFieldList[priority.index][2] = priority.id.toString();
+          });
+        }
+      });
+
+      if (inputFieldList.length == 3 && inputFieldList[2][0] == "") {
+        inputFieldList.removeAt(2);
+      }
+
+      if (inputFieldList.length >= 2 && inputFieldList[1][0] == "") {
+        inputFieldList.removeAt(1);
+      }
+      if (inputFieldList.length > 1 && inputFieldList[0][0] == "") {
+        inputFieldList.removeAt(0);
+      }
+    } else {
+      inputPriorityList = List<Priority>();
+      setState(() {
+        inputFieldList = [
+          ["", "", ""]
+        ];
+      });
+    }
+    debugPrint("rbsdf" + inputFieldList.toString());
+    return inputPriorityList;
   }
 
   getSchedule() async {
@@ -222,13 +281,16 @@ class _DashboardState extends State<Dashboard> {
     open = new DateTime(now.year, now.month, now.day, open.hour, open.minute);
     DateTime close = dateFormat.parse(
         "${activityEndHourHalf[0]}:${activityEndHourHalf[1] == "1" ? "00" : "30"}");
+    if (activityEndHourHalf[0] == "23" && activityEndHourHalf[1] == "2") {
+      close = dateFormat.parse("${23}:${59}");
+    }
     close =
         new DateTime(now.year, now.month, now.day, close.hour, close.minute);
 
     debugPrint(open.toString());
     debugPrint(close.toString());
     if (currentTime.isAfter(open) && currentTime.isBefore(close)) {
-      debugPrint("current");
+      debugPrint("current" + activityEndHourHalf.toString());
       String currentTimeString = DateFormat('HH:mm').format(now);
       List<String> currentHourHalf = currentTimeString.split(":");
       int currentHour = int.parse(currentHourHalf[0]);
@@ -236,6 +298,9 @@ class _DashboardState extends State<Dashboard> {
       int endHalf = activityEndHourHalf[1] == "1" ? 0 : 30;
       int difference =
           (endHour * 60 + endHalf) - (currentHour * 60 + currentminute);
+      if (activityEndHourHalf[0] == "23" && activityEndHourHalf[1] == "2") {
+        difference = difference + 29;
+      }
       String closeTime = DateFormat('h:mm a').format(close);
       debugPrint(closeTime);
       activity['difference'] = difference;
@@ -375,7 +440,7 @@ class _DashboardState extends State<Dashboard> {
                             ActivityTable(currentActivity, nextActivity),
                             Container(
                               margin:
-                                  const EdgeInsets.only(top: 30, bottom: 40),
+                                  const EdgeInsets.only(top: 15, bottom: 25),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -429,7 +494,57 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                             ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: 5, bottom: 5),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Color(0xff57C3ff),
+                                          width: 2.0,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Icon(
+                                      Icons.star_rate_rounded,
+                                      size: 30,
+                                      color: Colors.yellowAccent[700],
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  "Priorities today",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
                             Container(
+                              // constraints: BoxConstraints(
+                              //   minHeight: 100,
+                              // ),
+                              child: inputFieldList.length == 1 &&
+                                      inputFieldList[0][0] == ""
+                                  ? null
+                                  : ListView.builder(
+                                      padding: const EdgeInsets.all(0),
+                                      shrinkWrap: true,
+                                      itemCount: inputFieldList.length,
+                                      itemBuilder:
+                                          (BuildContext ctxt, int index) {
+                                        return inputField(context,
+                                            inputFieldList[index], index);
+                                      }),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                top: 30,
+                              ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -442,7 +557,9 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                             Container(
-                              margin: const EdgeInsets.only(bottom: 40),
+                              margin: const EdgeInsets.only(
+                                bottom: 10,
+                              ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -529,6 +646,94 @@ class _DashboardState extends State<Dashboard> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  inputField(context, inputField, index) {
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 5, bottom: 5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Stack(
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    if (inputFieldList[index][1] == "0") {
+                      setState(() {
+                        inputFieldList[index][1] = "1";
+                      });
+                      await DBProvider.db
+                          .changePriorityStatus(inputFieldList[index][2], 1);
+                    } else {
+                      setState(() {
+                        inputFieldList[index][1] = "0";
+                      });
+                      await DBProvider.db
+                          .changePriorityStatus(inputFieldList[index][2], 0);
+                    }
+                  },
+                  child: Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xff57C3ff)),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 45, right: 45),
+                      child: Text(
+                        inputField[0],
+                        style: TextStyle(
+                          color: Color(0xff57C3ff),
+                          fontSize: 17,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    if (inputFieldList[index][1] == "0") {
+                      setState(() {
+                        inputFieldList[index][1] = "1";
+                      });
+                      await DBProvider.db
+                          .changePriorityStatus(inputFieldList[index][2], 1);
+                    } else {
+                      setState(() {
+                        inputFieldList[index][1] = "0";
+                      });
+                      await DBProvider.db
+                          .changePriorityStatus(inputFieldList[index][2], 0);
+                    }
+                  },
+                  child: Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Color(0xff57C3ff)),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: inputField[1] == "1"
+                        ? Icon(
+                            Icons.check_rounded,
+                            size: 30,
+                            color: Colors.green[800],
+                          )
+                        : Icon(
+                            Icons.clear_rounded,
+                            size: 30,
+                            color: Colors.red[800],
+                          ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

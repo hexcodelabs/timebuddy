@@ -20,6 +20,7 @@ class _StartPlanPageState extends State<StartPlanPage> {
 
   @override
   void initState() {
+    //DBProvider.db.test();
     super.initState();
     setState(() {
       inputFieldList = [""];
