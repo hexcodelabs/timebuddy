@@ -8,11 +8,14 @@ import 'package:timebuddy/localization/demo_localization.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'localization/language_constants.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
+SharedPreferences prefs;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  prefs = await SharedPreferences.getInstance();
   var initializationSettingsAndroid = AndroidInitializationSettings('appicon');
   var initializationSettingsIOS = IOSInitializationSettings(
       requestAlertPermission: true,
@@ -73,6 +76,7 @@ class _MyAppState extends State<MyApp> {
         ),
       );
     } else {
+      debugPrint("sdv");
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Timebuddy',

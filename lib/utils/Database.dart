@@ -39,27 +39,28 @@ class DBProvider {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             date TEXT,
             indexx int,
-            priority TEXT
+            priority TEXT,
+            completed NUMERIC CHECK (completed in (0,1))
           )
         ''');
     }, version: 1);
   }
 
-  Future test() async {
-    final db = await database;
-    // db.execute(
-    //     "ALTER TABLE priorityList ADD COLUMN completed NUMERIC CHECK (completed in (0,1));");
-    await db.execute("Drop table priorityList");
-    await db.execute('''
-          CREATE TABLE IF NOT EXISTS priorityList(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            date TEXT,
-            indexx int,
-            priority TEXT,
-            completed NUMERIC CHECK (completed in (0,1))
-          )
-        ''');
-  }
+  // Future test() async {
+  //   final db = await database;
+  //   // db.execute(
+  //   //     "ALTER TABLE priorityList ADD COLUMN completed NUMERIC CHECK (completed in (0,1));");
+  //   await db.execute("Drop table priorityList");
+  //   await db.execute('''
+  //         CREATE TABLE IF NOT EXISTS priorityList(
+  //           id INTEGER PRIMARY KEY AUTOINCREMENT,
+  //           date TEXT,
+  //           indexx int,
+  //           priority TEXT,
+  //           completed NUMERIC CHECK (completed in (0,1))
+  //         )
+  //       ''');
+  // }
 
   Future addNewSchedule(List<Task> taskList, String date) async {
     final db = await database;

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "440075905193",
+    "project_id": "timebuddy-f2cfe",
+    "storage_bucket": "timebuddy-f2cfe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440075905193:android:cb83ddad51064a217ba1b8",
+        "android_client_info": {
+          "package_name": "com.example.timebuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440075905193-j3lnk8uh21kmouailvcfgv3b8u8t8e0q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCxwjUYkRuNgVLoUC-2wrW_1_YnFdY0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440075905193-j3lnk8uh21kmouailvcfgv3b8u8t8e0q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
