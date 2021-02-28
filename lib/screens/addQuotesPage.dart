@@ -15,11 +15,10 @@ class AddQuotes extends StatefulWidget {
   _AddQuotesPageState createState() => _AddQuotesPageState();
 }
 
-class _AddQuotesPageState extends State<AddQuotes>
-    with AfterLayoutMixin<AddQuotes> {
+class _AddQuotesPageState extends State<AddQuotes> {
   TextEditingController myController;
   //Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  bool pageLoaded = false;
+  ////bool pageLoaded = false;
 
   @override
   void dispose() {
@@ -33,48 +32,46 @@ class _AddQuotesPageState extends State<AddQuotes>
   void initState() {
     myController = TextEditingController();
     myController.addListener(() {
-      setState(() {
-        pageLoaded = true;
-      });
+      setState(() {});
     });
 
     super.initState();
   }
 
-  // ignore: missing_return
-  Future<String> getName() async {
-    //SharedPreferences prefs = await SharedPreferences.getInstance();
-    debugPrint("sV" + prefs.getString('name').toString());
-    debugPrint("sVsV" + prefs.getBool('seenAddQuotePage').toString());
+  // // // ignore: missing_return
+  // // Future<String> getName() async {
+  // //   //SharedPreferences prefs = await SharedPreferences.getInstance();
+  // //   debugPrint("sV" + prefs.getString('name').toString());
+  // //   debugPrint("sVsV" + prefs.getBool('seenAddQuotePage').toString());
 
-    return (prefs.getString('name') ?? "");
-  }
+  // //   return (prefs.getString('name') ?? "");
+  // // }
 
-  Future checkFirstSeen() async {
-    //SharedPreferences prefs = await SharedPreferences.getInstance();
-    var name = prefs.getString('name').toString();
-    bool _seenAddQuotePage = (prefs.getBool('seenAddQuotePage') ?? false);
+  // // Future checkFirstSeen() async {
+  // //   //SharedPreferences prefs = await SharedPreferences.getInstance();
+  // //   var name = prefs.getString('name').toString();
+  // //   bool _seenAddQuotePage = (prefs.getBool('seenAddQuotePage') ?? false);
 
-    if (_seenAddQuotePage && name != null) {
-      debugPrint("next");
-      await prefs.setBool('seenAddQuotePage', true);
-      Navigator.of(context).pushReplacement(new MaterialPageRoute(
-          builder: (context) => new SelectPlans(name: name)));
-    } else if (!this.pageLoaded) {
-      debugPrint("befor " + this.pageLoaded.toString());
-      setState(() {
-        pageLoaded = true;
-      });
-      debugPrint("after" + this.pageLoaded.toString());
-    } else {
-      prefs.setString('name again', name);
-      Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (context) => new AddQuotes()));
-    }
-  }
+  // //   if (_seenAddQuotePage && name != null) {
+  // //     debugPrint("next");
+  // //     await prefs.setBool('seenAddQuotePage', true);
+  // //     Navigator.of(context).pushReplacement(new MaterialPageRoute(
+  // //         builder: (context) => new SelectPlans(name: name)));
+  // //   } else if (!this.pageLoaded) {
+  // //     debugPrint("befor " + this.pageLoaded.toString());
+  // //     setState(() {
+  // //       pageLoaded = true;
+  // //     });
+  // //     debugPrint("after" + this.pageLoaded.toString());
+  // //   } else {
+  // //     prefs.setString('name again', name);
+  // //     Navigator.of(context).pushReplacement(
+  // //         new MaterialPageRoute(builder: (context) => new AddQuotes()));
+  // //   }
+  // // }
 
-  @override
-  void afterFirstLayout(BuildContext context) => checkFirstSeen();
+  // @override
+  // void afterFirstLayout(BuildContext context) => checkFirstSeen();
 
   @override
   Widget build(BuildContext context) {
@@ -154,13 +151,13 @@ class PageNavigator extends StatelessWidget {
           //SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setBool('seenAddQuotePage', true);
           await prefs.setString('name', name);
-          debugPrint("sV" + prefs.getString('name').toString());
-          debugPrint("sVsV" + prefs.getBool('seenAddQuotePage').toString());
+          debugPrint("set addQuotePage see : " +
+              prefs.getBool("'seenAddQuotePage").toString());
+          debugPrint("set name : " + prefs.getString('name'));
           Navigator.push(
               context,
               PageTransition(
-                  type: PageTransitionType.bottomToTop,
-                  child: SelectPlans(name: name)));
+                  type: PageTransitionType.bottomToTop, child: SelectPlans()));
         },
         child: Column(
           children: [

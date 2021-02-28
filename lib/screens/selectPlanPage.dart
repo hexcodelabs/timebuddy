@@ -5,11 +5,10 @@ import 'package:page_transition/page_transition.dart';
 import 'package:intl/intl.dart';
 
 import 'package:timebuddy/localization/language_constants.dart';
+import 'package:timebuddy/main.dart';
 
 class SelectPlans extends StatefulWidget {
-  final String name;
-
-  SelectPlans({Key key, @required this.name}) : super(key: key);
+  SelectPlans({Key key}) : super(key: key);
 
   _SelectPlansState createState() => _SelectPlansState();
 }
@@ -34,8 +33,9 @@ class _SelectPlansState extends State<SelectPlans> {
       return 'Evening';
     }
 
+    String name =
+        prefs.getString('name') == null ? "" : prefs.getString('name');
     // need to return from previous interface
-    String name = widget.name;
 
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),

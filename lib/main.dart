@@ -3,6 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:flutter/services.dart';
 import 'package:timebuddy/screens/landingPage.dart';
+import 'package:timebuddy/screens/quotePage.dart';
 
 import 'package:timebuddy/localization/demo_localization.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -50,6 +51,9 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Locale _locale;
+  int language;
+  bool seenLandingPage =
+      prefs.getBool('seenLandingPage') == null ? false : true;
   setLocale(Locale locale) {
     setState(() {
       _locale = locale;
@@ -76,7 +80,8 @@ class _MyAppState extends State<MyApp> {
         ),
       );
     } else {
-      debugPrint("sdv");
+      debugPrint("main/Meterial APP widget");
+      debugPrint("main/seenLandingPage : " + this.seenLandingPage.toString());
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Timebuddy',
@@ -101,7 +106,7 @@ class _MyAppState extends State<MyApp> {
           }
           return supportedLocales.first;
         },
-        home: LandingPage(),
+        home: seenLandingPage ? QuotePage() : LandingPage(),
       );
     }
   }

@@ -7,6 +7,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:timebuddy/localization/language_constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:timebuddy/main.dart';
+
+import 'package:timebuddy/screens/selectPlanPage.dart';
 
 class QuotePage extends StatefulWidget {
   @override
@@ -28,11 +32,15 @@ class _AddQuotesPageState extends State<QuotePage> {
           () {
             if (_start <= 0) {
               timer.cancel();
+              var seen = prefs.getBool('seenAddQuotePage');
+              bool seenAddQuotePage = (seen == null ? false : true);
+              debugPrint("quotePage seen : " +
+                  prefs.getBool('seenAddQuotePage').toString());
               Navigator.push(
                   context,
                   PageTransition(
                       type: PageTransitionType.bottomToTop,
-                      child: AddQuotes()));
+                      child: seenAddQuotePage ? SelectPlans() : AddQuotes()));
             } else {
               _start = _start - 1;
             }
@@ -237,11 +245,16 @@ class PageNavigator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: GestureDetector(
-        onTap: () {
+        onTap: () async {
+          var seen = prefs.getBool('seenAddQuotePage');
+          bool seenAddQuotePage = (seen == null ? false : true);
+          debugPrint("quotePage setted seen : " +
+              prefs.getBool('seenAddQuotePage').toString());
           Navigator.push(
               context,
               PageTransition(
-                  type: PageTransitionType.bottomToTop, child: AddQuotes()));
+                  type: PageTransitionType.bottomToTop,
+                  child: seenAddQuotePage ? SelectPlans() : AddQuotes()));
         },
         child: Column(
           children: [

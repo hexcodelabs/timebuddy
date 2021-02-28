@@ -8,22 +8,20 @@ import 'package:timebuddy/screens/quotePage.dart';
 import 'package:timebuddy/modals/language.dart';
 import 'package:timebuddy/localization/language_constants.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:after_layout/after_layout.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:after_layout/after_layout.dart';
 
 class LandingPage extends StatefulWidget {
   @override
   _LandingPage createState() => _LandingPage();
 }
 
-class _LandingPage extends State<LandingPage>
-    with AfterLayoutMixin<LandingPage> {
+class _LandingPage extends State<LandingPage> {
   //Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   int language;
 
   bool pageLoaded = false;
-
   //final GlobalKey<FormState> _key = GlobalKey<FormState>();
   void _changeLanguage(Language language) async {
     Locale _locale = await setLocale(language.languageCode);
@@ -33,43 +31,48 @@ class _LandingPage extends State<LandingPage>
   @override
   void initState() {
     super.initState();
-  }
-
-  // ignore: missing_return
-  Future<int> getLanguage() async {
-    //prefs = await SharedPreferences.getInstance();
-    debugPrint("sV" + prefs.getInt('language').toString());
     int lang = prefs.getInt('language');
     if (lang == null) {
-      return 2;
-    } else {
-      return lang;
+      lang = 2;
     }
-  }
-
-  Future checkFirstSeen() async {
-    var languageNow = (await getLanguage());
     this.setState(() {
-      language = languageNow;
+      language = lang;
     });
-    //SharedPreferences prefs = await SharedPreferences.getInstance();
-    var seen = prefs.getBool('seenLandingPage');
-    var seenLandingPage = seen == null ? false : seen;
-    debugPrint("seen " + seen.toString());
-    debugPrint("seen land " + seenLandingPage.toString());
-    if (seenLandingPage) {
-      Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (context) => new QuotePage()));
-    } else if (!this.pageLoaded) {
-    } else {
-      await prefs.setBool('seenLandingPage', true);
-      Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (context) => new LandingPage()));
-    }
+    debugPrint("init lang : " + this.language.toString());
   }
 
-  @override
-  void afterFirstLayout(BuildContext context) => checkFirstSeen();
+  // // ignore: missing_return
+  // Future<int> getLanguage() async {
+  //   //prefs = await SharedPreferences.getInstance();
+  //   debugPrint("sV" + prefs.getInt('language').toString());
+  //   int lang = prefs.getInt('language');
+  //   if (lang == null) {
+  //     return 2;
+  //   } else {
+  //     return lang;
+  //   }
+  // }
+
+  // Future checkFirstSeen() async {
+
+  //   //SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   var seen = prefs.getBool('seenLandingPage');
+  //   var seenLandingPage = seen == null ? false : seen;
+  //   debugPrint("seen " + seen.toString());
+  //   debugPrint("seen land " + seenLandingPage.toString());
+  //   if (seenLandingPage) {
+  //     Navigator.of(context).pushReplacement(
+  //         new MaterialPageRoute(builder: (context) => new QuotePage()));
+  //   } else if (!this.pageLoaded) {
+  //   } else {
+  //     await prefs.setBool('seenLandingPage', true);
+  //     Navigator.of(context).pushReplacement(
+  //         new MaterialPageRoute(builder: (context) => new LandingPage()));
+  //   }
+  // }
+
+  // @override
+  // void afterFirstLayout(BuildContext context) => checkFirstSeen();
 
   //int language = 2; //1-Dansk  2-English
   @override
@@ -140,7 +143,8 @@ class _LandingPage extends State<LandingPage>
                   await prefs.setInt('language', 1);
                   Language languageNew = Language(2, "dk", "dansk", "da");
                   _changeLanguage(languageNew);
-                  debugPrint(prefs.getInt('language').toString());
+                  debugPrint('language change from US to SN ' +
+                      prefs.getInt('language').toString());
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -194,7 +198,8 @@ class _LandingPage extends State<LandingPage>
                   await prefs.setInt('language', 2);
                   Language languageNew = Language(2, "us", "Englsh", "en");
                   _changeLanguage(languageNew);
-                  debugPrint(prefs.getInt('language').toString());
+                  debugPrint('language change from DN to US ' +
+                      prefs.getInt('language').toString());
                 },
                 child: Container(
                   decoration: BoxDecoration(
