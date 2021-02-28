@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timebuddy/theme/themes.dart';
@@ -10,11 +13,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'localization/language_constants.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'dart:math' as Math;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 SharedPreferences prefs;
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
   var initializationSettingsAndroid = AndroidInitializationSettings('appicon');
@@ -50,6 +55,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final Future<FirebaseApp> _fbApp = Firebase.initializeApp();
+  final fb = FirebaseDatabase.instance;
+
   Locale _locale;
   int language;
   bool seenLandingPage =
@@ -70,8 +78,34 @@ class _MyAppState extends State<MyApp> {
     super.didChangeDependencies();
   }
 
+  getAQuote() async {
+    debugPrint("Quote");
+    final response =
+        await FirebaseDatabase.instance.reference().child("Quotes").once();
+    var quotes = [];
+    response.value.forEach((v) => quotes.add(v));
+    int numberOfQuotes = quotes.length;
+
+    Random random = new Math.Random();
+    int randomNumber = random.nextInt(numberOfQuotes);
+    debugPrint(randomNumber.toString());
+
+    String quote = quotes[randomNumber].toString();
+    debugPrint(quote);
+    prefs.setString('quote', quote);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    getAQuote();
+  }
+
   @override
   Widget build(BuildContext context) {
+    getAQuote();
     if (this._locale == null) {
       return Container(
         child: Center(
@@ -106,7 +140,21 @@ class _MyAppState extends State<MyApp> {
           }
           return supportedLocales.first;
         },
-        home: seenLandingPage ? QuotePage() : LandingPage(),
+        home: FutureBuilder(
+          future: _fbApp,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              print('You have an errro!  + ${snapshot.error.toString()}');
+              return Text("Something went wrong");
+            } else if (snapshot.hasData) {
+              return seenLandingPage ? QuotePage() : LandingPage();
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
       );
     }
   }

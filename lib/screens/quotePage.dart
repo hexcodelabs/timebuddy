@@ -62,12 +62,11 @@ class _AddQuotesPageState extends State<QuotePage> {
     super.initState();
   }
 
+  String quote = '\"${prefs.getString('quote')}\"';
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-
-    String quote = "\"The two most powerful warriors are patience and time\"";
 
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),

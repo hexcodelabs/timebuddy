@@ -10,6 +10,7 @@ import 'dart:collection';
 
 import 'package:timebuddy/localization/language_constants.dart';
 import 'package:timebuddy/modals/priority.dart';
+import 'package:timebuddy/main.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  String quote = '\"${prefs.getString('quote')}\"';
   List<List<String>> inputFieldList = List<List<String>>();
   List<Task> _taskList;
 
@@ -370,8 +372,6 @@ class _DashboardState extends State<Dashboard> {
 
     String currentTime = DateFormat('h:mm a').format(now);
     String currentDay = DateFormat('EEEE').format(DateTime.now());
-
-    String quote = "\"Time is what we want most, but what we use worst\"";
 
     double topHeight = height * 0.18;
 
