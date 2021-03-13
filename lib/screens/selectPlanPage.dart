@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:timebuddy/screens/startPlanPage.dart';
+import 'package:timebuddy/screens/templatePage.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:intl/intl.dart';
@@ -109,7 +110,7 @@ class PageNavigator extends StatelessWidget {
                   context,
                   PageTransition(
                       type: PageTransitionType.bottomToTop,
-                      child: StartPlanPage()));
+                      child: TemplatePage()));
             },
             child: Text(
               getTranslated(context, 'daily_welcome_screen_text_3'),
