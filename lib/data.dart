@@ -1,15 +1,16 @@
-import 'package:timebuddy/constants/theme_data.dart';
-import 'package:timebuddy/modals/alarm_info.dart';
+import 'package:intl/intl.dart';
+import 'package:timebuddy/modals/template_info.dart';
 
-List<AlarmInfo> alarms = [
-  AlarmInfo(DateTime.now().add(Duration(hours: 1)),
-      description: 'office', gradientColors: GradientColors.sky),
-  AlarmInfo(DateTime.now().add(Duration(hours: 1)),
-      description: 'Sport', gradientColors: GradientColors.sky),
-  AlarmInfo(DateTime.now().add(Duration(hours: 1)),
-      description: 'TV', gradientColors: GradientColors.sky),
-  AlarmInfo(DateTime.now().add(Duration(hours: 1)),
-      description: 'Study', gradientColors: GradientColors.sky),
-  AlarmInfo(DateTime.now().add(Duration(hours: 1)),
-      description: 'Sleep', gradientColors: GradientColors.sky),
+var now = new DateTime.now();
+
+List<TemplateInfo> templates = [
+  TemplateInfo("Template 1", now, description: "first template", id: 1),
+  TemplateInfo("My new template", now,
+      description: "this is my new template", id: 2),
+  TemplateInfo("Friday TODOS", now,
+      description: "this template i use for fridays", id: 3),
+  TemplateInfo("Template 2", now,
+      description: "this is my second template", id: 4),
+  TemplateInfo("Template 3", now,
+      description: "this is my new third template", id: 5),
 ];

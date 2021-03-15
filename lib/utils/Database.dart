@@ -20,9 +20,10 @@ class DBProvider {
   }
 
   initDB() async {
-    return await openDatabase(join(await getDatabasesPath(), 'timebuddy.db'),
-        onCreate: (db, version) async {
-      await db.execute('''
+    return await openDatabase(
+      join(await getDatabasesPath(), 'timebuddy.db'),
+      onCreate: (db, version) async {
+        await db.execute('''
           CREATE TABLE IF NOT EXISTS daily_tasks(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             date TEXT,
@@ -34,7 +35,7 @@ class DBProvider {
             next TEXT
           )
         ''');
-      await db.execute('''
+        await db.execute('''
           CREATE TABLE IF NOT EXISTS priorityList(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             date TEXT,
@@ -43,7 +44,9 @@ class DBProvider {
             completed NUMERIC CHECK (completed in (0,1))
           )
         ''');
-    }, version: 1);
+      },
+      version: 1,
+    );
   }
 
   // Future test() async {
@@ -81,7 +84,11 @@ class DBProvider {
   Future addShedule(Task task, Database db) async {
     var search = await db.rawQuery('''
         SELECT * FROM daily_tasks WHERE hour=? AND half=? AND date=?
-      ''', [task.hour, task.half, task.date]);
+      ''', [
+      task.hour,
+      task.half,
+      task.date,
+    ]);
 
     if (search.isNotEmpty) {
       var res = await db.rawUpdate('''
@@ -137,7 +144,10 @@ class DBProvider {
     List<Priority> prioList = List<Priority>();
     int count = 0;
     priorityList.forEach((element) {
-      prioList.add(Priority(index: count, priority: element));
+      prioList.add(Priority(
+        index: count,
+        priority: element,
+      ));
       count++;
     });
 

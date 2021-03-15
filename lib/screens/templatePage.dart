@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:timebuddy/constants/theme_data.dart';
 import 'package:timebuddy/data.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -28,7 +29,6 @@ class _TemplatePageState extends State<TemplatePage> {
                 child: Text(
                   'TODO Templates',
                   style: TextStyle(
-                    fontWeight: FontWeight.w700,
                     color: Colors.white,
                     fontSize: 24,
                   ),
@@ -37,20 +37,20 @@ class _TemplatePageState extends State<TemplatePage> {
             ),
             Expanded(
               child: ListView(
-                children: alarms.map<Widget>((alarm) {
+                children: templates.map<Widget>((template) {
                   return Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     margin: const EdgeInsets.only(bottom: 32),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: alarm.gradientColors,
+                        colors: GradientColors.sky,
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: alarm.gradientColors.last.withOpacity(0.4),
+                          color: GradientColors.sky.last.withOpacity(0.4),
                           blurRadius: 8,
                           spreadRadius: 2,
                           offset: Offset(4, 4),
@@ -75,41 +75,96 @@ class _TemplatePageState extends State<TemplatePage> {
                                   width: 8,
                                 ),
                                 Text(
-                                  alarm.description,
+                                  template.name,
                                   style: TextStyle(
-                                    color: Colors.white,
-                                  ),
+                                      color: Colors.white,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Icon(
+                                  Icons.drive_file_rename_outline,
+                                  size: 24,
+                                  color: Colors.white,
                                 ),
                               ],
                             ),
-                            Switch(
-                              value: true,
-                              onChanged: (bool value) {},
-                              activeColor: Colors.white,
-                            ),
                           ],
                         ),
-                        Text(
-                          'Mon-Fri',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'avenir',
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Text(
+                            'Last modified : ' +
+                                DateFormat('yyyy-MM-dd')
+                                    .format(template.lastModified),
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '07:00 AM',
+                              template.description,
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w700),
+                                color: Colors.white,
+                              ),
                             ),
-                            Icon(
-                              Icons.keyboard_arrow_down,
-                              size: 36,
-                              color: Colors.white,
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              "view",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                            Text(
+                              "  |  ",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                            Text(
+                              "use",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                            Text(
+                              "  |  ",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                            Text(
+                              "edit",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                            Text(
+                              "  |  ",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                            Text(
+                              "remove",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
                             ),
                           ],
                         ),
@@ -140,6 +195,7 @@ class _TemplatePageState extends State<TemplatePage> {
                           children: [
                             Image.asset(
                               'assets/images/add_alarm.png',
+                              color: Color(0xff00a4ea),
                               scale: 1.5,
                             ),
                             SizedBox(
@@ -147,9 +203,8 @@ class _TemplatePageState extends State<TemplatePage> {
                             ),
                             Text(
                               'Add New Template',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
                             ),
                           ],
                         ),
