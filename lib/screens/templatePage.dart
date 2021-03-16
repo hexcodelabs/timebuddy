@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:timebuddy/constants/theme_data.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:timebuddy/data.dart';
-import 'package:dotted_border/dotted_border.dart';
-import 'package:timebuddy/theme/themes.dart';
+import 'package:timebuddy/localization/language_constants.dart';
+import 'package:timebuddy/screens/PlaningPage.dart';
 
 class TemplatePage extends StatefulWidget {
   TemplatePage({Key key}) : super(key: key);
@@ -13,205 +13,134 @@ class TemplatePage extends StatefulWidget {
 }
 
 class _TemplatePageState extends State<TemplatePage> {
+  var selected;
+  @override
+  void initState() {
+    super.initState();
+    this.setState(() {
+      selected = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    debugPrint("selected : " + selected.toString());
     return Scaffold(
-      backgroundColor: Color(0xff00a4ea),
-      body: Container(
-        decoration: AppTheme.backgroundGradient,
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Padding(
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Container(
+          color: Color(0xff00a4ea).withOpacity(0.17),
+          height: height,
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Text(
-                  'TODO Templates',
+                  getTranslated(context, 'template_page_1'),
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
+                      color: Colors.black,
+                      fontSize: 30,
+                      fontWeight: FontWeight.w700),
+                ),
+              ),
+              Container(
+                height: height * 0.6,
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  shrinkWrap: true,
+                  children: templates.map<Widget>((template) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            this.setState(() {
+                              selected = template.id;
+                            });
+                          },
+                          child: Container(
+                            width: width * 0.5,
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(vertical: 6),
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                  color: Color(0xff57C3ff), width: 2),
+                              color: this.selected == template.id
+                                  ? Color(0xff57C3ff)
+                                  : null,
+                            ),
+                            child: Text(
+                              template.name,
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
+                ),
+              ),
+              Spacer(
+                flex: 1,
+              ),
+              PageNavigator(),
+              Spacer(
+                flex: 1,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PageNavigator extends StatelessWidget {
+  const PageNavigator({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.bottomToTop,
+                  child: PlaningPage(readOnly: false)));
+        },
+        child: Column(
+          children: [
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: SvgPicture.asset(
+                  "assets/images/Arrow.svg",
+                  color: Color(0xff57C3ff),
                 ),
               ),
             ),
-            Expanded(
-              child: ListView(
-                children: templates.map<Widget>((template) {
-                  return Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    margin: const EdgeInsets.only(bottom: 32),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: GradientColors.sky,
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: GradientColors.sky.last.withOpacity(0.4),
-                          blurRadius: 8,
-                          spreadRadius: 2,
-                          offset: Offset(4, 4),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.all(Radius.circular(24)),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.label,
-                                  color: Colors.white,
-                                  size: 24,
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  template.name,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                                SizedBox(
-                                  width: 15,
-                                ),
-                                Icon(
-                                  Icons.drive_file_rename_outline,
-                                  size: 24,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5),
-                          child: Text(
-                            'Last modified : ' +
-                                DateFormat('yyyy-MM-dd')
-                                    .format(template.lastModified),
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              template.description,
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              "view",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                            Text(
-                              "  |  ",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                            Text(
-                              "use",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                            Text(
-                              "  |  ",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                            Text(
-                              "edit",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                            Text(
-                              "  |  ",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                            Text(
-                              "remove",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                }).followedBy([
-                  DottedBorder(
-                    strokeWidth: 3,
-                    color: CustomColors.clockOutline,
-                    borderType: BorderType.RRect,
-                    radius: Radius.circular(24),
-                    dashPattern: [5, 4],
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: CustomColors.clockBG,
-                        borderRadius: BorderRadius.all(Radius.circular(24)),
-                      ),
-                      child: TextButton(
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all(
-                            EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                          ),
-                        ),
-                        onPressed: () {},
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              'assets/images/add_alarm.png',
-                              color: Color(0xff00a4ea),
-                              scale: 1.5,
-                            ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              'Add New Template',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 18),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                ]).toList(),
+            Container(
+              child: Text(
+                getTranslated(context, 'template_page_2'),
+                style: TextStyle(
+                  color: Color(0xff57C3ff),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Gilroy',
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
           ],

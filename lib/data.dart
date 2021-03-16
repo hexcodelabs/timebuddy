@@ -4,13 +4,17 @@ import 'package:timebuddy/modals/template_info.dart';
 var now = new DateTime.now();
 
 List<TemplateInfo> templates = [
-  TemplateInfo("Template 1", now, description: "first template", id: 1),
-  TemplateInfo("My new template", now,
-      description: "this is my new template", id: 2),
-  TemplateInfo("Friday TODOS", now,
-      description: "this template i use for fridays", id: 3),
-  TemplateInfo("Template 2", now,
-      description: "this is my second template", id: 4),
-  TemplateInfo("Template 3", now,
-      description: "this is my new third template", id: 5),
+  TemplateInfo("Yesterday", id: 1),
+  TemplateInfo("2021-03-14", id: 2),
+  TemplateInfo("2021-03-13", id: 3),
+  TemplateInfo("2021-03-12", id: 4),
+  TemplateInfo("2021-03-11", id: 5),
+  TemplateInfo("2021-03-10", id: 6),
+  TemplateInfo("2021-03-09", id: 7),
+  TemplateInfo("2021-03-08", id: 8),
+  TemplateInfo("2021-03-07", id: 9),
+  TemplateInfo("2021-03-06", id: 10),
+  TemplateInfo("2021-03-05", id: 11),
+  TemplateInfo("2021-03-04", id: 12),
+  TemplateInfo("2021-03-03", id: 13),
 ];
