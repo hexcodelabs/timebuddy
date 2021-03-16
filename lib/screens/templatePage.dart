@@ -31,7 +31,7 @@ class _TemplatePageState extends State<TemplatePage> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
-          color: Color(0xff00a4ea).withOpacity(0.17),
+          color: Color(0xE7F6FFFF),
           height: height,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
           child: Column(

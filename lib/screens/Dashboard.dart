@@ -11,6 +11,7 @@ import 'dart:collection';
 import 'package:timebuddy/localization/language_constants.dart';
 import 'package:timebuddy/modals/priority.dart';
 import 'package:timebuddy/main.dart';
+import 'package:timebuddy/screens/settingsPage.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -588,13 +589,13 @@ class _DashboardState extends State<Dashboard> {
                               flex: 1,
                             ),
                             GestureDetector(
-                              // onTap: () {
-                              //   Navigator.push(
-                              //       context,
-                              //       PageTransition(
-                              //           type: PageTransitionType.bottomToTop,
-                              //           child: Dashboard()));
-                              // },
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    PageTransition(
+                                        type: PageTransitionType.bottomToTop,
+                                        child: SettingsPage()));
+                              },
                               child: Padding(
                                 padding: const EdgeInsets.only(bottom: 20),
                                 child: Container(
@@ -611,7 +612,7 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Color(0xE7F6FFFF),
                         borderRadius: new BorderRadius.only(
                           topLeft: const Radius.circular(40.0),
                           topRight: const Radius.circular(40.0),

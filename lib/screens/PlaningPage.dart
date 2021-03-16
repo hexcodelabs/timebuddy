@@ -209,7 +209,7 @@ class _PlaningPageState extends State<PlaningPage> {
                       ],
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Color(0xE7F6FFFF),
                       borderRadius: new BorderRadius.only(
                         topLeft: const Radius.circular(40.0),
                         topRight: const Radius.circular(40.0),
@@ -620,7 +620,9 @@ class PageNavigator extends StatelessWidget {
             await DBProvider.db.addNewSchedule(_taskList, formattedDate);
             debugPrint("3");
             await Controller().getSchedule();
+            await prefs.setBool('notifications', true);
             debugPrint("4");
+            debugPrint(prefs.getBool('notifications').toString());
             Navigator.push(
                 context,
                 PageTransition(
