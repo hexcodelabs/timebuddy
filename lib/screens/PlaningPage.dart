@@ -614,15 +614,16 @@ class PageNavigator extends StatelessWidget {
                 PageTransition(
                     type: PageTransitionType.bottomToTop, child: Dashboard()));
           } else {
-            debugPrint("1");
-            await flutterLocalNotificationsPlugin.cancelAll();
-            debugPrint("2");
             await DBProvider.db.addNewSchedule(_taskList, formattedDate);
-            debugPrint("3");
-            await Controller().getSchedule();
-            await prefs.setBool('notifications', true);
-            debugPrint("4");
-            debugPrint(prefs.getBool('notifications').toString());
+
+            var notification = prefs.getBool('notifications');
+            if (notification) {
+              await flutterLocalNotificationsPlugin.cancelAll();
+              await Controller().getSchedule();
+            } else {
+              await flutterLocalNotificationsPlugin.cancelAll();
+            }
+
             Navigator.push(
                 context,
                 PageTransition(

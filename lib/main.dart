@@ -98,7 +98,10 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-
+    var notification = prefs.getBool('notifications');
+    notification == null
+        ? prefs.setBool('notifications', true)
+        : prefs.setBool('notifications', notification);
     getAQuote();
   }
 

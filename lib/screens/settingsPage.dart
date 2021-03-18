@@ -5,6 +5,8 @@ import 'package:timebuddy/screens/Dashboard.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:timebuddy/main.dart';
 
+import '../controller/Controller.dart';
+
 class SettingsPage extends StatefulWidget {
   SettingsPage({Key key}) : super(key: key);
 
@@ -90,16 +92,27 @@ class _SettingsPageState extends State<SettingsPage> {
                                   CupertinoSwitch(
                                     value: this.notification,
                                     activeColor: Colors.blue,
-                                    onChanged: (value) {
+                                    onChanged: (value) async {
                                       debugPrint("valuse: " + value.toString());
                                       if (value) {
                                         this.setState(() {
                                           notification = value;
                                         });
+                                        await prefs.setBool(
+                                            'notifications', true);
+                                        await Controller().getSchedule();
+                                        debugPrint("notifications : " +
+                                            value.toString());
                                       } else {
                                         this.setState(() {
                                           notification = value;
                                         });
+                                        await prefs.setBool(
+                                            'notifications', false);
+                                        await flutterLocalNotificationsPlugin
+                                            .cancelAll();
+                                        debugPrint("notifications : " +
+                                            value.toString());
                                       }
                                     },
                                   ),

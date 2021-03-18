@@ -42,11 +42,9 @@ class _DashboardState extends State<Dashboard> {
     });
     getSchedule();
     getPriority();
-    debugPrint("DFbdf" + inputFieldList.length.toString());
   }
 
   getPriority() async {
-    debugPrint("DFbdf" + inputFieldList.length.toString());
     var now = new DateTime.now();
     var formatter = new DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
@@ -115,6 +113,7 @@ class _DashboardState extends State<Dashboard> {
       _taskList = List<Task>();
     }
 
+    debugPrint("task list : ");
     _taskList.forEach((task) {
       List<String> a = List<String>();
       a.add(task.hour + task.half);
@@ -125,11 +124,15 @@ class _DashboardState extends State<Dashboard> {
       a.add(task.hour);
       a.add(task.half);
       taskList[task.hour + task.half] = a;
+      debugPrint(taskList[task.hour + task.half].toString());
     });
 
     final sortedTaskList = new SplayTreeMap.from(
         taskList, (a, b) => int.parse(a).compareTo(int.parse(b)));
-    debugPrint(sortedTaskList.length.toString());
+    debugPrint("sorted task list : ");
+    debugPrint(sortedTaskList.toString());
+    debugPrint(
+        "sorted tassk list length : " + sortedTaskList.length.toString());
     getActivityList(sortedTaskList);
 
     return _taskList;
@@ -138,7 +141,8 @@ class _DashboardState extends State<Dashboard> {
   void getActivityList(sortedTaskList) {
     Map<String, dynamic> activity = null;
     bool activityEnded = true;
-    debugPrint(activityList.length.toString());
+    debugPrint("activity list list length before laoding : " +
+        activityList.length.toString());
     sortedTaskList.forEach((key, task) {
       String hourHalf = task[0];
       String tsk = task[1];
@@ -216,7 +220,9 @@ class _DashboardState extends State<Dashboard> {
       //     "$key,  ${tsk}, ${color}, ${previous}, ${next}, ${hour}, ${half}");
     });
     activity = null;
-    debugPrint(activityList.length.toString());
+    debugPrint("activity list list length after laoding : " +
+        activityList.length.toString());
+    debugPrint("activity list : ");
     activityList.forEach((element) {
       searchForCurrentActivity(element);
       debugPrint(
@@ -290,10 +296,7 @@ class _DashboardState extends State<Dashboard> {
     close =
         new DateTime(now.year, now.month, now.day, close.hour, close.minute);
 
-    debugPrint(open.toString());
-    debugPrint(close.toString());
     if (currentTime.isAfter(open) && currentTime.isBefore(close)) {
-      debugPrint("current" + activityEndHourHalf.toString());
       String currentTimeString = DateFormat('HH:mm').format(now);
       List<String> currentHourHalf = currentTimeString.split(":");
       int currentHour = int.parse(currentHourHalf[0]);
@@ -305,7 +308,6 @@ class _DashboardState extends State<Dashboard> {
         difference = difference + 29;
       }
       String closeTime = DateFormat('h:mm a').format(close);
-      debugPrint(closeTime);
       activity['difference'] = difference;
       activity['endTime'] = closeTime;
       setState(() {
@@ -344,7 +346,6 @@ class _DashboardState extends State<Dashboard> {
 
     if (currentActivity == null && nextActivity == null) {
       if (currentTime.isBefore(open)) {
-        debugPrint("next");
         String currentTimeString = DateFormat('HH:mm').format(now);
         List<String> currentHourHalf = currentTimeString.split(":");
         int currentHour = int.parse(currentHourHalf[0]);
@@ -352,9 +353,7 @@ class _DashboardState extends State<Dashboard> {
         int startHalf = activityStartHourHalf[1] == "1" ? 0 : 30;
         int difference =
             (startHour * 60 + startHalf) - (currentHour * 60 + currentminute);
-        debugPrint(difference.toString());
         String openTime = DateFormat('h:mm a').format(open);
-        debugPrint(openTime);
         activity['startTime'] = openTime;
         activity['difference'] = difference;
         setState(() {
@@ -362,6 +361,14 @@ class _DashboardState extends State<Dashboard> {
         });
         remainingActivities = activityList.last['id'] - nextActivity['id'] + 1;
       }
+    }
+    DateTime finalTime = dateFormat.parse("${23}:${30}");
+    finalTime =
+        new DateTime(now.year, now.month, now.day, open.hour, open.minute);
+    if (currentTime.isAfter(finalTime)) {
+      setState(() {
+        nextActivity = null;
+      });
     }
   }
 
