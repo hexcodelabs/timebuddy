@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:timebuddy/modals/priority.dart';
+import 'package:timebuddy/screens/selectPlanPage.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,12 +11,15 @@ import 'package:timebuddy/localization/language_constants.dart';
 
 import 'package:timebuddy/utils/Database.dart';
 
-class StartPlanPage extends StatefulWidget {
+class AddPriority extends StatefulWidget {
+  final String previous;
+
+  AddPriority({Key key, @required this.previous}) : super(key: key);
   @override
-  _StartPlanPageState createState() => _StartPlanPageState();
+  _AddPriorityState createState() => _AddPriorityState();
 }
 
-class _StartPlanPageState extends State<StartPlanPage> {
+class _AddPriorityState extends State<AddPriority> {
   List<String> inputFieldList = List<String>();
 
   @override
@@ -79,78 +83,106 @@ class _StartPlanPageState extends State<StartPlanPage> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
+    double topHeight = height * 0.18;
+
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),
-      body: SingleChildScrollView(
-        child: Container(
-          width: width,
-          height: height,
-          decoration: AppTheme.backgroundGradient,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Spacer(
-                flex: 6,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: Container(
-                  child: Text(
-                    getTranslated(context, 'priorities_screen_text_1'),
-                    style: AppTheme.mainTitle,
-                    textAlign: TextAlign.center,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Container(
+              width: width,
+              height: height,
+              decoration: AppTheme.backgroundGradient,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Spacer(
+                    flex: 6,
                   ),
-                ),
-              ),
-              Spacer(
-                flex: 3,
-              ),
-              Container(
-                child: Text(
-                  getTranslated(context, 'priorities_screen_text_2'),
-                  style: AppTheme.mainTitle,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Container(
-                child: Text(
-                  getTranslated(context, 'priorities_screen_text_3'),
-                  style: TextStyle(
-                    color: Color(0xff57C3ff),
-                    fontSize: 14,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Container(
+                      child: Text(
+                        getTranslated(context, 'priorities_screen_text_1'),
+                        style: AppTheme.mainTitle,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Spacer(
-                flex: 2,
-              ),
-              Center(
-                child: Container(
-                  alignment: Alignment.center,
-                  width: 300,
-                  constraints: BoxConstraints(
-                    minHeight: 100,
+                  Spacer(
+                    flex: 3,
                   ),
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: inputFieldList.length,
-                      itemBuilder: (BuildContext ctxt, int index) {
-                        return inputField(
-                            context, inputFieldList[index], index);
-                      }),
-                ),
+                  Container(
+                    child: Text(
+                      getTranslated(context, 'priorities_screen_text_2'),
+                      style: AppTheme.mainTitle,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      getTranslated(context, 'priorities_screen_text_3'),
+                      style: TextStyle(
+                        color: Color(0xff57C3ff),
+                        fontSize: 14,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Spacer(
+                    flex: 2,
+                  ),
+                  Center(
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 300,
+                      constraints: BoxConstraints(
+                        minHeight: 100,
+                      ),
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: inputFieldList.length,
+                          itemBuilder: (BuildContext ctxt, int index) {
+                            return inputField(
+                                context, inputFieldList[index], index);
+                          }),
+                    ),
+                  ),
+                  Spacer(
+                    flex: 8,
+                  ),
+                  PageNavigator(),
+                  Spacer(
+                    flex: 4,
+                  ),
+                ],
               ),
-              Spacer(
-                flex: 8,
-              ),
-              PageNavigator(),
-              Spacer(
-                flex: 4,
-              ),
-            ],
+            ),
           ),
-        ),
+          Container(
+            height: topHeight,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.bottomToTop,
+                            child: SelectPlans(previous: 'addPriorityPage')));
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -276,7 +308,9 @@ class PageNavigator extends StatelessWidget {
               PageTransition(
                   type: PageTransitionType.bottomToTop,
                   child: PlaningPage(
-                      readOnly: false, date: null, previous: "startPlanPage")));
+                      readOnly: false,
+                      date: null,
+                      previous: 'addPriorityPage')));
         },
         child: Column(
           children: [

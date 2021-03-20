@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:timebuddy/screens/landingPage.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:timebuddy/screens/addNamePage.dart';
 import 'dart:async';
@@ -13,6 +14,10 @@ import 'package:timebuddy/main.dart';
 import 'package:timebuddy/screens/selectPlanPage.dart';
 
 class QuotePage extends StatefulWidget {
+  final String previous;
+
+  QuotePage({Key key, @required this.previous}) : super(key: key);
+
   @override
   _AddQuotesPageState createState() => _AddQuotesPageState();
 }
@@ -40,7 +45,9 @@ class _AddQuotesPageState extends State<QuotePage> {
                   context,
                   PageTransition(
                       type: PageTransitionType.bottomToTop,
-                      child: seenAddQuotePage ? SelectPlans() : AddQuotes()));
+                      child: seenAddQuotePage
+                          ? SelectPlans(previous: 'quotepage')
+                          : AddName(previous: 'quotepage')));
             } else {
               _start = _start - 1;
             }
@@ -67,6 +74,8 @@ class _AddQuotesPageState extends State<QuotePage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
+    double topHeight = height * 0.18;
 
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),
@@ -227,6 +236,30 @@ class _AddQuotesPageState extends State<QuotePage> {
               ],
             ),
           ),
+          !prefs.getBool('seenLandingPage')
+              ? Container(
+                  height: topHeight,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.bottomToTop,
+                                  child: LandingPage()));
+                        },
+                      ),
+                    ],
+                  ),
+                )
+              : Container()
         ],
       ),
     );
@@ -253,7 +286,9 @@ class PageNavigator extends StatelessWidget {
               context,
               PageTransition(
                   type: PageTransitionType.bottomToTop,
-                  child: seenAddQuotePage ? SelectPlans() : AddQuotes()));
+                  child: seenAddQuotePage
+                      ? SelectPlans(previous: 'quotepage')
+                      : AddName(previous: 'quotepage')));
         },
         child: Column(
           children: [

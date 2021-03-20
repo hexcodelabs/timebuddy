@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timebuddy/screens/completePlanPage.dart';
 import 'package:timebuddy/screens/planingPage.dart';
 import 'package:timebuddy/screens/addPriorityPage.dart';
 import 'package:timebuddy/theme/themes.dart';
@@ -14,6 +15,9 @@ import 'package:timebuddy/main.dart';
 import 'package:timebuddy/screens/settingsPage.dart';
 
 class Dashboard extends StatefulWidget {
+  final String previous;
+
+  Dashboard({Key key, @required this.previous}) : super(key: key);
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -646,7 +650,10 @@ class _DashboardState extends State<Dashboard> {
                         context,
                         PageTransition(
                             type: PageTransitionType.bottomToTop,
-                            child: StartPlanPage()));
+                            child: CompletePlanPage(
+                              previous: 'dashboard',
+                              prePrevious: 'other',
+                            )));
                   },
                 ),
               ],

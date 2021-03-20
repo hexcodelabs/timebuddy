@@ -4,11 +4,14 @@ import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:timebuddy/localization/language_constants.dart';
 import 'package:timebuddy/screens/planingPage.dart';
+import 'package:timebuddy/screens/selectPlanPage.dart';
 
 import 'package:timebuddy/utils/Database.dart';
 
 class TemplatePage extends StatefulWidget {
-  TemplatePage({Key key}) : super(key: key);
+  final String previous;
+
+  TemplatePage({Key key, @required this.previous}) : super(key: key);
 
   @override
   _TemplatePageState createState() => _TemplatePageState();
@@ -39,108 +42,137 @@ class _TemplatePageState extends State<TemplatePage> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
+    double topHeight = height * 0.195;
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Container(
-          color: Color(0xE7F6FFFF),
-          height: height,
-          width: width,
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Text(
-                  getTranslated(context, 'template_page_1'),
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 30,
-                      fontWeight: FontWeight.w700),
-                ),
-              ),
-              Container(
-                height: height * 0.6,
-                child: this._dates == null
-                    ? null
-                    : ListView(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        shrinkWrap: true,
-                        children: this._dates.map<Widget>((date) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  this.setState(() {
-                                    selected = date;
-                                  });
-                                },
-                                child: Container(
-                                  width: width * 0.5,
-                                  alignment: Alignment.center,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 6),
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 8),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(
-                                        color: Color(0xff57C3ff), width: 2),
-                                    color: this.selected == date
-                                        ? Color(0xff57C3ff)
-                                        : null,
-                                  ),
-                                  child: Text(
-                                    DateFormat('yyyy-MM-dd')
-                                                .format(DateTime.now()) ==
-                                            date
-                                        ? 'Today'
-                                        : DateFormat('yyyy-MM-dd').format(
-                                                    DateTime.now().subtract(
-                                                        Duration(days: 1))) ==
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Container(
+              color: Color(0xE7F6FFFF),
+              height: height,
+              width: width,
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Text(
+                      getTranslated(context, 'template_page_1'),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 30,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                  Container(
+                    height: height * 0.6,
+                    child: this._dates == null
+                        ? null
+                        : ListView(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            shrinkWrap: true,
+                            children: this._dates.map<Widget>((date) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      this.setState(() {
+                                        selected = date;
+                                      });
+                                    },
+                                    child: Container(
+                                      width: width * 0.5,
+                                      alignment: Alignment.center,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 6),
+                                      margin: const EdgeInsets.symmetric(
+                                          vertical: 8),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(
+                                            color: Color(0xff57C3ff), width: 2),
+                                        color: this.selected == date
+                                            ? Color(0xff57C3ff)
+                                            : null,
+                                      ),
+                                      child: Text(
+                                        DateFormat('yyyy-MM-dd')
+                                                    .format(DateTime.now()) ==
                                                 date
-                                            ? 'Yesterday'
-                                            : date,
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w700),
+                                            ? 'Today'
+                                            : DateFormat('yyyy-MM-dd').format(
+                                                        DateTime.now().subtract(
+                                                            Duration(
+                                                                days: 1))) ==
+                                                    date
+                                                ? 'Yesterday'
+                                                : date,
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }).toList(),
-                      ),
+                                ],
+                              );
+                            }).toList(),
+                          ),
+                  ),
+                  Spacer(
+                    flex: 1,
+                  ),
+                  this.selected == null
+                      ? Container(
+                          child: Text(
+                            'Select a template first',
+                            style: TextStyle(
+                              color: Color(0xff57C3ff),
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Gilroy',
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      : PageNavigator(selected: this.selected),
+                  Spacer(
+                    flex: 1,
+                  ),
+                ],
               ),
-              Spacer(
-                flex: 1,
-              ),
-              this.selected == null
-                  ? Container(
-                      child: Text(
-                        'Select a template first',
-                        style: TextStyle(
-                          color: Color(0xff57C3ff),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Gilroy',
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  : PageNavigator(selected: this.selected),
-              Spacer(
-                flex: 1,
-              ),
-            ],
+            ),
           ),
-        ),
+          Container(
+            height: topHeight,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Color(0xff57C3ff),
+                    size: 40,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.bottomToTop,
+                            child: SelectPlans(previous: 'templatePage')));
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

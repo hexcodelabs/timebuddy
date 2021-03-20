@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:timebuddy/screens/quotePage.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:timebuddy/screens/selectPlanPage.dart';
@@ -10,12 +11,15 @@ import 'package:timebuddy/localization/language_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:after_layout/after_layout.dart';
 
-class AddQuotes extends StatefulWidget {
+class AddName extends StatefulWidget {
+  final String previous;
+
+  AddName({Key key, @required this.previous}) : super(key: key);
   @override
   _AddQuotesPageState createState() => _AddQuotesPageState();
 }
 
-class _AddQuotesPageState extends State<AddQuotes> {
+class _AddQuotesPageState extends State<AddName> {
   TextEditingController myController;
   //Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   ////bool pageLoaded = false;
@@ -78,61 +82,89 @@ class _AddQuotesPageState extends State<AddQuotes> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
+    double topHeight = height * 0.18;
+
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),
-      body: Container(
-        height: height,
-        width: width,
-        decoration: AppTheme.backgroundGradient,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Spacer(
-              flex: 7,
-            ),
-            Container(
-              child: Text(
-                getTranslated(context, 'name_screen_text_1'),
-                style: AppTheme.mainTitle,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Spacer(
-              flex: 5,
-            ),
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 100, left: 100),
-                child: TextField(
-                  textCapitalization: TextCapitalization.words,
-                  controller: myController,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 24, color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: getTranslated(context, 'name_screen_text_2'),
-                    hintStyle: TextStyle(
-                      color: Colors.white.withOpacity(0.4),
-                      fontSize: 22,
-                    ),
-                    labelStyle: AppTheme.textField,
-                    disabledBorder: InputBorder.none,
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
+      body: Stack(
+        children: [
+          Container(
+            height: height,
+            width: width,
+            decoration: AppTheme.backgroundGradient,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Spacer(
+                  flex: 7,
+                ),
+                Container(
+                  child: Text(
+                    getTranslated(context, 'name_screen_text_1'),
+                    style: AppTheme.mainTitle,
+                    textAlign: TextAlign.center,
                   ),
                 ),
-              ),
+                Spacer(
+                  flex: 5,
+                ),
+                Container(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 100, left: 100),
+                    child: TextField(
+                      textCapitalization: TextCapitalization.words,
+                      controller: myController,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 24, color: Colors.white),
+                      decoration: InputDecoration(
+                        hintText: getTranslated(context, 'name_screen_text_2'),
+                        hintStyle: TextStyle(
+                          color: Colors.white.withOpacity(0.4),
+                          fontSize: 22,
+                        ),
+                        labelStyle: AppTheme.textField,
+                        disabledBorder: InputBorder.none,
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                ),
+                Spacer(
+                  flex: 10,
+                ),
+                PageNavigator(myController.text),
+                Spacer(
+                  flex: 4,
+                ),
+              ],
             ),
-            Spacer(
-              flex: 10,
+          ),
+          Container(
+            height: topHeight,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.bottomToTop,
+                            child: QuotePage(previous: 'addNamePage')));
+                  },
+                ),
+              ],
             ),
-            PageNavigator(myController.text),
-            Spacer(
-              flex: 4,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -157,7 +189,10 @@ class PageNavigator extends StatelessWidget {
           Navigator.push(
               context,
               PageTransition(
-                  type: PageTransitionType.bottomToTop, child: SelectPlans()));
+                  type: PageTransitionType.bottomToTop,
+                  child: SelectPlans(
+                    previous: 'addNamePage',
+                  )));
         },
         child: Column(
           children: [

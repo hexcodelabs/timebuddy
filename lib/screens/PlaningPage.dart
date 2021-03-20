@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:timebuddy/screens/dashboard.dart';
+import 'dashboard.dart';
 import 'package:timebuddy/screens/completePlanPage.dart';
+import 'package:timebuddy/screens/templatePage.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:o_color_picker/o_color_picker.dart';
@@ -12,6 +13,8 @@ import 'package:intl/intl.dart';
 import 'package:timebuddy/localization/language_constants.dart';
 import 'package:timebuddy/main.dart';
 import '../controller/Controller.dart';
+
+import 'addPriorityPage.dart';
 
 class PlaningPage extends StatefulWidget {
   final bool readOnly;
@@ -76,167 +79,201 @@ class _PlaningPageState extends State<PlaningPage> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     double topHeight = height * 0.15;
+    double topHeightnew = height * 0.14;
 
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),
-      body: SingleChildScrollView(
-        child: Container(
-          width: width,
-          height: height,
-          decoration: AppTheme.backgroundGradient,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                height: topHeight,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 0,
-                    bottom: 0,
-                  ),
-                  child: Center(
-                    child: Text(
-                      getTranslated(context, 'time_shedule_start_text_1'),
-                      style: AppTheme.mainTitle,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-              ),
-              Stack(
-                alignment: Alignment.topCenter,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Container(
+              width: width,
+              height: height,
+              decoration: AppTheme.backgroundGradient,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    height: height - topHeight,
-                    width: width,
-                    child: ListView(
-                      children: [
-                        !widget.readOnly
-                            ? Container(
-                                //color: Colors.black,
-                                child: Text(
-                                  getTranslated(
-                                      context, 'time_shedule_start_text_2'),
-                                  style: TextStyle(
-                                    color: Color(0xff00a4ea).withOpacity(0.6),
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              )
-                            : Container(),
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              left: 55,
-                              right: 40,
-                              bottom: 30,
-                              top: 40,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [Text(':00'), Text(':30')],
-                            ),
-                          ),
+                    height: topHeight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 0,
+                        bottom: 0,
+                      ),
+                      child: Center(
+                        child: Text(
+                          getTranslated(context, 'time_shedule_start_text_1'),
+                          style: AppTheme.mainTitle,
+                          textAlign: TextAlign.center,
                         ),
-                        Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
-                                child: Table(
-                                  columnWidths: {
-                                    0: FlexColumnWidth(0.8),
-                                    1: FlexColumnWidth(4),
-                                    2: FlexColumnWidth(4),
-                                  },
-                                  border: TableBorder(
-                                      bottom: BorderSide(
-                                          width: 1,
-                                          color: Color(0xff00a4ea)
-                                              .withOpacity(0.6)),
-                                      horizontalInside: BorderSide(
-                                          width: 1,
-                                          color: Color(0xff00a4ea)
-                                              .withOpacity(0.6)),
-                                      verticalInside: BorderSide(
-                                          width: 1,
-                                          color: Color(0xff00a4ea)
-                                              .withOpacity(0.6))),
-                                  children: [
-                                    buildTableRow(
-                                        '00', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '01', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '02', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '03', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '04', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '05', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '06', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '07', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '08', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '09', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '10', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '11', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '12', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '13', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '14', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '15', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '16', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '17', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '18', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '19', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '20', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '21', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '22', width, height, widget.readOnly),
-                                    buildTableRow(
-                                        '23', width, height, widget.readOnly),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        PageNavigator(
-                            _taskList,
-                            DateFormat('yyyy-MM-dd').format(DateTime.now()),
-                            widget.readOnly),
-                      ],
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: new BorderRadius.only(
-                        topLeft: const Radius.circular(40.0),
-                        topRight: const Radius.circular(40.0),
                       ),
                     ),
                   ),
+                  Stack(
+                    alignment: Alignment.topCenter,
+                    children: [
+                      Container(
+                        height: height - topHeight,
+                        width: width,
+                        child: ListView(
+                          children: [
+                            !widget.readOnly
+                                ? Container(
+                                    //color: Colors.black,
+                                    child: Text(
+                                      getTranslated(
+                                          context, 'time_shedule_start_text_2'),
+                                      style: TextStyle(
+                                        color:
+                                            Color(0xff00a4ea).withOpacity(0.6),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+                                : Container(),
+                            Container(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 55,
+                                  right: 40,
+                                  bottom: 30,
+                                  top: 40,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [Text(':00'), Text(':30')],
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                                    child: Table(
+                                      columnWidths: {
+                                        0: FlexColumnWidth(0.8),
+                                        1: FlexColumnWidth(4),
+                                        2: FlexColumnWidth(4),
+                                      },
+                                      border: TableBorder(
+                                          bottom: BorderSide(
+                                              width: 1,
+                                              color: Color(0xff00a4ea)
+                                                  .withOpacity(0.6)),
+                                          horizontalInside: BorderSide(
+                                              width: 1,
+                                              color: Color(0xff00a4ea)
+                                                  .withOpacity(0.6)),
+                                          verticalInside: BorderSide(
+                                              width: 1,
+                                              color: Color(0xff00a4ea)
+                                                  .withOpacity(0.6))),
+                                      children: [
+                                        buildTableRow('00', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('01', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('02', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('03', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('04', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('05', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('06', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('07', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('08', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('09', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('10', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('11', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('12', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('13', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('14', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('15', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('16', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('17', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('18', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('19', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('20', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('21', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('22', width, height,
+                                            widget.readOnly),
+                                        buildTableRow('23', width, height,
+                                            widget.readOnly),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            PageNavigator(
+                                _taskList,
+                                DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                                widget.readOnly,
+                                widget.previous),
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: new BorderRadius.only(
+                            topLeft: const Radius.circular(40.0),
+                            topRight: const Radius.circular(40.0),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
+          Container(
+            height: topHeightnew,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                    size: 38,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.bottomToTop,
+                            child: widget.previous == 'templatePage'
+                                ? TemplatePage(previous: 'planingPage')
+                                : widget.previous == 'dashboard'
+                                    ? Dashboard(previous: 'planingPage')
+                                    : AddPriority(previous: 'planingPage')));
+                  },
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
@@ -613,10 +650,12 @@ class _PlaningPageState extends State<PlaningPage> {
 }
 
 class PageNavigator extends StatelessWidget {
-  PageNavigator(this._taskList, this.formattedDate, this.readOnly);
+  PageNavigator(
+      this._taskList, this.formattedDate, this.readOnly, this.previous);
 
   final List<Task> _taskList;
   final String formattedDate;
+  final String previous;
   final bool readOnly;
 
   @override
@@ -628,7 +667,8 @@ class PageNavigator extends StatelessWidget {
             Navigator.push(
                 context,
                 PageTransition(
-                    type: PageTransitionType.bottomToTop, child: Dashboard()));
+                    type: PageTransitionType.bottomToTop,
+                    child: Dashboard(previous: 'planingPage')));
           } else {
             await DBProvider.db.addNewSchedule(_taskList, formattedDate);
 
@@ -639,12 +679,22 @@ class PageNavigator extends StatelessWidget {
             } else {
               await flutterLocalNotificationsPlugin.cancelAll();
             }
-
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.bottomToTop,
-                    child: CompletePlanPage()));
+            if (previous == 'dashboard') {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.bottomToTop,
+                      child: Dashboard(previous: 'planingPage')));
+            } else {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.bottomToTop,
+                      child: CompletePlanPage(
+                        previous: 'planingPage',
+                        prePrevious: previous,
+                      )));
+            }
           }
         },
         child: Container(

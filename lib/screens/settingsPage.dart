@@ -153,7 +153,9 @@ class _SettingsPageState extends State<SettingsPage> {
                         context,
                         PageTransition(
                             type: PageTransitionType.bottomToTop,
-                            child: Dashboard()));
+                            child: Dashboard(
+                              previous: 'settingsPage',
+                            )));
                   },
                 ),
               ],

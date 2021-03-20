@@ -259,7 +259,8 @@ class PageNavigator extends StatelessWidget {
           Navigator.push(
               context,
               PageTransition(
-                  type: PageTransitionType.bottomToTop, child: QuotePage()));
+                  type: PageTransitionType.bottomToTop,
+                  child: QuotePage(previous: 'landingPage')));
         },
         child: Column(
           children: [
