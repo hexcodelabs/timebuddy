@@ -144,7 +144,11 @@ class _MyAppState extends State<MyApp> {
             if (snapshot.hasError) {
               return Text("Something went wrong");
             } else if (snapshot.hasData) {
-              return seenLandingPage ? QuotePage() : LandingPage();
+              return seenLandingPage
+                  ? QuotePage(
+                      previous: '',
+                    )
+                  : LandingPage();
             } else {
               return Center(
                 child: CircularProgressIndicator(),
