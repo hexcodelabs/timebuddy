@@ -26,7 +26,7 @@ class _TemplatePageState extends State<TemplatePage> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    debugPrint("selected : " + selected.toString());
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

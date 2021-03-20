@@ -50,7 +50,7 @@ class Controller {
         presentAlert: true, presentBadge: true, presentSound: true);
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    debugPrint(id.toString() + " " + body);
+
     await flutterLocalNotificationsPlugin.schedule(id, 'Time Buddy', body,
         scheduledNotificationDateTime, platformChannelSpecifics);
   }
@@ -121,6 +121,12 @@ class Controller {
               activity["task"] = tsk;
             }
             activity["halfs"] = 1;
+            if (hourHalf == "232") {
+              //activity["end"] = hour + " " + half;
+              activity["end"] = "24" + " " + "0";
+              activityList.add(activity);
+              activityEnded = true;
+            }
           } else if (tsk == "" &&
               next == "false" &&
               (color == "00000000" || color == "ffffffff" || color == null)) {
@@ -148,7 +154,8 @@ class Controller {
 
             activity["halfs"] = 1;
             if (hourHalf == "232") {
-              activity["end"] = hour + " " + half;
+              //activity["end"] = hour + " " + half;
+              activity["end"] = "24" + " " + "0";
               activityList.add(activity);
               activityEnded = true;
             }
@@ -157,14 +164,12 @@ class Controller {
       } else {
         activity["halfs"] = activity["halfs"] + 1;
         if (hourHalf == "232") {
-          activity["end"] = hour + " " + half;
+          //activity["end"] = hour + " " + half;
+          activity["end"] = "24" + " " + "0";
           activityList.add(activity);
           activityEnded = true;
         }
       }
-
-      // debugPrint(
-      //     "$key,  ${tsk}, ${color}, ${previous}, ${next}, ${hour}, ${half}");
     });
     activity = null;
     activityList.forEach((element) {

@@ -31,7 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
     double width = MediaQuery.of(context).size.width;
 
     double topHeight = height * 0.15;
-    debugPrint(this.notification.toString());
+
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),
       body: Stack(
@@ -93,7 +93,6 @@ class _SettingsPageState extends State<SettingsPage> {
                                     value: this.notification,
                                     activeColor: Colors.blue,
                                     onChanged: (value) async {
-                                      debugPrint("valuse: " + value.toString());
                                       if (value) {
                                         this.setState(() {
                                           notification = value;
@@ -101,8 +100,6 @@ class _SettingsPageState extends State<SettingsPage> {
                                         await prefs.setBool(
                                             'notifications', true);
                                         await Controller().getSchedule();
-                                        debugPrint("notifications : " +
-                                            value.toString());
                                       } else {
                                         this.setState(() {
                                           notification = value;
@@ -111,8 +108,6 @@ class _SettingsPageState extends State<SettingsPage> {
                                             'notifications', false);
                                         await flutterLocalNotificationsPlugin
                                             .cancelAll();
-                                        debugPrint("notifications : " +
-                                            value.toString());
                                       }
                                     },
                                   ),

@@ -209,7 +209,7 @@ class _PlaningPageState extends State<PlaningPage> {
                       ],
                     ),
                     decoration: BoxDecoration(
-                      color: Color(0xE7F6FFFF),
+                      color: Colors.white,
                       borderRadius: new BorderRadius.only(
                         topLeft: const Radius.circular(40.0),
                         topRight: const Radius.circular(40.0),
@@ -319,7 +319,7 @@ class _PlaningPageState extends State<PlaningPage> {
                           selectedColor = color;
                           colorMap[s + c] = selectedColor;
                         });
-                        debugPrint("colorchang");
+
                         int index = _taskList.indexWhere(
                             (task) => task.hour == s && task.half == c);
 

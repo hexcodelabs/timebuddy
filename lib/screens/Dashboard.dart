@@ -90,7 +90,6 @@ class _DashboardState extends State<Dashboard> {
         ];
       });
     }
-    debugPrint("rbsdf" + inputFieldList.toString());
     return inputPriorityList;
   }
 
@@ -113,7 +112,6 @@ class _DashboardState extends State<Dashboard> {
       _taskList = List<Task>();
     }
 
-    debugPrint("task list : ");
     _taskList.forEach((task) {
       List<String> a = List<String>();
       a.add(task.hour + task.half);
@@ -124,15 +122,11 @@ class _DashboardState extends State<Dashboard> {
       a.add(task.hour);
       a.add(task.half);
       taskList[task.hour + task.half] = a;
-      debugPrint(taskList[task.hour + task.half].toString());
     });
 
     final sortedTaskList = new SplayTreeMap.from(
         taskList, (a, b) => int.parse(a).compareTo(int.parse(b)));
-    debugPrint("sorted task list : ");
-    debugPrint(sortedTaskList.toString());
-    debugPrint(
-        "sorted tassk list length : " + sortedTaskList.length.toString());
+
     getActivityList(sortedTaskList);
 
     return _taskList;
@@ -141,8 +135,7 @@ class _DashboardState extends State<Dashboard> {
   void getActivityList(sortedTaskList) {
     Map<String, dynamic> activity = null;
     bool activityEnded = true;
-    debugPrint("activity list list length before laoding : " +
-        activityList.length.toString());
+
     sortedTaskList.forEach((key, task) {
       String hourHalf = task[0];
       String tsk = task[1];
@@ -174,6 +167,12 @@ class _DashboardState extends State<Dashboard> {
               activity["task"] = tsk;
             }
             activity["halfs"] = 1;
+            if (hourHalf == "232") {
+              //activity["end"] = hour + " " + half;
+              activity["end"] = "24" + " " + "0";
+              activityList.add(activity);
+              activityEnded = true;
+            }
           } else if (tsk == "" &&
               next == "false" &&
               (color == "00000000" || color == "ffffffff" || color == null)) {
@@ -201,7 +200,8 @@ class _DashboardState extends State<Dashboard> {
 
             activity["halfs"] = 1;
             if (hourHalf == "232") {
-              activity["end"] = hour + " " + half;
+              //activity["end"] = hour + " " + half;
+              activity["end"] = "24" + " " + "0";
               activityList.add(activity);
               activityEnded = true;
             }
@@ -210,23 +210,17 @@ class _DashboardState extends State<Dashboard> {
       } else {
         activity["halfs"] = activity["halfs"] + 1;
         if (hourHalf == "232") {
-          activity["end"] = hour + " " + half;
+          //activity["end"] = hour + " " + half;
+          activity["end"] = "24" + " " + "0";
           activityList.add(activity);
           activityEnded = true;
         }
       }
-
-      // debugPrint(
-      //     "$key,  ${tsk}, ${color}, ${previous}, ${next}, ${hour}, ${half}");
     });
     activity = null;
-    debugPrint("activity list list length after laoding : " +
-        activityList.length.toString());
-    debugPrint("activity list : ");
+
     activityList.forEach((element) {
       searchForCurrentActivity(element);
-      debugPrint(
-          "${element['id']}, ${element['start']}, ${element['end']}, ${element['task']}, ${element['halfs']}");
     });
   }
 
@@ -290,7 +284,7 @@ class _DashboardState extends State<Dashboard> {
     open = new DateTime(now.year, now.month, now.day, open.hour, open.minute);
     DateTime close = dateFormat.parse(
         "${activityEndHourHalf[0]}:${activityEndHourHalf[1] == "1" ? "00" : "30"}");
-    if (activityEndHourHalf[0] == "23" && activityEndHourHalf[1] == "2") {
+    if (activityEndHourHalf[0] == "24" && activityEndHourHalf[1] == "0") {
       close = dateFormat.parse("${23}:${59}");
     }
     close =
@@ -304,7 +298,7 @@ class _DashboardState extends State<Dashboard> {
       int endHalf = activityEndHourHalf[1] == "1" ? 0 : 30;
       int difference =
           (endHour * 60 + endHalf) - (currentHour * 60 + currentminute);
-      if (activityEndHourHalf[0] == "23" && activityEndHourHalf[1] == "2") {
+      if (activityEndHourHalf[0] == "24" && activityEndHourHalf[1] == "0") {
         difference = difference + 29;
       }
       String closeTime = DateFormat('h:mm a').format(close);
@@ -363,8 +357,9 @@ class _DashboardState extends State<Dashboard> {
       }
     }
     DateTime finalTime = dateFormat.parse("${23}:${30}");
-    finalTime =
-        new DateTime(now.year, now.month, now.day, open.hour, open.minute);
+    finalTime = new DateTime(currentTime.year, currentTime.month,
+        currentTime.day, finalTime.hour, finalTime.minute);
+
     if (currentTime.isAfter(finalTime)) {
       setState(() {
         nextActivity = null;

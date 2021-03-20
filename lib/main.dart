@@ -79,7 +79,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   getAQuote() async {
-    debugPrint("Quote");
     final response =
         await FirebaseDatabase.instance.reference().child("Quotes").once();
     var quotes = [];
@@ -88,10 +87,9 @@ class _MyAppState extends State<MyApp> {
 
     Random random = new Math.Random();
     int randomNumber = random.nextInt(numberOfQuotes);
-    debugPrint(randomNumber.toString());
 
     String quote = quotes[randomNumber].toString();
-    debugPrint(quote);
+
     prefs.setString('quote', quote);
   }
 
@@ -116,8 +114,6 @@ class _MyAppState extends State<MyApp> {
         ),
       );
     } else {
-      debugPrint("main/Meterial APP widget");
-      debugPrint("main/seenLandingPage : " + this.seenLandingPage.toString());
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Timebuddy',
@@ -146,7 +142,6 @@ class _MyAppState extends State<MyApp> {
           future: _fbApp,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              print('You have an errro!  + ${snapshot.error.toString()}');
               return Text("Something went wrong");
             } else if (snapshot.hasData) {
               return seenLandingPage ? QuotePage() : LandingPage();
