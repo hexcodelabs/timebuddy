@@ -454,8 +454,10 @@ class _DashboardState extends State<Dashboard> {
                                           PageTransition(
                                               type: PageTransitionType
                                                   .bottomToTop,
-                                              child:
-                                                  PlaningPage(readOnly: true)));
+                                              child: PlaningPage(
+                                                  readOnly: true,
+                                                  date: null,
+                                                  previous: "dashboard")));
                                     },
                                     child: Container(
                                       alignment: Alignment.bottomRight,
@@ -481,7 +483,9 @@ class _DashboardState extends State<Dashboard> {
                                               type: PageTransitionType
                                                   .bottomToTop,
                                               child: PlaningPage(
-                                                  readOnly: false)));
+                                                  readOnly: false,
+                                                  date: null,
+                                                  previous: "dashboard")));
                                     },
                                     child: Container(
                                       alignment: Alignment.bottomRight,

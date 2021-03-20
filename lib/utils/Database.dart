@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -72,6 +73,7 @@ class DBProvider {
     await Future.forEach(taskList, (task) async {
       count = count + 1;
       await addShedule(task, db);
+      debugPrint(task.task.toString());
     });
 
     if (count == 48) {
@@ -82,15 +84,22 @@ class DBProvider {
   }
 
   Future addShedule(Task task, Database db) async {
+    String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
     var search = await db.rawQuery('''
         SELECT * FROM daily_tasks WHERE hour=? AND half=? AND date=?
       ''', [
       task.hour,
       task.half,
-      task.date,
+      date,
     ]);
 
     if (search.isNotEmpty) {
+      debugPrint("a");
+      debugPrint(search.toString());
+      debugPrint(search[0].toString());
+      debugPrint(search[0]['id'].toString());
+      debugPrint(task.id.toString());
+      debugPrint("b");
       var res = await db.rawUpdate('''
       UPDATE daily_tasks SET
         hour=?, 
@@ -107,7 +116,7 @@ class DBProvider {
         task.color,
         task.previous,
         task.next,
-        task.id
+        search[0]['id']
       ]);
     } else {
       var res = await db.rawInsert('''

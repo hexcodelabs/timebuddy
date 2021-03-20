@@ -46,9 +46,17 @@ class _PlaningPageState extends State<PlaningPage> {
   getSchedule() async {
     _taskList = List<Task>();
     String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    List<Map<String, dynamic>> _results;
+    if (widget.date != null && widget.previous == 'templatePage') {
+      _results = await DBProvider.db.getSchedule(widget.date);
+      debugPrint("widget ");
+      debugPrint(_results.toString());
+    } else {
+      _results = await DBProvider.db.getSchedule(formattedDate);
+      debugPrint("Today ");
+      debugPrint(_results.toString());
+    }
 
-    List<Map<String, dynamic>> _results =
-        await DBProvider.db.getSchedule(formattedDate);
     if (_results != null) {
       setState(() {
         _taskList = _results.map((item) => Task.fromMap(item)).toList();

@@ -275,7 +275,8 @@ class PageNavigator extends StatelessWidget {
               context,
               PageTransition(
                   type: PageTransitionType.bottomToTop,
-                  child: PlaningPage(readOnly: false)));
+                  child: PlaningPage(
+                      readOnly: false, date: null, previous: "startPlanPage")));
         },
         child: Column(
           children: [
