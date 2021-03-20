@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:timebuddy/screens/startPlanPage.dart';
+import 'package:timebuddy/screens/addPriorityPage.dart';
 import 'package:timebuddy/screens/templatePage.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:page_transition/page_transition.dart';

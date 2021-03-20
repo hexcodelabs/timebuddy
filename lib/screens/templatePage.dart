@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:timebuddy/data.dart';
 import 'package:timebuddy/localization/language_constants.dart';
-import 'package:timebuddy/screens/PlaningPage.dart';
+import 'package:timebuddy/screens/planingPage.dart';
 
 import 'package:timebuddy/utils/Database.dart';
 

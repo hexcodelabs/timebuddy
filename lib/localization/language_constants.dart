@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:timebuddy/localization/demo_localization.dart';
+import 'package:timebuddy/localization/localization.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String LAGUAGE_CODE = 'languageCode';

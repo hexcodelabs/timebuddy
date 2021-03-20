@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:timebuddy/screens/Dashboard.dart';
+import 'package:timebuddy/screens/dashboard.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:timebuddy/main.dart';
 

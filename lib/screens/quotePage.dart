@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:timebuddy/theme/themes.dart';
-import 'package:timebuddy/screens/addQuotesPage.dart';
+import 'package:timebuddy/screens/addNamePage.dart';
 import 'dart:async';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';

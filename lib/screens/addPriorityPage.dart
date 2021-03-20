@@ -4,7 +4,7 @@ import 'package:timebuddy/modals/priority.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:timebuddy/screens/PlaningPage.dart';
+import 'package:timebuddy/screens/planingPage.dart';
 
 import 'package:timebuddy/localization/language_constants.dart';
 

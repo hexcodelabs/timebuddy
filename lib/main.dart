@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:timebuddy/screens/landingPage.dart';
 import 'package:timebuddy/screens/quotePage.dart';
 
-import 'package:timebuddy/localization/demo_localization.dart';
+import 'package:timebuddy/localization/localization.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'localization/language_constants.dart';
 
