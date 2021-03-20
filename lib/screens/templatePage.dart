@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:timebuddy/data.dart';
 import 'package:timebuddy/localization/language_constants.dart';
 import 'package:timebuddy/screens/PlaningPage.dart';
+
+import 'package:timebuddy/utils/Database.dart';
 
 class TemplatePage extends StatefulWidget {
   TemplatePage({Key key}) : super(key: key);
@@ -14,12 +17,25 @@ class TemplatePage extends StatefulWidget {
 
 class _TemplatePageState extends State<TemplatePage> {
   var selected;
+  List<String> _dates;
   @override
-  void initState() {
+  initState() {
     super.initState();
     this.setState(() {
-      selected = 0;
+      selected = null;
     });
+    getDates();
+  }
+
+  getDates() async {
+    List<Map<String, dynamic>> _results = await DBProvider.db.getDatesList();
+    debugPrint(_results.toString());
+    List<String> dateList;
+    dateList = _results.map((date) => date['date'].toString()).toList();
+    setState(() {
+      _dates = dateList;
+    });
+    debugPrint(dateList.toString());
   }
 
   @override
@@ -33,6 +49,7 @@ class _TemplatePageState extends State<TemplatePage> {
         child: Container(
           color: Color(0xE7F6FFFF),
           height: height,
+          width: width,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,50 +66,76 @@ class _TemplatePageState extends State<TemplatePage> {
               ),
               Container(
                 height: height * 0.6,
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  shrinkWrap: true,
-                  children: templates.map<Widget>((template) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            this.setState(() {
-                              selected = template.id;
-                            });
-                          },
-                          child: Container(
-                            width: width * 0.5,
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.symmetric(vertical: 6),
-                            margin: const EdgeInsets.symmetric(vertical: 8),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                  color: Color(0xff57C3ff), width: 2),
-                              color: this.selected == template.id
-                                  ? Color(0xff57C3ff)
-                                  : null,
-                            ),
-                            child: Text(
-                              template.name,
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }).toList(),
-                ),
+                child: this._dates == null
+                    ? null
+                    : ListView(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        shrinkWrap: true,
+                        children: this._dates.map<Widget>((date) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  this.setState(() {
+                                    selected = date;
+                                  });
+                                },
+                                child: Container(
+                                  width: width * 0.5,
+                                  alignment: Alignment.center,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 6),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                        color: Color(0xff57C3ff), width: 2),
+                                    color: this.selected == date
+                                        ? Color(0xff57C3ff)
+                                        : null,
+                                  ),
+                                  child: Text(
+                                    DateFormat('yyyy-MM-dd')
+                                                .format(DateTime.now()) ==
+                                            date
+                                        ? 'Today'
+                                        : DateFormat('yyyy-MM-dd').format(
+                                                    DateTime.now().subtract(
+                                                        Duration(days: 1))) ==
+                                                date
+                                            ? 'Yesterday'
+                                            : date,
+                                    style: TextStyle(
+                                        fontSize: 24,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        }).toList(),
+                      ),
               ),
               Spacer(
                 flex: 1,
               ),
-              PageNavigator(),
+              this.selected == null
+                  ? Container(
+                      child: Text(
+                        'Select a template first',
+                        style: TextStyle(
+                          color: Color(0xff57C3ff),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Gilroy',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  : PageNavigator(selected: this.selected),
               Spacer(
                 flex: 1,
               ),
@@ -107,7 +150,10 @@ class _TemplatePageState extends State<TemplatePage> {
 class PageNavigator extends StatelessWidget {
   const PageNavigator({
     Key key,
+    @required this.selected,
   }) : super(key: key);
+
+  final selected;
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +164,10 @@ class PageNavigator extends StatelessWidget {
               context,
               PageTransition(
                   type: PageTransitionType.bottomToTop,
-                  child: PlaningPage(readOnly: false)));
+                  child: PlaningPage(
+                      readOnly: false,
+                      date: this.selected,
+                      previous: "templatePage")));
         },
         child: Column(
           children: [

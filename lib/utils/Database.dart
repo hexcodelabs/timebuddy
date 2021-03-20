@@ -211,4 +211,16 @@ class DBProvider {
 
     return res;
   }
+
+  Future<List<Map<String, dynamic>>> getDatesList() async {
+    final db = await database;
+    var res = await db.rawQuery(
+        "SELECT date FROM daily_tasks GROUP by date order by date desc");
+
+    if (res.isEmpty) {
+      return null;
+    } else {
+      return res;
+    }
+  }
 }

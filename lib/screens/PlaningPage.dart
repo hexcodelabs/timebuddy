@@ -15,8 +15,14 @@ import '../controller/Controller.dart';
 
 class PlaningPage extends StatefulWidget {
   final bool readOnly;
-
-  PlaningPage({Key key, @required this.readOnly}) : super(key: key);
+  final String date;
+  final String previous;
+  PlaningPage(
+      {Key key,
+      @required this.readOnly,
+      @required this.date,
+      @required this.previous})
+      : super(key: key);
   @override
   _PlaningPageState createState() => _PlaningPageState();
 }
@@ -29,6 +35,8 @@ class _PlaningPageState extends State<PlaningPage> {
 
   @override
   void initState() {
+    debugPrint(widget.date);
+    debugPrint(widget.previous);
     _taskList = List<Task>();
     super.initState();
 
