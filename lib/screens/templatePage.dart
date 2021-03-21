@@ -32,8 +32,14 @@ class _TemplatePageState extends State<TemplatePage> {
   getDates() async {
     List<Map<String, dynamic>> _results = await DBProvider.db.getDatesList();
     debugPrint(_results.toString());
-    List<String> dateList;
-    dateList = _results.map((date) => date['date'].toString()).toList();
+    List<String> dateList = new List<String>();
+    //dateList = _results.map((date) => date['date'].toString()).toList();
+    _results.forEach((date) {
+      if (date['date'].toString() !=
+          DateFormat('yyyy-MM-dd').format(DateTime.now())) {
+        dateList.add(date['date'].toString());
+      }
+    });
     setState(() {
       _dates = dateList;
     });
@@ -113,7 +119,7 @@ class _TemplatePageState extends State<TemplatePage> {
                                                                 days: 1))) ==
                                                     date
                                                 ? 'Yesterday'
-                                                : date,
+                                                : '${date.split('-')[2]}-${date.split('-')[1]}-${date.split('-')[0]}',
                                         style: TextStyle(
                                             fontSize: 24,
                                             color: Colors.black,
