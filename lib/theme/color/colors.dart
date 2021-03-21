@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class PerksColor {
-
   static const Color logoColor = Color(0Xff0eac7c);
 
   static const Color titleTextColor = const Color(0xff000000);

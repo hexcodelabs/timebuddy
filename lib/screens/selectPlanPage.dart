@@ -1,9 +1,21 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:timebuddy/screens/addPriorityPage.dart';
+import 'package:timebuddy/screens/quotePage.dart';
+import 'package:timebuddy/screens/templatePage.dart';
 import 'package:timebuddy/theme/themes.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:intl/intl.dart';
+
+import 'package:timebuddy/localization/language_constants.dart';
+import 'package:timebuddy/main.dart';
+
+import 'addNamePage.dart';
 
 class SelectPlans extends StatefulWidget {
+  final String previous;
+
+  SelectPlans({Key key, @required this.previous}) : super(key: key);
+
   @override
   _SelectPlansState createState() => _SelectPlansState();
 }
@@ -13,78 +25,194 @@ class _SelectPlansState extends State<SelectPlans> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
+    double topHeight = height * 0.18;
+
+    var now = new DateTime.now();
+    String currentTime = DateFormat('h:mm a').format(now);
+    String currentDay = DateFormat('EEEE').format(DateTime.now());
+    String greeting() {
+      var hour = DateTime.now().hour;
+      if (hour < 12) {
+        return 'Morning';
+      }
+      if (hour < 17) {
+        return 'Afternoon';
+      }
+      return 'Evening';
+    }
+
+    String name =
+        prefs.getString('name') == null ? "" : prefs.getString('name');
+    // need to return from previous interface
+
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),
-      body: Container(
-        height: height,
-        width: width,
-        decoration: AppTheme.backgroundGradient,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 180),
-              child: Text(
-                "Good morning, Marius.\nIt is currently 8:34 AM, Monday morning. ",
-                style: AppTheme.mainTitle,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 50, right: 80, left: 80),
-              child: Text(
-                "Do you want to ",
-                style: TextStyle(
-                    color: Colors.white.withOpacity(0.4),
-                    fontSize: 13,
+      body: Stack(
+        children: [
+          Container(
+            height: height,
+            width: width,
+            decoration: AppTheme.backgroundGradient,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Spacer(
+                  flex: 7,
+                ),
+                Container(
+                  child: Text(
+                    "Good ${greeting()}, $name.\nIt is currently $currentTime, $currentDay ${greeting()}. ",
+                    style: AppTheme.mainTitle,
+                    textAlign: TextAlign.center,
                   ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20, right: 80, left: 80),
-              child: Text(
-                "Replicate one of your old plans",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
+                ),
+                Spacer(
+                  flex: 5,
+                ),
+                PageNavigator(),
+                Spacer(
+                  flex: 10,
+                ),
+                Container(
+                  child: Text(
+                    getTranslated(context, 'daily_welcome_screen_text_6'),
+                    style: AppTheme.mainTitle,
+                    textAlign: TextAlign.center,
                   ),
-                textAlign: TextAlign.center,
-              ),
+                ),
+                Spacer(
+                  flex: 4,
+                ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 50, right: 80, left: 80),
-              child: Text(
-                "Or",
-                style: TextStyle(
-                    color: Colors.white.withOpacity(0.4),
-                    fontSize: 13,
+          ),
+          widget.previous == 'addNamePage'
+              ? Container(
+                  height: topHeight,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.bottomToTop,
+                                  child: AddName(previous: 'selectPlanPage')));
+                        },
+                      ),
+                    ],
                   ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20, right: 80, left: 80),
-              child: Text(
-                "Lay down a plan for today",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
+                )
+              : Container(
+                  height: topHeight,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.bottomToTop,
+                                  child:
+                                      QuotePage(previous: 'selectPlanPage')));
+                        },
+                      ),
+                    ],
                   ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 200),
-              child: Text(
-                "Choose an option",
-                style: AppTheme.mainTitle,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
-        ),
+                ),
+        ],
       ),
+    );
+  }
+}
+
+class PageNavigator extends StatelessWidget {
+  const PageNavigator({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Text(
+              getTranslated(context, 'daily_welcome_screen_text_2'),
+              style: TextStyle(
+                color: Color(0xff57c3ff),
+                fontSize: 14,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        Container(
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.bottomToTop,
+                      child: TemplatePage(previous: 'selectPlanPage')));
+            },
+            child: Text(
+              getTranslated(context, 'daily_welcome_screen_text_3'),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 15,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 15, top: 15),
+            child: Text(
+              getTranslated(context, 'daily_welcome_screen_text_4'),
+              style: TextStyle(
+                color: Color(0xff57c3ff),
+                fontSize: 14,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        Container(
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.bottomToTop,
+                      child: AddPriority(previous: 'selectPlanPage')));
+            },
+            child: Text(
+              getTranslated(context, 'daily_welcome_screen_text_5'),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 15,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
