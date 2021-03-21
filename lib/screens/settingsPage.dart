@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:timebuddy/localization/language_constants.dart';
 import 'package:timebuddy/screens/dashboard.dart';
 import 'package:timebuddy/theme/themes.dart';
 import 'package:timebuddy/main.dart';
@@ -51,7 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Settings",
+                          getTranslated(context, 'settings_page_1'),
                           style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.w500,
@@ -82,7 +83,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Notifications",
+                                    getTranslated(context, 'settings_page_2'),
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       color: Colors.black,

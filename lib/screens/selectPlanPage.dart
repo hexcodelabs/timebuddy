@@ -62,7 +62,7 @@ class _SelectPlansState extends State<SelectPlans> {
                 ),
                 Container(
                   child: Text(
-                    "Good ${greeting()}, $name.\nIt is currently $currentTime, $currentDay ${greeting()}. ",
+                    "${getTranslated(context, 'daily_welcome_screen_text_7')} ${getTranslated(context, greeting())}, $name.\n${getTranslated(context, 'daily_welcome_screen_text_1')}$currentTime, ${getTranslated(context, currentDay)} ${getTranslated(context, greeting())}.",
                     style: AppTheme.mainTitle,
                     textAlign: TextAlign.center,
                   ),

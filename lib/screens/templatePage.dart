@@ -118,7 +118,8 @@ class _TemplatePageState extends State<TemplatePage> {
                                                             Duration(
                                                                 days: 1))) ==
                                                     date
-                                                ? 'Yesterday'
+                                                ? getTranslated(
+                                                    context, 'template_page_3')
                                                 : '${date.split('-')[2]}-${date.split('-')[1]}-${date.split('-')[0]}',
                                         style: TextStyle(
                                             fontSize: 24,
@@ -138,7 +139,7 @@ class _TemplatePageState extends State<TemplatePage> {
                   this.selected == null
                       ? Container(
                           child: Text(
-                            'Select a template first',
+                            getTranslated(context, 'template_page_4'),
                             style: TextStyle(
                               color: Color(0xff57C3ff),
                               fontSize: 15,

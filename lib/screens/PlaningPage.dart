@@ -702,7 +702,7 @@ class PageNavigator extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 20, 20, 10),
             child: Text(
-              'I\'m done',
+              getTranslated(context, 'time_shedule_start_text_3'),
               style:
                   TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.5)),
             ),
