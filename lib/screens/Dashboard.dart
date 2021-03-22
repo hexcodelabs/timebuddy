@@ -380,7 +380,7 @@ class _DashboardState extends State<Dashboard> {
     String currentTime = DateFormat('h:mm a').format(now);
     String currentDay = DateFormat('EEEE').format(DateTime.now());
 
-    double topHeight = height * 0.18;
+    double topHeight = height * 0.15;
 
     return Scaffold(
       backgroundColor: Color(0xff00a4ea),
@@ -401,7 +401,7 @@ class _DashboardState extends State<Dashboard> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Dashboard",
+                          getTranslated(context, 'dashboard_text_12'),
                           style: TextStyle(
                             fontSize: 24,
                             color: Colors.white,
@@ -409,7 +409,7 @@ class _DashboardState extends State<Dashboard> {
                           textAlign: TextAlign.center,
                         ),
                         Text(
-                          '$currentTime - $currentDay',
+                          '$currentTime - ${getTranslated(context, currentDay)}',
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.white,
@@ -447,7 +447,7 @@ class _DashboardState extends State<Dashboard> {
                             ActivityTable(currentActivity, nextActivity),
                             Container(
                               margin:
-                                  const EdgeInsets.only(top: 15, bottom: 25),
+                                  const EdgeInsets.only(top: 15, bottom: 15),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -528,7 +528,7 @@ class _DashboardState extends State<Dashboard> {
                                   ),
                                 ),
                                 Text(
-                                  "Priorities today",
+                                  getTranslated(context, 'dashboard_text_14'),
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
@@ -554,7 +554,7 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             Container(
                               margin: const EdgeInsets.only(
-                                top: 30,
+                                top: 15,
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -569,13 +569,17 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             Container(
                               margin: const EdgeInsets.only(
-                                bottom: 10,
+                                bottom: 5,
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    getTranslated(context, 'dashboard_text_10'),
+                                    remainingActivities == 1
+                                        ? getTranslated(
+                                            context, 'dashboard_text_17')
+                                        : getTranslated(
+                                            context, 'dashboard_text_10'),
                                     style: TextStyle(
                                         fontSize: 14, color: Color(0xff57C3ff)),
                                   ),
@@ -584,14 +588,14 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
-                                top: 10,
-                                left: 45,
-                                right: 45,
+                                top: 1,
+                                left: 15,
+                                right: 15,
                               ),
                               child: Text(
                                 quote,
                                 style: TextStyle(
-                                    color: Color(0xff57C3ff), fontSize: 24),
+                                    color: Color(0xff57C3ff), fontSize: 22),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -767,6 +771,231 @@ class ActivityTable extends StatefulWidget {
 class _ActivityTableState extends State<ActivityTable> {
   @override
   Widget build(BuildContext context) {
+    int hours;
+    int minutes;
+    String currentActivityEnd;
+    String nextActivityEnd;
+    String minute = getTranslated(context, 'minute');
+    String minutess = getTranslated(context, 'minutes');
+    String hour = getTranslated(context, 'hour');
+    String hourss = getTranslated(context, 'hours');
+    String longerUntill = "" + getTranslated(context, 'dashboard_text_13') + "";
+    if (widget.currentActivity != null) {
+      int currentActivityDifference = widget.currentActivity['difference'];
+      minutes = currentActivityDifference % 60;
+      hours =
+          (currentActivityDifference - (currentActivityDifference % 60)) ~/ 60;
+      currentActivityEnd = currentActivityDifference.toString() +
+          " " +
+          minutess +
+          " " +
+          longerUntill +
+          " " +
+          widget.currentActivity['endTime'];
+      if (hours == 0) {
+        if (minutes == 1) {
+          currentActivityEnd = minutes.toString() +
+              " " +
+              minute +
+              " " +
+              longerUntill +
+              " " +
+              widget.currentActivity['endTime'];
+        } else {
+          currentActivityEnd = minutes.toString() +
+              " " +
+              minutess +
+              " " +
+              longerUntill +
+              " " +
+              widget.currentActivity['endTime'];
+        }
+      } else if (hours == 1) {
+        if (minutes == 0) {
+          currentActivityEnd = hours.toString() +
+              " " +
+              hour +
+              " " +
+              longerUntill +
+              " " +
+              widget.currentActivity['endTime'];
+        } else if (minutes == 1) {
+          currentActivityEnd = hours.toString() +
+              " " +
+              hour +
+              " & " +
+              minutes.toString() +
+              " " +
+              minute +
+              " " +
+              longerUntill +
+              " " +
+              widget.currentActivity['endTime'];
+        } else {
+          currentActivityEnd = hours.toString() +
+              " " +
+              hour +
+              " & " +
+              minutes.toString() +
+              " " +
+              minutess +
+              " " +
+              longerUntill +
+              " " +
+              widget.currentActivity['endTime'];
+        }
+      } else if (hours > 1) {
+        if (minutes == 0) {
+          currentActivityEnd = hours.toString() +
+              " " +
+              hourss +
+              " " +
+              longerUntill +
+              " " +
+              widget.currentActivity['endTime'];
+        } else if (minutes == 1) {
+          currentActivityEnd = hours.toString() +
+              " " +
+              hourss +
+              " & " +
+              minutes.toString() +
+              " " +
+              minute +
+              " " +
+              longerUntill +
+              " " +
+              widget.currentActivity['endTime'];
+        } else {
+          currentActivityEnd = hours.toString() +
+              " " +
+              hourss +
+              " & " +
+              minutes.toString() +
+              " " +
+              minutess +
+              " " +
+              longerUntill +
+              " " +
+              widget.currentActivity['endTime'];
+        }
+      } else {
+        currentActivityEnd = currentActivityDifference.toString() +
+            " " +
+            minutess +
+            " " +
+            longerUntill +
+            " " +
+            widget.currentActivity['endTime'];
+      }
+    } else if (widget.nextActivity != null) {
+      int nextActivityDifference = widget.nextActivity['difference'];
+      minutes = nextActivityDifference % 60;
+      hours = (nextActivityDifference - (nextActivityDifference % 60)) ~/ 60;
+      nextActivityEnd = widget.nextActivity['difference'].toString() +
+          " " +
+          minutess +
+          " " +
+          longerUntill +
+          " " +
+          widget.nextActivity['startTime'];
+
+      if (hours == 0) {
+        if (minutes == 1) {
+          nextActivityEnd = minutes.toString() +
+              " " +
+              minute +
+              " " +
+              longerUntill +
+              " " +
+              widget.nextActivity['startTime'];
+        } else {
+          nextActivityEnd = minutes.toString() +
+              " " +
+              minutess +
+              " " +
+              longerUntill +
+              " " +
+              widget.nextActivity['startTime'];
+        }
+      } else if (hours == 1) {
+        if (minutes == 0) {
+          nextActivityEnd = hours.toString() +
+              " " +
+              hour +
+              " " +
+              longerUntill +
+              " " +
+              widget.nextActivity['startTime'];
+        } else if (minutes == 1) {
+          nextActivityEnd = hours.toString() +
+              " " +
+              hour +
+              " & " +
+              minutes.toString() +
+              " " +
+              minute +
+              " " +
+              longerUntill +
+              " " +
+              widget.nextActivity['startTime'];
+        } else {
+          nextActivityEnd = hours.toString() +
+              " " +
+              hour +
+              " & " +
+              minutes.toString() +
+              " " +
+              minutess +
+              " " +
+              longerUntill +
+              " " +
+              widget.nextActivity['startTime'];
+        }
+      } else if (hours > 1) {
+        if (minutes == 0) {
+          nextActivityEnd = hours.toString() +
+              " " +
+              hourss +
+              " " +
+              longerUntill +
+              " " +
+              widget.nextActivity['startTime'];
+        } else if (minutes == 1) {
+          nextActivityEnd = hours.toString() +
+              " " +
+              hourss +
+              " & " +
+              minutes.toString() +
+              " " +
+              minute +
+              " " +
+              longerUntill +
+              " " +
+              widget.nextActivity['startTime'];
+        } else {
+          nextActivityEnd = hours.toString() +
+              " " +
+              hourss +
+              " & " +
+              minutes.toString() +
+              " " +
+              minutess +
+              " " +
+              longerUntill +
+              " " +
+              widget.nextActivity['startTime'];
+        }
+      } else {
+        nextActivityEnd = nextActivityDifference.toString() +
+            " " +
+            minutess +
+            " " +
+            longerUntill +
+            " " +
+            widget.nextActivity['endTime'];
+      }
+    }
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -775,14 +1004,14 @@ class _ActivityTableState extends State<ActivityTable> {
             child: Table(
               columnWidths: {
                 0: FlexColumnWidth(1),
-                1: FlexColumnWidth(1.5),
+                1: FlexColumnWidth(2.5),
               },
               border: TableBorder.all(style: BorderStyle.none),
               children: [
                 TableRow(children: [
                   Text(''),
                   Text(
-                      '${widget.currentActivity != null ? widget.currentActivity['task'] : "No activity"}'),
+                      '${widget.currentActivity != null ? widget.currentActivity['task'] == "Task not defined" ? getTranslated(context, 'dashboard_text_16') : widget.currentActivity['task'] : "No activity"}'),
                 ]),
                 TableRow(children: [
                   Padding(
@@ -803,7 +1032,7 @@ class _ActivityTableState extends State<ActivityTable> {
                     child: Text(''),
                   ),
                   Text(
-                      '${widget.currentActivity != null ? widget.currentActivity['difference'].toString() + " minutes longer until " + widget.currentActivity['endTime'] : widget.nextActivity != null ? widget.nextActivity['difference'].toString() + " minutes longer until " + widget.nextActivity['startTime'] : ""}'),
+                      '${widget.currentActivity != null ? currentActivityEnd : widget.nextActivity != null ? nextActivityEnd : ""}'),
                 ]),
                 TableRow(children: [
                   Text(
@@ -821,7 +1050,7 @@ class _ActivityTableState extends State<ActivityTable> {
                     child: Text(''),
                   ),
                   Text(
-                      '${widget.nextActivity != null ? widget.nextActivity['task'] : "No activity"}'),
+                      '${widget.nextActivity != null ? widget.nextActivity['task'] == "Task not defined" ? getTranslated(context, 'dashboard_text_16') : widget.nextActivity['task'] : "No activity"}'),
                 ]),
                 TableRow(children: [
                   Padding(

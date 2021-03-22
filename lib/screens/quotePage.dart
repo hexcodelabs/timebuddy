@@ -275,34 +275,72 @@ class PageNavigator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: GestureDetector(
-        onTap: () async {
-          var seen = prefs.getBool('seenAddQuotePage');
-          bool seenAddQuotePage = (seen == null ? false : true);
-          debugPrint("quotePage setted seen : " +
-              prefs.getBool('seenAddQuotePage').toString());
-          Navigator.push(
-              context,
-              PageTransition(
-                  type: PageTransitionType.bottomToTop,
-                  child: seenAddQuotePage
-                      ? SelectPlans(previous: 'quotepage')
-                      : AddName(previous: 'quotepage')));
-        },
-        child: Column(
-          children: [
-            Container(
-              //color: Colors.green[100],
-              child: Text(
-                "${getTranslated(context, 'intro_page_text_2')} $start...",
-                style: AppTheme.mainTitle,
-                textAlign: TextAlign.center,
+    debugPrint(start.toString());
+    return start == 0
+        ? Container(
+            child: GestureDetector(
+              onTap: () async {
+                var seen = prefs.getBool('seenAddQuotePage');
+                bool seenAddQuotePage = (seen == null ? false : true);
+                debugPrint("quotePage setted seen : " +
+                    prefs.getBool('seenAddQuotePage').toString());
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.bottomToTop,
+                        child: seenAddQuotePage
+                            ? SelectPlans(previous: 'quotepage')
+                            : AddName(previous: 'quotepage')));
+              },
+              child: Column(
+                children: [
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: SvgPicture.asset(
+                        "assets/images/Arrow.svg",
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      getTranslated(context, 'time_shedule_text_3'),
+                      style: AppTheme.mainTitle,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          )
+        : Container(
+            child: GestureDetector(
+              onTap: () async {
+                // var seen = prefs.getBool('seenAddQuotePage');
+                // bool seenAddQuotePage = (seen == null ? false : true);
+                // debugPrint("quotePage setted seen : " +
+                //     prefs.getBool('seenAddQuotePage').toString());
+                // Navigator.push(
+                //     context,
+                //     PageTransition(
+                //         type: PageTransitionType.bottomToTop,
+                //         child: seenAddQuotePage
+                //             ? SelectPlans(previous: 'quotepage')
+                //             : AddName(previous: 'quotepage')));
+              },
+              child: Column(
+                children: [
+                  Container(
+                    //color: Colors.green[100],
+                    child: Text(
+                      "${getTranslated(context, 'intro_page_text_2')} $start...",
+                      style: AppTheme.mainTitle,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 }
