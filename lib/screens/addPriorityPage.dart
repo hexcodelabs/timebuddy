@@ -40,6 +40,10 @@ class _AddPriorityState extends State<AddPriority> {
 
     List<Map<String, dynamic>> _results =
         await DBProvider.db.getPriorities(formattedDate);
+    if (_results.length > 3) {
+      await DBProvider.db.deleteTodayPriorities();
+      _results = await DBProvider.db.getPriorities(formattedDate);
+    }
     if (_results != null) {
       inputPriorityList =
           _results.map((item) => Priority.fromMap(item)).toList();
@@ -49,6 +53,7 @@ class _AddPriorityState extends State<AddPriority> {
       inputPriorityList.forEach((priority) {
         inputFieldList.add("");
       });
+
       inputPriorityList.forEach((priority) {
         if (priority.priority == "") {
         } else {
@@ -74,7 +79,7 @@ class _AddPriorityState extends State<AddPriority> {
         inputFieldList = [""];
       });
     }
-
+    debugPrint(inputFieldList.toString());
     return inputPriorityList;
   }
 
@@ -202,6 +207,7 @@ class _AddPriorityState extends State<AddPriority> {
                 var formatter = new DateFormat('yyyy-MM-dd');
                 String formattedDate = formatter.format(now);
                 await DBProvider.db.addPriority(inputFieldList, formattedDate);
+                debugPrint(inputFieldList.toString());
                 if (inputFieldList.length != 1) {
                   setState(() {
                     inputFieldList.removeAt(index);
@@ -230,12 +236,14 @@ class _AddPriorityState extends State<AddPriority> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(10, 2, 2, 2),
                 child: TextField(
-                  onChanged: (value) {
+                  onChanged: (value) async {
                     inputFieldList[index] = value;
                     var now = new DateTime.now();
                     var formatter = new DateFormat('yyyy-MM-dd');
                     String formattedDate = formatter.format(now);
-                    DBProvider.db.addPriority(inputFieldList, formattedDate);
+                    await DBProvider.db
+                        .addPriority(inputFieldList, formattedDate);
+                    debugPrint(inputFieldList.toString());
                   },
                   controller: TextEditingController()..text = inputField,
                   style: TextStyle(

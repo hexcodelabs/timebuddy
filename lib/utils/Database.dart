@@ -200,6 +200,8 @@ class DBProvider {
 
   Future<List<Map<String, dynamic>>> getPriorities(date) async {
     final db = await database;
+
+    //await db.rawQuery("Delete FROM priorityList WHERE date=?", [date]);
     var res =
         await db.rawQuery("SELECT * FROM priorityList WHERE date=?", [date]);
     debugPrint("Priority list :" + res.toString());
@@ -231,5 +233,43 @@ class DBProvider {
     } else {
       return res;
     }
+  }
+
+  Future deletePreviousData() async {
+    final db = await database;
+    List<Map<String, dynamic>> _results = await DBProvider.db.getDatesList();
+    List<String> dateList = new List<String>();
+
+    int count = 1;
+    if (_results != null) {
+      _results.forEach((date) async {
+        if (date['date'].toString() !=
+            DateFormat('yyyy-MM-dd').format(DateTime.now())) {
+          dateList.add(date['date'].toString());
+          if (count >= 9) {
+            await db.rawQuery("Delete FROM daily_tasks WHERE date=?",
+                [date['date'].toString()]);
+          }
+        }
+
+        count = count + 1;
+      });
+    }
+  }
+
+  Future deleteTodayPriorities() async {
+    final db = await database;
+    var res = await db.rawQuery("Delete FROM priorityList WHERE date=?",
+        [DateFormat('yyyy-MM-dd').format(DateTime.now())]);
+
+    return res;
+  }
+
+  Future deleteAllPriorities() async {
+    final db = await database;
+    var res = await db.rawQuery("Delete FROM priorityList WHERE date!=?",
+        [DateFormat('yyyy-MM-dd').format(DateTime.now())]);
+
+    return res;
   }
 }

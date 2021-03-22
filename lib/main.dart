@@ -10,6 +10,7 @@ import 'package:timebuddy/screens/quotePage.dart';
 
 import 'package:timebuddy/localization/localization.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:timebuddy/utils/Database.dart';
 import 'localization/language_constants.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,6 +42,7 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light));
+  await DBProvider.db.deletePreviousData();
   runApp(MyApp());
 }
 
