@@ -52,12 +52,8 @@ class _PlaningPageState extends State<PlaningPage> {
     List<Map<String, dynamic>> _results;
     if (widget.date != null && widget.previous == 'templatePage') {
       _results = await DBProvider.db.getSchedule(widget.date);
-      debugPrint("widget ");
-      debugPrint(_results.toString());
     } else {
       _results = await DBProvider.db.getSchedule(formattedDate);
-      debugPrint("Today ");
-      debugPrint(_results.toString());
     }
 
     if (_results != null) {
@@ -67,9 +63,8 @@ class _PlaningPageState extends State<PlaningPage> {
     } else {
       _taskList = List<Task>();
     }
-    debugPrint("a" + _taskList.length.toString());
-    _taskList.map((task) => debugPrint(
-        "${task.id}, ${task.date}, ${task.hour},${task.half},${task.task},${task.color}"));
+    // _taskList.map((task) => debugPrint(
+    //     "${task.id}, ${task.date}, ${task.hour},${task.half},${task.task},${task.color}"));
 
     return _taskList;
   }

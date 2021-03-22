@@ -124,7 +124,7 @@ class DBProvider {
         date, hour, half, task, color,previous, next
       ) VALUES (?, ?, ?, ?, ?,?,?)
     ''', [
-        task.date,
+        date,
         task.hour,
         task.half,
         task.task,
