@@ -247,6 +247,7 @@ class DBProvider {
             DateFormat('yyyy-MM-dd').format(DateTime.now())) {
           dateList.add(date['date'].toString());
           if (count >= 9) {
+            debugPrint(date['date'].toString());
             await db.rawQuery("Delete FROM daily_tasks WHERE date=?",
                 [date['date'].toString()]);
           }
